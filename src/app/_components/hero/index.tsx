@@ -131,8 +131,10 @@ export function Hero() {
         </div>
 
         <Button
+          variant="link"
+          size="icon"
           onClick={scrollToExperience}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 p-2 animate-float cursor-pointer"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 p-2 animate-float cursor-pointer underline-offset-0"
         >
           <ChevronDown className="h-8 w-8 text-muted-foreground" />
         </Button>

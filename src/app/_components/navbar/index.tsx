@@ -2,33 +2,12 @@
 
 import { Github, Linkedin, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-
-const navItems = [
-  { label: "Experiência", href: "#experience" },
-  { label: "Habilidades", href: "#skills" },
-  { label: "Formação", href: "#education" },
-  { label: "Contato", href: "#contact" },
-];
+import { useNavbar } from "./useNavbar";
+import { navItems } from "./utils";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: "smooth" });
-    setIsOpen(false);
-  };
+  const { isScrolled, scrollToSection, isOpen, handleOpenMenu } = useNavbar();
 
   return (
     <nav
@@ -53,6 +32,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <Button
+                variant="link"
                 key={item.href}
                 onClick={() => scrollToSection(item.href)}
                 className="text-muted-foreground hover:text-foreground transition-colors font-medium"
@@ -63,27 +43,28 @@ export function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <a
+            <Link
               href="https://linkedin.com/in/martins-gab/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg hover:bg-muted/50 transition-colors"
             >
               <Linkedin className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors" />
-            </a>
-            <a
+            </Link>
+            <Link
               href="https://github.com/martinsgabriel1956"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg hover:bg-muted/50 transition-colors"
             >
               <Github className="h-5 w-5 text-muted-foreground hover:text-primary transition-colors" />
-            </a>
+            </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <Button
-            onClick={() => setIsOpen(!isOpen)}
+            variant="ghost"
+            size="icon"
+            onClick={handleOpenMenu}
             className="md:hidden p-2 rounded-lg hover:bg-muted/50 transition-colors"
           >
             {isOpen ? (
@@ -94,7 +75,6 @@ export function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden py-4 border-t border-border bg-background/95 backdrop-blur-lg">
             <div className="flex flex-col gap-2">
