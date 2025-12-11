@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 
 export function useNavbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,10 +22,17 @@ export function useNavbar() {
     setIsOpen(!isOpen);
   }
 
+  const handleScrollToTop = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return {
     isOpen,
+    setIsOpen,
     isScrolled,
     scrollToSection,
-    handleOpenMenu
-  }
+    handleOpenMenu,
+    handleScrollToTop,
+  };
 }

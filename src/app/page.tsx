@@ -1,7 +1,4 @@
-import { Experience } from "./_components/experience";
-import { Hero } from "./_components/hero";
-import { Navbar } from "./_components/navbar";
-import { Skills } from "./_components/skills";
+import { Contact, Education, Experience, Footer, Hero, Navbar, Skills } from "./_components";
 
 export default function Home() {
   return (
@@ -10,7 +7,9 @@ export default function Home() {
       <Hero />
       <Experience />
       <Skills />
-
+      <Education />
+      <Contact />
+      <Footer />
     </>
   );
 }

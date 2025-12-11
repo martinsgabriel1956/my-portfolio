@@ -1,6 +1,4 @@
-import { ArrowUpRight, Briefcase, Calendar } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Briefcase } from "lucide-react";
 import { ExperienceCard } from "./_components/experience-card";
 import { EXPERIENCES } from "./utils";
 
@@ -12,7 +10,6 @@ export function Experience() {
       aria-labelledby="experience-heading"
     >
       <div className="container mx-auto px-6">
-        {/* Section header */}
         <header className="max-w-2xl mx-auto text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card/50 mb-6">
             <Briefcase className="h-4 w-4 text-primary" aria-hidden="true" />
@@ -40,11 +37,10 @@ export function Experience() {
               className={`relative mb-12 md:mb-16 ${index % 2 === 0 ? "md:pr-[50%] md:text-right" : "md:pl-[50%]"
                 }`}
             >
-              {/* Timeline dot */}
               <div
                 className={`absolute top-0 w-4 h-4 rounded-full bg-linear-to-r from-primary to-secondary glow-primary ${index % 2 === 0
-                    ? "left-0 md:left-1/2 md:-translate-x-1/2"
-                    : "left-0 md:left-1/2 md:-translate-x-1/2"
+                  ? "left-0 md:left-1/2 md:-translate-x-1/2"
+                  : "left-0 md:left-1/2 md:-translate-x-1/2"
                   } -translate-x-1/2 md:translate-x-0`}
                 aria-hidden="true"
               />
