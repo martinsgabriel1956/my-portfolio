@@ -1,8 +1,11 @@
 import { Briefcase } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { ExperienceCard } from "./_components/experience-card";
-import { EXPERIENCES } from "./utils";
+import { getExperiences } from "./action";
 
-export function Experience() {
+export async function Experience() {
+  const experiencesData = await getExperiences();
+
   return (
     <section
       id="experience"
@@ -31,23 +34,28 @@ export function Experience() {
             aria-hidden="true"
           />
 
-          {EXPERIENCES.map((exp, index) => (
+          {experiencesData.map((exp, index) => (
             <article
               key={exp.company}
-              className={`relative mb-12 md:mb-16 ${index % 2 === 0 ? "md:pr-[50%] md:text-right" : "md:pl-[50%]"
-                }`}
+              className={cn("relative mb-12 md:mb-16", {
+                "md:pr-[50%] md:text-right": index % 2 === 0,
+                "md:pl-[50%]": index % 2 !== 0,
+              })}
             >
               <div
-                className={`absolute top-0 w-4 h-4 rounded-full bg-linear-to-r from-primary to-secondary glow-primary ${index % 2 === 0
-                  ? "left-0 md:left-1/2 md:-translate-x-1/2"
-                  : "left-0 md:left-1/2 md:-translate-x-1/2"
-                  } -translate-x-1/2 md:translate-x-0`}
+                className={
+                  cn("absolute top-0 w-4 h-4 rounded-full bg-linear-to-r from-primary to-secondary glow-primary -translate-x-1/2 md:translate-x-0", {
+                    "left-0 md:left-1/2 md:-translate-x-1/2": index % 2 === 0,
+                    "right-0 md:right-1/2 md:translate-x-1/2": index % 2 !== 0,
+                  })}
                 aria-hidden="true"
               />
 
               <div
-                className={`ml-8 md:ml-0 ${index % 2 === 0 ? "md:mr-8" : "md:ml-8"
-                  }`}
+                className={cn("ml-8 md:ml-0", {
+                  "md:mr-8": index % 2 === 0,
+                  "md:ml-8": index % 2 !== 0,
+                })}
               >
                 <ExperienceCard experience={exp} index={index} />
               </div>

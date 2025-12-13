@@ -1,9 +1,13 @@
 import { Award, GraduationCap } from "lucide-react";
+import type { Education as EducationSchema } from "@/db/schema";
 import { Certification } from "./_component/certification";
 import { EducationCard } from "./_component/education-card";
-import { certifications, education } from "./utils";
+import { getEducation } from "./action";
+import { certifications } from "./utils";
 
-export function Education() {
+export async function Education() {
+  const education = await getEducation();
+
   return (
     <section id="education" className="py-24 relative">
       <div className="container mx-auto px-6">
@@ -38,7 +42,9 @@ export function Education() {
               </h3>
             </header>
             <article>
-              <EducationCard {...education} />
+              {education.map((education: EducationSchema) => (
+                <EducationCard key={education.id} {...education} />
+              ))}
             </article>
           </section>
 

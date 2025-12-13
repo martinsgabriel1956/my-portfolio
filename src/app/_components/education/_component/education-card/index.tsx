@@ -4,9 +4,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { EducationProps } from "./types";
+import type { Education } from "@/db/schema";
 
-export function EducationCard(education: EducationProps) {
+export function EducationCard(education: Education) {
   return (
     <Card className="card-gradient border-border hover:border-primary/30 transition-all duration-300">
       <CardHeader>
@@ -20,7 +20,7 @@ export function EducationCard(education: EducationProps) {
             </CardDescription>
           </div>
           <time className="font-mono text-sm text-muted-foreground px-3 py-1 bg-muted/50 rounded-md">
-            {education.period}
+            {education.startDate.getFullYear()} - {education.endDate?.getFullYear()}
           </time>
         </div>
       </CardHeader>
