@@ -15,7 +15,7 @@ export function Certification(certification: CertificationProps) {
     year: "numeric",
   }) : null;
 
-  const actualDate = endDate === new Date().getFullYear().toString() ? "Atual" : endDate;
+  const actualDate = endDate ?? "Atual";
   const isFinished = endDate === startDate ? startDate : `${startDate} - ${actualDate}`;
 
   return (
