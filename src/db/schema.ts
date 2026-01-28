@@ -62,6 +62,8 @@ export const certifications = pgTable("certifications", {
   title: varchar("title", { length: 255 }).notNull(),
   institution: varchar("institution", { length: 255 }).notNull(),
   issuer: varchar("issuer", { length: 255 }),
+  startDate: timestamp("start_date", { mode: "date" }),
+  endDate: timestamp("end_date", { mode: "date" }),
   issueDate: timestamp("issue_date", { mode: "date" }).notNull(),
   expirationDate: timestamp("expiration_date", { mode: "date" }),
   credentialId: varchar("credential_id", { length: 255 }),

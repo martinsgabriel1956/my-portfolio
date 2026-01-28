@@ -2,11 +2,12 @@ import { Award, GraduationCap } from "lucide-react";
 import type { Education as EducationSchema } from "@/db/schema";
 import { Certification } from "./_component/certification";
 import { EducationCard } from "./_component/education-card";
-import { getEducation } from "./action";
-import { certifications } from "./utils";
+import { getCertifications } from "./action/get-certification";
+import { getEducation } from "./action/get-education";
 
 export async function Education() {
   const education = await getEducation();
+  const certifications = await getCertifications();
 
   return (
     <section id="education" className="py-24 relative">
@@ -57,7 +58,7 @@ export async function Education() {
             </header>
             <div className="grid md:grid-cols-2 gap-4">
               {certifications.map((certification) => (
-                <Certification key={certification.title} {...certification} />
+                <Certification key={certification.id} {...certification} />
               ))}
             </div>
           </section>

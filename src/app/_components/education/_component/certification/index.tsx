@@ -8,6 +8,16 @@ import {
 import type { CertificationProps } from "./types";
 
 export function Certification(certification: CertificationProps) {
+  const startDate = certification.startDate ? new Date(certification.startDate).toLocaleDateString("pt-BR", {
+    year: "numeric",
+  }) : null;
+  const endDate = certification.endDate ? new Date(certification.endDate).toLocaleDateString("pt-BR", {
+    year: "numeric",
+  }) : null;
+
+  const actualDate = endDate === new Date().getFullYear().toString() ? "Atual" : endDate;
+  const isFinished = endDate === startDate ? startDate : `${startDate} - ${actualDate}`;
+
   return (
     <article>
       <Card className="card-gradient border-border hover:border-secondary/30 transition-all duration-300 group h-full">
@@ -22,7 +32,7 @@ export function Certification(certification: CertificationProps) {
               </CardDescription>
             </div>
             <time className="font-mono text-xs text-muted-foreground whitespace-nowrap">
-              {certification.period}
+              {isFinished}
             </time>
           </div>
         </CardHeader>
