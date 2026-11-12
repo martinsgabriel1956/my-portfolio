@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ShuffleText } from "./shuffle-text";
 
 /** Cartão de visita: nome e ofício em duas batidas; o sol pequeno nasce à direita, para onde se lê. */
 export function Hero() {
@@ -21,9 +22,11 @@ export function Hero() {
         id="hero-heading"
         className="mt-[clamp(20px,6vh,72px)] text-[clamp(3.4rem,8vw,8rem)] leading-[0.9] font-extralight tracking-[-0.04em] text-linho-gasto lowercase max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
       >
-        <span className="font-normal text-linho">Gabriel Martins.</span>
+        <span className="font-normal text-linho">
+          <ShuffleText text="Gabriel Martins." delay={1200} />
+        </span>
         <br />
-        Desenvolvedor fullstack.
+        <ShuffleText text="Desenvolvedor fullstack." delay={1500} />
       </h1>
       <div className="chao">
         <div className="sol" aria-hidden="true" />
