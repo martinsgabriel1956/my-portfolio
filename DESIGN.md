@@ -17,7 +17,7 @@ typography:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(3.4rem, 8vw, 8rem)"
     fontWeight: 200
-    lineHeight: 0.84
+    lineHeight: 0.9
     letterSpacing: "-0.04em"
   headline:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
@@ -164,12 +164,12 @@ Uma paleta de madeira escura e linho cru, com um único acento queimado.
 **Character:** Uma sans geométrica e calorosa, usada fina e grande nos títulos e leve no texto corrido. A hierarquia vem do tamanho e do peso, não de troca de família.
 
 ### Hierarchy
-- **Display** (200, clamp(3.4rem, 8vw, 8rem), 0.84): só o nome na abertura, em minúsculas, na cor da tábua, atravessando o sol.
+- **Display** (200, clamp(3.4rem, 8vw, 8rem), 0.9; no celular clamp(2.6rem, 12vw, 3.4rem)): só o título da abertura, em minúsculas e duas batidas como um cartão de visita: "gabriel martins." em linho peso 400 e, na linha de baixo, "desenvolvedor fullstack." em linho gasto. Sem stack nem domínios no título: quem prova o resto são os painéis.
 - **Headline** (200, clamp(3.4rem, 7vw, 7rem), 0.95): o título de cada painel ("projetos", "experiência", "habilidades", "formação", "contato"), escrito em minúsculas.
 - **Title Large** (300, clamp(34px, 4vw, 56px), 1.05): nome de empresa na experiência, em minúsculas.
 - **Title** (300, clamp(26px, 2.4vw, 34px)): títulos de grupo (domínios de projeto, "Acadêmica", "Cursos"); categorias de habilidade usam a variante 22 a 28px.
 - **Title Small** (300, clamp(20px, 1.7vw, 26px), 1.15): nome do projeto no caderno.
-- **Lead** (300, clamp(18px, 1.6vw, 22px)): a frase de posicionamento da abertura, até 44ch.
+- **Lead** (300, clamp(18px, 1.6vw, 22px)): texto de apoio em pesos leves; na abertura, a linha de fatos (nível · local · disponibilidade) usa 16 a 18px em linho gasto com o nível em linho, até 46ch.
 - **Body** (400, 16px, 1.5): descrições; texto de apoio em 18px no contato e nas habilidades.
 - **Label** (400, 14px): empresa, techs, local, rodapé e nomes da lombada, sempre em linho gasto. Sem caixa alta, sem tracking aberto.
 
@@ -186,7 +186,7 @@ Abaixo de 900px o trilho vira coluna comum: painéis com altura automática, div
 
 Ritmo: 8px entre cadernos e blocos (juntas finas, como cadernos empilhados), 10px entre botões, 20 a 22px de respiro interno nos blocos, 20 a 28px abaixo dos títulos de painel. Larguras de leitura são limitadas por painel (900px na experiência, 1000px nas habilidades, 1100px na formação, 44 a 46ch no texto corrido). Projetos usam uma coluna de 11rem para o domínio e duas colunas de cadernos a partir de `lg`.
 
-A abertura posiciona o horizonte a 30% da base do palco no desktop e a 330px no celular; o sol (até 800px de largura) nasce dele, o nome fica logo acima e o texto de apoio e os botões ficam abaixo.
+Na abertura o título manda: fica no alto, alinhado à esquerda. Embaixo, o chão: horizonte costurado de ponta a ponta com altura clamp(150px, 26vh, 230px) abaixo dele, onde ficam a linha de fatos e os botões. O sol é pequeno (clamp(200px, 24vw, 380px); 44vw no celular) e nasce do horizonte a 4% da borda direita, do lado para onde se lê.
 
 ## Elevation & Depth
 
@@ -227,7 +227,7 @@ Sublinhado ferrugem com afastamento (1px nos cursos, 2px no email gigante do con
 Barra fixa de 64px embaixo, fundo tábua, borda superior ferro. Cada estação é um furo de 14px (contorno 1.5px furo) seguido do nome em 14px linho gasto; entre estações corre uma corrente de pontos. Estados: vazio (só anel), lido (furo cheio de linho, e a corrente até a próxima estação se costura com laçadas em 0.6s, `cubic-bezier(0.22, 0.8, 0.26, 1)`), atual (furo ferrugem, `aria-current="location"`). No celular os nomes ficam só para leitores de tela e as laçadas encurtam para caber seis estações em 375px; alvos têm no mínimo 44px.
 
 ### Sol e horizonte (assinatura)
-O meio sol ferrugem granulado nasce de um horizonte costurado (laçadas sobre furos vazados) que atravessa o painel de ponta a ponta. Aparece grande na abertura, com o nome atravessando-o, e menor no canto do contato, fechando o percurso. A imagem de compartilhamento repete o par tábua mais meio sol ferrugem.
+O meio sol ferrugem granulado nasce de um horizonte costurado (laçadas sobre furos vazados) que atravessa o painel de ponta a ponta. Aparece pequeno na abertura, nascendo à direita sob o título, e no canto do contato, fechando o percurso. A imagem de compartilhamento repete o par tábua mais meio sol ferrugem.
 
 ## Do's and Don'ts
 
