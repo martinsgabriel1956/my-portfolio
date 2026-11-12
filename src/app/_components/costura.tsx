@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type Estacao = { id: string; label: string };
 
 const DESKTOP = "(min-width: 901px)";
 const REDUZ = "(prefers-reduced-motion: reduce)";
+
+// O movimento do slider infinito do Infusion: alvo + lerp a cada quadro, e um parallax nos títulos.
+const LERP = 0.05;
+const VELOCIDADE = 1.75;
+const PASSO_MAX = 150;
+// Positivo: o título adianta em vez de atrasar; negativo cortaria o título do painel que espia à direita.
+const PARALLAX = 0.1;
 
 function comportamento(): ScrollBehavior {
   return matchMedia(REDUZ).matches ? "auto" : "smooth";
@@ -18,6 +25,7 @@ function comportamento(): ScrollBehavior {
  */
 export function Costura({ estacoes }: { estacoes: Estacao[] }) {
   const [atual, setAtual] = useState(0);
+  const deslizarPara = useRef<(x: number) => void>(() => {});
 
   useEffect(() => {
     const panorama = document.getElementById("panorama");
@@ -25,9 +33,47 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
     const paineis = estacoes
       .map(({ id }) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
+    const titulos = paineis.map((painel) =>
+      painel.querySelector<HTMLElement>("h1, h2"),
+    );
+
+    // O panorama persegue o alvo: cada quadro anda 5% do que falta, como o slider do zip.
+    let alvo = panorama.scrollLeft;
+    let posicao = alvo;
+    let quadro = 0;
+    const passo = () => {
+      posicao += (alvo - posicao) * LERP;
+      if (Math.abs(alvo - posicao) < 0.5) posicao = alvo;
+      panorama.scrollLeft = posicao;
+      quadro = posicao === alvo ? 0 : requestAnimationFrame(passo);
+    };
+    const deslizar = (x: number) => {
+      if (!quadro) posicao = panorama.scrollLeft;
+      alvo = Math.min(
+        Math.max(x, 0),
+        panorama.scrollWidth - panorama.clientWidth,
+      );
+      if (matchMedia(REDUZ).matches) {
+        cancelAnimationFrame(quadro);
+        quadro = 0;
+        panorama.scrollLeft = alvo;
+      } else if (!quadro) {
+        quadro = requestAnimationFrame(passo);
+      }
+    };
+    deslizarPara.current = deslizar;
 
     const marcar = () => {
       const horizontal = matchMedia(DESKTOP).matches;
+      // Parallax: o título se desloca proporcional à distância do painel até a borda esquerda.
+      const parallax = horizontal && !matchMedia(REDUZ).matches;
+      paineis.forEach((painel, i) => {
+        const titulo = titulos[i];
+        if (!titulo) return;
+        titulo.style.translate = parallax
+          ? `${painel.getBoundingClientRect().left * PARALLAX}px 0`
+          : "";
+      });
       const ponto = horizontal
         ? panorama.scrollLeft + innerWidth * 0.3
         : scrollY + innerHeight * 0.35;
@@ -52,10 +98,11 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
           return;
       }
       event.preventDefault();
-      panorama.scrollBy({
-        left: event.deltaY * 1.2,
-        behavior: comportamento(),
-      });
+      const delta = Math.max(
+        Math.min(event.deltaY * VELOCIDADE, PASSO_MAX),
+        -PASSO_MAX,
+      );
+      deslizar((quadro ? alvo : panorama.scrollLeft) + delta);
     };
 
     marcar();
@@ -68,6 +115,7 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
       window.removeEventListener("scroll", marcar);
       window.removeEventListener("resize", marcar);
       panorama.removeEventListener("wheel", roda);
+      cancelAnimationFrame(quadro);
     };
   }, [estacoes]);
 
@@ -93,14 +141,10 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
                 aria-current={i === atual ? "location" : undefined}
                 onClick={(event) => {
                   const alvo = document.getElementById(id);
-                  const panorama = document.getElementById("panorama");
-                  if (!alvo || !panorama) return;
+                  if (!alvo) return;
                   event.preventDefault();
                   if (matchMedia(DESKTOP).matches) {
-                    panorama.scrollTo({
-                      left: alvo.offsetLeft,
-                      behavior: comportamento(),
-                    });
+                    deslizarPara.current(alvo.offsetLeft);
                   } else {
                     alvo.scrollIntoView({ behavior: comportamento() });
                   }
