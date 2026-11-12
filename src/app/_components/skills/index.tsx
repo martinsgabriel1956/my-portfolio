@@ -14,7 +14,7 @@ export function Skills({ categories }: { categories: SkillCategory[] }) {
       >
         habilidades
       </h2>
-      <dl className="grid max-w-[1000px] gap-2 md:grid-cols-2">
+      <dl className="grid max-w-[1000px] gap-2 md:grid-cols-2 xl:max-w-[1400px] xl:grid-cols-3">
         {categories.map((category) => (
           <div key={category.id} className="bg-grafite px-[22px] py-5">
             <dt className="text-[clamp(22px,2vw,28px)] leading-tight font-light tracking-[-0.02em] lowercase">
