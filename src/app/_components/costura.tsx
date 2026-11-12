@@ -13,6 +13,12 @@ const VELOCIDADE = 1.75;
 const PASSO_MAX = 150;
 // Positivo: o título adianta em vez de atrasar; negativo cortaria o título do painel que espia à direita.
 const PARALLAX = 0.1;
+const SETAS: Record<string, number> = {
+  ArrowRight: 1,
+  ArrowDown: 1,
+  ArrowLeft: -1,
+  ArrowUp: -1,
+};
 
 function comportamento(): ScrollBehavior {
   return matchMedia(REDUZ).matches ? "auto" : "smooth";
@@ -21,7 +27,7 @@ function comportamento(): ScrollBehavior {
 /**
  * A lombada deitada embaixo da página. Mostra o avanço da leitura
  * (furo cheio = lido, ferrugem = atual) e, no desktop, faz a roda do
- * mouse andar pelo panorama na horizontal.
+ * mouse e as setas andarem pelo panorama na horizontal.
  */
 export function Costura({ estacoes }: { estacoes: Estacao[] }) {
   const [atual, setAtual] = useState(0);
@@ -74,6 +80,9 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
           ? `${painel.getBoundingClientRect().left * PARALLAX}px 0`
           : "";
       });
+      setAtual(indiceAtual(horizontal));
+    };
+    const indiceAtual = (horizontal: boolean) => {
       const ponto = horizontal
         ? panorama.scrollLeft + innerWidth * 0.3
         : scrollY + innerHeight * 0.35;
@@ -82,27 +91,48 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
         const inicio = horizontal ? painel.offsetLeft : painel.offsetTop;
         if (inicio <= ponto) indice = i;
       });
-      setAtual(indice);
+      return indice;
     };
 
-    // No desktop, a roda vertical anda pelo panorama; um painel que rola por dentro rola primeiro.
+    // Um painel que rola por dentro rola primeiro, antes do panorama andar.
+    const painelRola = (painel: HTMLElement | null, paraBaixo: boolean) => {
+      if (!painel || painel.scrollHeight <= painel.clientHeight + 2)
+        return false;
+      return paraBaixo
+        ? painel.scrollTop + painel.clientHeight < painel.scrollHeight - 2
+        : painel.scrollTop > 0;
+    };
+    const andar = (delta: number) =>
+      deslizar((quadro ? alvo : panorama.scrollLeft) + delta);
+
+    // No desktop, a roda vertical anda pelo panorama.
     const roda = (event: WheelEvent) => {
       if (!matchMedia(DESKTOP).matches) return;
       if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       const painel = (event.target as Element).closest<HTMLElement>(".painel");
-      if (painel && painel.scrollHeight > painel.clientHeight + 2) {
-        const noFim =
-          painel.scrollTop + painel.clientHeight >= painel.scrollHeight - 2;
-        const noTopo = painel.scrollTop <= 0;
-        if ((event.deltaY > 0 && !noFim) || (event.deltaY < 0 && !noTopo))
-          return;
-      }
+      if (painelRola(painel, event.deltaY > 0)) return;
       event.preventDefault();
-      const delta = Math.max(
-        Math.min(event.deltaY * VELOCIDADE, PASSO_MAX),
-        -PASSO_MAX,
+      andar(
+        Math.max(Math.min(event.deltaY * VELOCIDADE, PASSO_MAX), -PASSO_MAX),
       );
-      deslizar((quadro ? alvo : panorama.scrollLeft) + delta);
+    };
+
+    // As setas andam como um dente da roda; ↑/↓ deixam o painel rolar por dentro primeiro.
+    const tecla = (event: KeyboardEvent) => {
+      const direcao = SETAS[event.key];
+      if (!direcao || !matchMedia(DESKTOP).matches) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+        return;
+      const origem = event.target as Element;
+      if (origem.closest("input, textarea, select, [contenteditable]")) return;
+      const vertical = event.key === "ArrowUp" || event.key === "ArrowDown";
+      const painel =
+        origem.closest<HTMLElement>(".painel") ??
+        paineis[indiceAtual(true)] ??
+        null;
+      if (vertical && painelRola(painel, direcao > 0)) return;
+      event.preventDefault();
+      andar(direcao * PASSO_MAX);
     };
 
     marcar();
@@ -110,7 +140,9 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
     window.addEventListener("scroll", marcar, { passive: true });
     window.addEventListener("resize", marcar);
     panorama.addEventListener("wheel", roda, { passive: false });
+    window.addEventListener("keydown", tecla);
     return () => {
+      window.removeEventListener("keydown", tecla);
       panorama.removeEventListener("scroll", marcar);
       window.removeEventListener("scroll", marcar);
       window.removeEventListener("resize", marcar);
