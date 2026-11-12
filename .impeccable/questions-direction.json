@@ -1,0 +1,112 @@
+{
+  "title": "Escolha o mundo visual",
+  "question": "Mão ousada: lidera Encadernação exposta. Fique com ela, pegue a alternativa ou sorteie de novo.",
+  "options": [
+    {
+      "id": "lead-binding",
+      "kind": "challenger",
+      "catalogId": "craft-making-coptic-exposed-binding",
+      "kicker": "THE ROLL",
+      "label": "Encadernação exposta",
+      "lineage": "encadernação copta: costura em corrente à mostra",
+      "thesis": "Nada escondido: a costura que segura a página é o único ornamento, como um fullstack que mostra como tudo é montado.",
+      "palette": ["#16110d", "#211a14", "#e6dcc6", "#a8987c", "#c9553a"],
+      "materials": ["tábua escura com ferro a seco", "linha de linho cru", "costura em corrente"],
+      "viewport": "Lombada costurada à esquerda servindo de navegação; nome em grotesca com ink traps; a stack de front a back ligada por uma linha de costura.",
+      "risk": "Se a costura virar enfeite em vez de navegação, vira tema de papelaria.",
+      "raised": [
+        {"from": "pop-culture-shelf-character-goods-catalog", "raise": "Cada projeto tem a mesma mobília fixa: nome, domínio, ano e uma linha."},
+        {"from": "hand-drawn-zine-explainer", "raise": "Em cada projeto, uma frase marcada: a que importa para quem contrata."},
+        {"from": "signals-instruments-seven-segment-alarm-clock", "raise": "Ausência desenhada: pontos de costura vazios mostram as seções que faltam."}
+      ],
+      "html": ".impeccable/mocks/examples/costura.html"
+    },
+    {
+      "id": "challenger-sun",
+      "kind": "challenger",
+      "catalogId": "light-shadow-caustics-indoor-weather-sun",
+      "label": "Sol interno",
+      "verdict": "competitive",
+      "lineage": "o salão com sol monofrequência e teto espelhado",
+      "thesis": "Um salão escuro com meio sol âmbar no horizonte; o nome atravessa o sol em silhueta.",
+      "palette": ["#0f0a05", "#2a1906", "#ffb02e", "#ff8a00", "#000000"],
+      "materials": ["névoa âmbar", "silhueta preta", "reflexo no teto"],
+      "viewport": "Meio disco âmbar enorme na base da tela, refletido no topo; nome em preto atravessando o sol.",
+      "case": "Funde bem e tem mais impacto; perde em clareza porque tudo vira âmbar sobre escuro.",
+      "risk": "Monocromático: domínios e estados dependem de forma e texto, nunca de cor."
+    },
+    {
+      "id": "challenger-deco",
+      "kind": "challenger",
+      "catalogId": "design-canon-deco-cinema-lobby",
+      "label": "Saguão de cinema déco",
+      "verdict": "declined",
+      "lineage": "cinemas art déco",
+      "thesis": "Chegada encenada em marquise, saguão e sala.",
+      "palette": ["#0b0b0b", "#c9a45c", "#8a1c1c"],
+      "materials": ["laca", "latão", "veludo"],
+      "viewport": "Marquise com raios de sol dourados sobre o nome.",
+      "risk": "Fantasia de época, exatamente o que você rejeitou.",
+      "case": "Funde mal: figurino em vez de estrutura.",
+      "kept": "Só a ação principal ganha moldura própria."
+    },
+    {
+      "id": "challenger-segment",
+      "kind": "challenger",
+      "catalogId": "signals-instruments-seven-segment-alarm-clock",
+      "label": "Display de 7 segmentos",
+      "verdict": "declined",
+      "lineage": "relógios, placares, totens de preço",
+      "thesis": "Tudo montado numa máscara de segmentos acesos e apagados.",
+      "palette": ["#0a0a0a", "#ff2a1a", "#2a0d0a"],
+      "materials": ["LED", "células fantasma"],
+      "viewport": "Nome em segmentos vermelhos.",
+      "risk": "Cai no template de dev e não há números reais para mostrar.",
+      "case": "Funde mal nos dois eixos.",
+      "kept": "Ausência desenhada tão bem quanto presença."
+    },
+    {
+      "id": "challenger-zine",
+      "kind": "challenger",
+      "catalogId": "hand-drawn-zine-explainer",
+      "label": "Zine desenhado",
+      "verdict": "declined",
+      "lineage": "zines técnicos à mão",
+      "thesis": "Explicar o trabalho como um amigo desenhando no guardanapo.",
+      "palette": ["#f6efdf", "#111111", "#ffe14d", "#ff6fa8"],
+      "materials": ["marcador", "papel"],
+      "viewport": "Título em marcador com setas desenhadas.",
+      "risk": "Fundo claro e mascote contrariam o tema escuro.",
+      "case": "Funde mal: claro e infantil para recrutador.",
+      "kept": "Marca-texto na única frase que importa."
+    },
+    {
+      "id": "challenger-goods",
+      "kind": "challenger",
+      "catalogId": "pop-culture-shelf-character-goods-catalog",
+      "label": "Catálogo de mascotes",
+      "verdict": "declined",
+      "lineage": "catálogos de personagens",
+      "thesis": "Projetos como personagens com ficha.",
+      "palette": ["#fde2e4", "#cdeac0", "#ffffff"],
+      "materials": ["pastel", "contorno branco"],
+      "viewport": "Grade de personagens ranqueados.",
+      "risk": "Exige mascotes que não existem.",
+      "case": "Funde mal nos dois eixos.",
+      "kept": "Mobília fixa por item."
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code"},
+  "canon": true,
+  "canonCard": {
+    "kind": "canon",
+    "label": "O padrão da categoria",
+    "thesis": "Portfólio dev escuro e limpo, executado com rigor.",
+    "palette": ["#0a0a0a", "#ededed", "#3b82f6"],
+    "materials": ["grade limpa", "sans geométrica", "um acento azul"],
+    "viewport": "Nome grande, subtítulo, dois botões, lista de projetos abaixo.",
+    "risk": "Indistinguível dos outros por definição."
+  },
+  "steer": true
+}
