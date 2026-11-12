@@ -174,7 +174,13 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
     // No desktop, a roda vertical anda pelo panorama.
     const roda = (event: WheelEvent) => {
       if (!matchMedia(DESKTOP).matches) return;
-      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      // Gesto lateral (trackpad): o navegador o entregaria ao painel que rola na vertical
+      // (o de projetos), que só desceria. Então o panorama anda aqui também.
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        event.preventDefault();
+        andar(Math.max(Math.min(event.deltaX, PASSO_MAX), -PASSO_MAX));
+        return;
+      }
       const painel = (event.target as Element).closest<HTMLElement>(".painel");
       if (painelRola(painel, event.deltaY > 0)) return;
       event.preventDefault();
