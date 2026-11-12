@@ -42,13 +42,14 @@ export function Projects({
       >
         projetos
       </h2>
-      <ul className="grid gap-2 lg:grid-cols-2">
+      <ul className="formacao grid gap-2 lg:grid-cols-2">
         {groups
           .flatMap((group) => group.items)
-          .map((project) => (
+          .map((project, i) => (
             <li
               key={`${project.company}-${project.name}`}
               className="aberto group"
+              style={{ "--i": Math.min(i, 8) } as React.CSSProperties}
             >
               <div className="pagina">
                 <h3 className="text-[clamp(20px,1.7vw,26px)] leading-[1.15] font-light">

@@ -435,6 +435,41 @@
   }
 }
 
+/*
+ * Projetos: a formação 7 do zip (Infusion grid). Cada caderno é revelado de
+ * cima para baixo por uma cortina, escalonado, acompanhando a rolagem. A
+ * janela que desce com o conteúdo parado do zip é o mesmo que um clip-path.
+ */
+@keyframes cortina {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .formacao > li {
+      animation: cortina linear both;
+      animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      /* Celular: o painel rola por dentro (Costura) e cada caderno abre ao entrar. */
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+  @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+    /* Desktop: o painel inteiro entra pela direita; os cadernos abrem enquanto ele desliza. */
+    #projetos {
+      view-timeline: --projetos inline;
+    }
+    .formacao > li {
+      animation-timeline: --projetos;
+      animation-range: entry calc(var(--i) * 6%) entry calc(55% + var(--i) * 6%);
+    }
+  }
+}
+
 /* Unlayered, so it beats every Tailwind layer without !important. */
 @media (prefers-reduced-motion: reduce) {
   *,
