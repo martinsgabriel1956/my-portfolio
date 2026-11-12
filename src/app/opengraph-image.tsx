@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Gabriel Martins, Desenvolvedor Fullstack Pleno";
+export const alt = "Gabriel Martins, Desenvolvedor Fullstack";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -41,7 +41,7 @@ export default function OpengraphImage() {
         gabriel martins
       </div>
       <div style={{ marginTop: 32, fontSize: 40 }}>
-        Desenvolvedor Fullstack Pleno
+        Desenvolvedor Fullstack
       </div>
       <div style={{ marginTop: 12, fontSize: 32, color: "#ab9f86" }}>
         Rio de Janeiro · Remoto · martinsgabrieldev.com.br

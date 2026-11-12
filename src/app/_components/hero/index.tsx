@@ -33,8 +33,7 @@ export function Hero() {
         <div className="horizonte" aria-hidden="true" />
         <div className="flex h-full flex-wrap items-center justify-between gap-x-8 gap-y-5 min-[901px]:pr-[120px]">
           <p className="max-w-[46ch] text-[clamp(16px,1.3vw,18px)] text-linho-gasto">
-            <span className="text-linho">Nível pleno</span> · Rio de Janeiro, RJ
-            · Remoto · aberto a novas oportunidades e projetos
+            Rio de Janeiro, RJ · Remoto · aberto a novas oportunidades e projetos
           </p>
           <Button asChild>
             <a href="#contato">
