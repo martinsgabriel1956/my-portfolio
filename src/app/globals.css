@@ -127,46 +127,33 @@
     background-repeat: round no-repeat;
   }
 
-  /* Abertura: o nome atravessa o sol sobre o horizonte; o sol esquenta a tábua em volta. */
-  .palco {
+  /* Abertura: a frase manda; embaixo, o horizonte costurado e um sol pequeno nascendo à direita, para onde se lê. */
+  .chao {
     position: relative;
-    flex: 1;
-    min-height: 420px;
-    --hz: 30%;
+    margin-top: auto;
+    height: clamp(150px, 26vh, 230px);
   }
-  .palco::before {
+  .chao::before {
     content: "";
     position: absolute;
-    inset: 0 -48px;
+    inset: -100% -48px 0;
     background: radial-gradient(
-      60% 55% at 50% calc(100% - var(--hz)),
+      30% 50% at 84% 50%,
       rgb(216 105 63 / 0.12),
       transparent 70%
     );
     pointer-events: none;
   }
-  .palco .sol {
-    left: 50%;
-    bottom: var(--hz);
-    width: min(56vw, 800px);
-    transform: translateX(-50%);
+  .chao .sol {
+    right: 4%;
+    bottom: 100%;
+    width: clamp(200px, 24vw, 380px);
   }
-  .palco .horizonte {
+  .chao .horizonte {
     left: -48px;
     right: -48px;
-    bottom: var(--hz);
-  }
-  .palco h1 {
-    position: absolute;
-    left: 50%;
-    bottom: calc(var(--hz) + 10px);
-    width: min(54vw, 780px);
-    transform: translateX(-50%);
-  }
-  .palco .sob {
-    position: absolute;
-    inset: auto 0 0;
-    height: calc(var(--hz) - 10px);
+    top: 0;
+    transform: translateY(-50%);
   }
 
   /* Caderno aberto: página esquerda, vinco furado com a linha passando, página direita. */
@@ -255,6 +242,87 @@
     background: var(--color-ferrugem);
     border-color: var(--color-ferrugem);
   }
+
+  /*
+   * Abertura: a linha costura o horizonte de ponta a ponta, o meio sol com o
+   * "GM" nasce dele e a tábua se fecha sobre a costura, abrindo a página.
+   * Só CSS: sem JS para esperar, e nunca bloqueia cliques.
+   */
+  .abertura {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    background: var(--color-tabua);
+    clip-path: inset(0);
+    pointer-events: none;
+    animation: abertura-abrir 0.42s cubic-bezier(0.7, 0, 0.84, 0) 1s forwards;
+  }
+  .abertura::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      40% 35% at 50% 50%,
+      rgb(216 105 63 / 0.12),
+      transparent 70%
+    );
+    opacity: 0;
+    animation: abertura-surgir 0.64s ease-out 0.26s forwards;
+  }
+  .abertura .horizonte {
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    clip-path: inset(0 100% 0 0);
+    animation: abertura-costurar 0.52s cubic-bezier(0.22, 0.8, 0.26, 1) forwards;
+  }
+  .abertura-sol {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    width: 180px;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    transform: translateX(-50%);
+  }
+  .abertura-sol .sol {
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+    color: var(--color-tabua);
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    transform: translateY(100%);
+    animation: abertura-nascer 0.64s cubic-bezier(0.16, 1, 0.3, 1) 0.26s
+      forwards;
+  }
+
+  @keyframes abertura-costurar {
+    to {
+      clip-path: inset(0);
+    }
+  }
+  @keyframes abertura-nascer {
+    to {
+      transform: none;
+    }
+  }
+  @keyframes abertura-surgir {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes abertura-abrir {
+    to {
+      clip-path: inset(50% 0 50% 0);
+      visibility: hidden;
+    }
+  }
 }
 
 @media (max-width: 900px) {
@@ -271,24 +339,21 @@
     border-bottom: 1px solid var(--color-ferro);
     padding: 28px 20px 56px;
   }
-  .palco {
-    flex: none;
-    min-height: 0;
-    height: calc(46vw + 40px + 330px);
-    --hz: 330px;
+  .chao {
+    height: auto;
+    margin-top: 120px;
+    padding-top: 32px;
   }
-  .palco::before {
-    inset: 0 -20px;
+  .chao::before {
+    inset: -100% -20px 0;
   }
-  .palco .sol {
-    width: 92vw;
+  .chao .sol {
+    right: 20px;
+    width: 44vw;
   }
-  .palco .horizonte {
+  .chao .horizonte {
     left: -20px;
     right: -20px;
-  }
-  .palco h1 {
-    width: 88vw;
   }
   /* No celular o caderno abre em pé: o vinco vira uma costura deitada entre as duas metades. */
   .aberto {
@@ -338,5 +403,9 @@
     animation-iteration-count: 1;
     transition-duration: 0.01ms;
     scroll-behavior: auto;
+  }
+  /* Sem movimento, a abertura não tem o que dizer: a página aparece direto. */
+  .abertura {
+    display: none;
   }
 }

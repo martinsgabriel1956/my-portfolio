@@ -60,6 +60,12 @@ export default async function Home() {
 
   return (
     <>
+      <div className="abertura" aria-hidden="true">
+        <div className="abertura-sol">
+          <div className="sol">GM</div>
+        </div>
+        <div className="horizonte" />
+      </div>
       <a
         href="#projetos"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-linho focus:px-4 focus:py-3 focus:font-semibold focus:text-tabua"
