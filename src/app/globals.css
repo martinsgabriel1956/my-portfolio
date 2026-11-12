@@ -344,17 +344,41 @@
 }
 
 @media (max-width: 900px) {
+  /*
+   * O slider do zip: a tela fica presa e a rolagem da página troca o painel no
+   * lugar. O Costura mapeia scrollY para painel ativo + rolagem interna.
+   */
   .panorama {
+    position: fixed;
+    inset: 0 0 auto;
     display: block;
-    height: auto;
-    overflow: visible;
+    height: calc(100svh - var(--barra));
+    overflow: hidden;
   }
   .painel {
+    position: absolute;
+    inset: 0;
     height: auto;
-    overflow: visible;
+    overflow: hidden;
     border-right: 0;
-    border-bottom: 1px solid var(--color-ferro);
     padding: 28px 20px 56px;
+    background: var(--color-tabua);
+    opacity: 0;
+    scale: 1.1;
+    pointer-events: none;
+    /* O que sai só some depois que o novo já cobriu (0.5s), como as imagens empilhadas do zip. */
+    transition:
+      opacity 0s 0.5s,
+      scale 0s 0.5s;
+  }
+  .painel[data-ativo] {
+    z-index: 1;
+    opacity: 1;
+    scale: 1;
+    pointer-events: auto;
+    transition:
+      opacity 0.5s cubic-bezier(0.33, 1, 0.68, 1),
+      scale 1s cubic-bezier(0.33, 1, 0.68, 1);
   }
   .chao {
     height: auto;

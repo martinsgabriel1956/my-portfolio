@@ -13,6 +13,9 @@ const VELOCIDADE = 1.75;
 const PASSO_MAX = 150;
 // Positivo: o título adianta em vez de atrasar; negativo cortaria o título do painel que espia à direita.
 const PARALLAX = 0.1;
+// No celular, quanto da altura da tela se rola entre um painel e outro (o zip usa uma tela inteira).
+const VAO = 0.5;
+const POWER3_OUT = "cubic-bezier(0.215, 0.61, 0.355, 1)";
 const SETAS: Record<string, number> = {
   ArrowRight: 1,
   ArrowDown: 1,
@@ -31,7 +34,7 @@ function comportamento(): ScrollBehavior {
  */
 export function Costura({ estacoes }: { estacoes: Estacao[] }) {
   const [atual, setAtual] = useState(0);
-  const deslizarPara = useRef<(x: number) => void>(() => {});
+  const irPara = useRef<(painel: HTMLElement) => void>(() => {});
 
   useEffect(() => {
     const panorama = document.getElementById("panorama");
@@ -67,12 +70,78 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
         quadro = requestAnimationFrame(passo);
       }
     };
-    deslizarPara.current = deslizar;
+    // Celular: onde cada painel começa no scrollY da página (o slider fixo do zip).
+    let inicios: number[] = [];
+    let ativo = -1;
+    // Painel para onde a lombada está rolando suave; o foco nele não pode cortar o caminho.
+    let destino = -1;
+    irPara.current = (painel) => {
+      const i = paineis.indexOf(painel);
+      if (matchMedia(DESKTOP).matches) deslizar(painel.offsetLeft);
+      else if (i >= 0) {
+        destino = i;
+        scrollTo({ top: inicios[i], behavior: comportamento() });
+      }
+    };
+
+    const empilhar = () => {
+      const vao = panorama.clientHeight * VAO;
+      let fim = 0;
+      inicios = paineis.map((painel, i) => {
+        if (i) fim += vao;
+        const inicio = fim;
+        fim += painel.scrollHeight - painel.clientHeight;
+        return inicio;
+      });
+      const altura = `${fim + innerHeight}px`;
+      if (document.body.style.height !== altura)
+        document.body.style.height = altura;
+      // Cada painel rola por dentro conforme a página; os anteriores ficam no fim, os próximos no topo.
+      paineis.forEach((painel, i) => {
+        painel.scrollTop = scrollY - inicios[i];
+      });
+      let indice = 0;
+      inicios.forEach((inicio, i) => {
+        if (inicio - vao / 2 <= scrollY) indice = i;
+      });
+      if (indice === destino) destino = -1;
+      if (indice === ativo) return indice;
+      if (ativo < 0)
+        for (const titulo of titulos) titulo?.style.removeProperty("translate");
+      paineis[ativo]?.removeAttribute("data-ativo");
+      paineis[indice].setAttribute("data-ativo", "");
+      // O título sobe de trás de uma máscara, como o SplitText do zip (inteiro, sem escalonar linhas).
+      const titulo = titulos[indice];
+      if (ativo >= 0 && titulo && !matchMedia(REDUZ).matches) {
+        titulo.animate(
+          [
+            {
+              translate: "0 100%",
+              clipPath: "inset(-100% 0 100% 0)",
+              opacity: 0,
+            },
+            { translate: "0 0", clipPath: "inset(0)", opacity: 1 },
+          ],
+          { duration: 750, easing: POWER3_OUT },
+        );
+      }
+      ativo = indice;
+      return indice;
+    };
+    const desempilhar = () => {
+      document.body.style.height = "";
+      paineis[ativo]?.removeAttribute("data-ativo");
+      ativo = -1;
+    };
 
     const marcar = () => {
-      const horizontal = matchMedia(DESKTOP).matches;
+      if (!matchMedia(DESKTOP).matches) {
+        setAtual(empilhar());
+        return;
+      }
+      if (ativo >= 0) desempilhar();
       // Parallax: o título se desloca proporcional à distância do painel até a borda esquerda.
-      const parallax = horizontal && !matchMedia(REDUZ).matches;
+      const parallax = !matchMedia(REDUZ).matches;
       paineis.forEach((painel, i) => {
         const titulo = titulos[i];
         if (!titulo) return;
@@ -80,16 +149,13 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
           ? `${painel.getBoundingClientRect().left * PARALLAX}px 0`
           : "";
       });
-      setAtual(indiceAtual(horizontal));
+      setAtual(indiceAtual());
     };
-    const indiceAtual = (horizontal: boolean) => {
-      const ponto = horizontal
-        ? panorama.scrollLeft + innerWidth * 0.3
-        : scrollY + innerHeight * 0.35;
+    const indiceAtual = () => {
+      const ponto = panorama.scrollLeft + innerWidth * 0.3;
       let indice = 0;
       paineis.forEach((painel, i) => {
-        const inicio = horizontal ? painel.offsetLeft : painel.offsetTop;
-        if (inicio <= ponto) indice = i;
+        if (painel.offsetLeft <= ponto) indice = i;
       });
       return indice;
     };
@@ -128,14 +194,22 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
       const vertical = event.key === "ArrowUp" || event.key === "ArrowDown";
       const painel =
         origem.closest<HTMLElement>(".painel") ??
-        paineis[indiceAtual(true)] ??
+        paineis[indiceAtual()] ??
         null;
       if (vertical && painelRola(painel, direcao > 0)) return;
       event.preventDefault();
       andar(direcao * PASSO_MAX);
     };
 
+    // Celular: foco (Tab, link de pular) num painel escondido rola a página até ele.
+    const foco = (event: FocusEvent) => {
+      if (matchMedia(DESKTOP).matches) return;
+      const i = paineis.findIndex((p) => p.contains(event.target as Node));
+      if (i >= 0 && i !== ativo && i !== destino) scrollTo({ top: inicios[i] });
+    };
+
     marcar();
+    panorama.addEventListener("focusin", foco);
     panorama.addEventListener("scroll", marcar, { passive: true });
     window.addEventListener("scroll", marcar, { passive: true });
     window.addEventListener("resize", marcar);
@@ -143,6 +217,8 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
     window.addEventListener("keydown", tecla);
     return () => {
       window.removeEventListener("keydown", tecla);
+      panorama.removeEventListener("focusin", foco);
+      desempilhar();
       panorama.removeEventListener("scroll", marcar);
       window.removeEventListener("scroll", marcar);
       window.removeEventListener("resize", marcar);
@@ -175,11 +251,7 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
                   const alvo = document.getElementById(id);
                   if (!alvo) return;
                   event.preventDefault();
-                  if (matchMedia(DESKTOP).matches) {
-                    deslizarPara.current(alvo.offsetLeft);
-                  } else {
-                    alvo.scrollIntoView({ behavior: comportamento() });
-                  }
+                  irPara.current(alvo);
                   alvo.focus({ preventScroll: true });
                 }}
                 className="flex min-h-11 min-w-11 items-center justify-center gap-2.5 text-sm whitespace-nowrap text-linho-gasto transition-colors hover:text-linho [[data-estado]_&]:text-linho"
