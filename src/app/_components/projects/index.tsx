@@ -42,48 +42,37 @@ export function Projects({
       >
         projetos
       </h2>
-      <div className="grid gap-6 lg:gap-4">
-        {groups.map((group) => (
-          <section
-            key={group.title}
-            aria-label={group.title}
-            className="lg:grid lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-6"
-          >
-            <h3 className="mb-3 text-[clamp(26px,2.4vw,34px)] leading-[1.05] font-light tracking-[-0.02em] lg:mb-0 lg:pt-3 lg:text-[clamp(22px,1.9vw,30px)]">
-              {group.title}
-            </h3>
-            <ul className="grid gap-2 lg:grid-cols-2">
-              {group.items.map((project) => (
-                <li
-                  key={`${project.company}-${project.name}`}
-                  className="aberto group"
-                >
-                  <div className="pagina">
-                    <h4 className="text-[clamp(20px,1.7vw,26px)] leading-[1.15] font-light">
-                      {project.name}
-                    </h4>
-                    <p className="mt-1 text-sm text-linho-gasto group-hover:text-tabua">
-                      {project.company}
-                    </p>
-                  </div>
-                  <span className="vinco" aria-hidden="true" />
-                  <div className="pagina">
-                    <p className="text-base leading-normal text-linho-gasto group-hover:text-tabua">
-                      {project.description}
-                    </p>
-                    {project.techs.length > 0 && (
-                      <p className="mt-2 text-sm text-linho-gasto group-hover:text-tabua">
-                        <span className="sr-only">Tecnologias: </span>
-                        {project.techs.join(" · ")}
-                      </p>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
+      <ul className="grid gap-2 lg:grid-cols-2">
+        {groups
+          .flatMap((group) => group.items)
+          .map((project) => (
+            <li
+              key={`${project.company}-${project.name}`}
+              className="aberto group"
+            >
+              <div className="pagina">
+                <h3 className="text-[clamp(20px,1.7vw,26px)] leading-[1.15] font-light">
+                  {project.name}
+                </h3>
+                <p className="mt-1 text-sm text-linho-gasto group-hover:text-tabua">
+                  {project.company}
+                </p>
+              </div>
+              <span className="vinco" aria-hidden="true" />
+              <div className="pagina">
+                <p className="text-base leading-normal text-linho-gasto group-hover:text-tabua">
+                  {project.description}
+                </p>
+                {project.techs.length > 0 && (
+                  <p className="mt-2 text-sm text-linho-gasto group-hover:text-tabua">
+                    <span className="sr-only">Tecnologias: </span>
+                    {project.techs.join(" · ")}
+                  </p>
+                )}
+              </div>
+            </li>
+          ))}
+      </ul>
     </section>
   );
 }
