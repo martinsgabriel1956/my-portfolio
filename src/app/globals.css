@@ -255,7 +255,16 @@
     background: var(--color-tabua);
     clip-path: inset(0);
     pointer-events: none;
-    animation: abertura-abrir 0.42s cubic-bezier(0.7, 0, 0.84, 0) 1s forwards;
+    /* Ease-in-out: começa e termina devagar, sem bater no fim. */
+    animation: abertura-abrir 1.2s cubic-bezier(0.76, 0, 0.24, 1) 1s forwards;
+  }
+  /* A página chega enquanto a tábua se abre: o título e o chão sobem de leve, um depois do outro. */
+  .abertura ~ .panorama #inicio h1,
+  .abertura ~ .panorama #inicio .chao {
+    animation: abertura-chegar 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;
+  }
+  .abertura ~ .panorama #inicio .chao {
+    animation-delay: 1.4s;
   }
   .abertura::before {
     content: "";
@@ -317,10 +326,21 @@
       opacity: 1;
     }
   }
+  /* Fecha sobre a costura e, na segunda metade, a linha se dissolve em vez de sumir num quadro. */
   @keyframes abertura-abrir {
+    55% {
+      opacity: 1;
+    }
     to {
       clip-path: inset(50% 0 50% 0);
+      opacity: 0;
       visibility: hidden;
+    }
+  }
+  @keyframes abertura-chegar {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
     }
   }
 }
@@ -407,5 +427,10 @@
   /* Sem movimento, a abertura não tem o que dizer: a página aparece direto. */
   .abertura {
     display: none;
+  }
+  /* Sem abertura, o hero não espera: o atraso da chegada não pode esconder o conteúdo. */
+  .abertura ~ .panorama #inicio h1,
+  .abertura ~ .panorama #inicio .chao {
+    animation: none;
   }
 }

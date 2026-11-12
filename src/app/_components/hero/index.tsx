@@ -1,6 +1,5 @@
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CV_URL } from "@/lib/links";
 
 /** Cartão de visita: nome e ofício em duas batidas; o sol pequeno nasce à direita, para onde se lê. */
 export function Hero() {
@@ -34,21 +33,12 @@ export function Hero() {
             <span className="text-linho">Nível pleno</span> · Rio de Janeiro, RJ
             · Remoto · aberto a novas oportunidades e projetos
           </p>
-          <div className="flex flex-wrap gap-2.5">
-            <Button asChild>
-              <a href="#contato">
-                <ArrowRight aria-hidden="true" />
-                Entre em contato
-              </a>
-            </Button>
-            <Button variant="fio" asChild>
-              <a href={CV_URL} target="_blank" rel="noopener noreferrer">
-                <FileText aria-hidden="true" />
-                Currículo (PDF)
-                <span className="sr-only"> (abre em nova aba)</span>
-              </a>
-            </Button>
-          </div>
+          <Button asChild>
+            <a href="#contato">
+              <ArrowRight aria-hidden="true" />
+              Entre em contato
+            </a>
+          </Button>
         </div>
       </div>
       <p
