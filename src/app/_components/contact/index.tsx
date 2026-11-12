@@ -6,7 +6,7 @@ import { CopyEmailButton } from "./copy-email-button";
 const links = [
   { href: LINKEDIN_URL, label: "LinkedIn", Icon: Linkedin },
   { href: GITHUB_URL, label: "GitHub", Icon: Github },
-  { href: CV_URL, label: "Currículo (PDF)", Icon: FileText },
+  { href: CV_URL, label: "Currículo (PDF)", Icon: FileText, download: true },
 ];
 
 export function Contact() {
@@ -38,14 +38,21 @@ export function Contact() {
           <li>
             <CopyEmailButton />
           </li>
-          {links.map(({ href, label, Icon }) => (
+          {links.map(({ href, label, Icon, download }) => (
             <li key={label}>
               <Button variant="fio" className="w-full sm:w-auto" asChild>
-                <a href={href} target="_blank" rel="noopener noreferrer">
-                  <Icon aria-hidden="true" />
-                  {label}
-                  <span className="sr-only"> (abre em nova aba)</span>
-                </a>
+                {download ? (
+                  <a href={href} download>
+                    <Icon aria-hidden="true" />
+                    {label}
+                  </a>
+                ) : (
+                  <a href={href} target="_blank" rel="noopener noreferrer">
+                    <Icon aria-hidden="true" />
+                    {label}
+                    <span className="sr-only"> (abre em nova aba)</span>
+                  </a>
+                )}
               </Button>
             </li>
           ))}
