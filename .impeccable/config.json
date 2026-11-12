@@ -1,0 +1,233 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/letreiro.html"
+        ],
+        "createdAt": "2026-11-11T20:39:34.197Z",
+        "reason": "Claude: line-height <1.3 only on display headings (name at .95, section titles at 1); body text is 1.55"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/metro.html"
+        ],
+        "createdAt": "2026-11-11T20:39:34.219Z",
+        "reason": "Claude: line-height <1.3 only on display headings (name at .95, section titles at 1); body text is 1.55"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/sol.html"
+        ],
+        "createdAt": "2026-11-11T20:45:18.284Z",
+        "reason": "Claude: both flagged texts sit on the amber sun/row fill (#ffb02e), 7-10:1; detector measures against page ground"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/costura.html"
+        ],
+        "createdAt": "2026-11-11T20:45:46.204Z",
+        "reason": "Claude: line-height under 1.3 only on display headings (name .92-.94, h2 ~1); body text is 1.6"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/sol.html"
+        ],
+        "createdAt": "2026-11-11T20:45:46.220Z",
+        "reason": "Claude: line-height under 1.3 only on display headings (name .92-.94, h2 ~1); body text is 1.6"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/atlas.html"
+        ],
+        "createdAt": "2026-11-11T20:57:30.029Z",
+        "reason": "Claude: flagged element is the chart SVG; its labels are inset by the viewBox grid (x>=80), not flush"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/corte.html"
+        ],
+        "createdAt": "2026-11-11T20:57:30.057Z",
+        "reason": "Claude: white text window deliberately sits on the orange field's bottom edge; text inside it has 28-32px padding"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/corte.html"
+        ],
+        "createdAt": "2026-11-11T20:57:30.085Z",
+        "reason": "Claude: tight leading only on display caps and single-line tape labels; running copy is 1.4-1.5"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/blocos.html"
+        ],
+        "createdAt": "2026-11-11T21:07:11.636Z",
+        "reason": "Claude: tight leading only on giant display lowercase and short tile titles; running copy is 1.4-1.55"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/trelica.html"
+        ],
+        "createdAt": "2026-11-11T21:09:58.854Z",
+        "reason": "Claude: padding is set with clamp() (18-28px squares, 24-88px cartouche), rendered inset verified in browser; detector does not resolve clamp"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/trelica.html"
+        ],
+        "createdAt": "2026-11-11T21:09:58.880Z",
+        "reason": "Claude: headings use clamp() sizes (h1 ~86px, h2 ~45px rendered); detector reads them as 18px"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/marmore.html"
+        ],
+        "createdAt": "2026-11-11T21:21:21.385Z",
+        "reason": "Claude: tight leading only on display headings (name ~.92-.95, h2 1, h3 1.15-1.25); running copy is 1.55-1.6"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/dobra.html"
+        ],
+        "createdAt": "2026-11-11T21:21:21.403Z",
+        "reason": "Claude: tight leading only on display headings (name ~.92-.95, h2 1, h3 1.15-1.25); running copy is 1.55-1.6"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/marmore.html"
+        ],
+        "createdAt": "2026-11-11T21:21:21.421Z",
+        "reason": "Claude: the basin canvas is meant to bleed edge to edge; its legend and buttons sit 16-20px inside"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes/v1-sol.html"
+        ],
+        "createdAt": "2026-11-11T21:34:19.519Z",
+        "reason": "Claude: flagged texts sit on the amber sun / amber hover fill (#ffb02e), 7-10:1; detector measures page ground. Real low-contrast items in this file were fixed"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes/v1-sol.html"
+        ],
+        "createdAt": "2026-11-11T21:34:19.543Z",
+        "reason": "Claude: tight leading only on display headings and short tile titles; running copy is 1.4-1.6"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes/v2-blocos.html"
+        ],
+        "createdAt": "2026-11-11T21:34:19.564Z",
+        "reason": "Claude: tight leading only on display headings and short tile titles; running copy is 1.4-1.6"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes/v4-costura.html"
+        ],
+        "createdAt": "2026-11-11T21:34:19.588Z",
+        "reason": "Claude: tight leading only on display headings and short tile titles; running copy is 1.4-1.6"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes/v3-corte.html"
+        ],
+        "createdAt": "2026-11-11T21:34:19.610Z",
+        "reason": "Claude: the black half-sun and tile row sit on the orange field's bottom edge by design; text inside windows has 14-22px padding"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes-2/v5-sol-sobre-blocos.html"
+        ],
+        "createdAt": "2026-11-11T21:42:45.383Z",
+        "reason": "Claude: tight leading only on display names/headings and short tile titles; running copy is 1.45-1.6"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes-2/v6-blocos-com-sol.html"
+        ],
+        "createdAt": "2026-11-11T21:42:45.404Z",
+        "reason": "Claude: tight leading only on display names/headings and short tile titles; running copy is 1.45-1.6"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes-2/v7-painel-fixo.html"
+        ],
+        "createdAt": "2026-11-11T21:42:45.423Z",
+        "reason": "Claude: tight leading only on display names/headings and short tile titles; running copy is 1.45-1.6"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes-2/v7-painel-fixo.html"
+        ],
+        "createdAt": "2026-11-11T21:42:45.441Z",
+        "reason": "Claude: hover text #120e0b sits on the rust hover fill (#d8693f, ~5.9:1); detector compares against the idle tile color"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/examples/variantes-2/v8-panorama.html"
+        ],
+        "createdAt": "2026-11-11T21:42:45.461Z",
+        "reason": "Claude: hover text #120e0b sits on the rust hover fill (#d8693f, ~5.9:1); detector compares against the idle tile color"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/**"
+        ],
+        "createdAt": "2026-11-11T22:23:43.044Z",
+        "reason": "Claude: exploration mocks of rejected/alternative directions; their fonts were never meant to match the shipped DESIGN.md (Albert Sans)"
+      }
+    ]
+  }
+}

@@ -9,10 +9,13 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+export type ProjectDomain = "ecommerce" | "admin" | "health";
+
 export type ExperienceProject = {
   name: string;
   description: string;
   techs: string[];
+  domain?: ProjectDomain;
 };
 
 export const experiences = pgTable("experiences", {

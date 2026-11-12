@@ -1,359 +1,342 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-sans: var(--font-albert-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
 @theme {
-  --color-background: oklch(0.145 0.02 255);
-  --color-foreground: oklch(0.98 0 0);
+  --color-tabua: #120e0b;
+  --color-grafite: #1f1a15;
+  --color-pagina: #2a221b;
+  --color-ferro: #2e251c;
+  --color-furo: #7a6a56;
+  --color-linho: #e6dcc6;
+  --color-linho-gasto: #ab9f86;
+  --color-ferrugem: #d8693f;
+}
 
-  --color-card: oklch(0.16 0.02 255);
-  --color-card-foreground: oklch(0.98 0 0);
-
-  --color-popover: oklch(0.16 0.02 255);
-  --color-popover-foreground: oklch(0.98 0 0);
-
-  --color-primary: oklch(0.62 0.22 255);
-  --color-primary-foreground: oklch(1 0 0);
-
-  --color-secondary: oklch(0.68 0.22 60);
-  --color-secondary-foreground: oklch(1 0 0);
-
-  --color-muted: oklch(0.22 0.02 255);
-  --color-muted-foreground: oklch(0.60 0.015 255);
-
-  --color-accent: oklch(0.68 0.22 60);
-  --color-accent-foreground: oklch(1 0 0);
-
-  --color-destructive: oklch(0.62 0.21 27);
-  --color-destructive-foreground: oklch(0.98 0.01 240);
-
-  --color-border: oklch(0.24 0.02 255);
-  --color-input: oklch(0.24 0.02 255);
-  --color-ring: oklch(0.62 0.22 255);
-
-  --color-chart-1: oklch(0.66 0.17 41);
-  --color-chart-2: oklch(0.52 0.10 185);
-  --color-chart-3: oklch(0.38 0.05 227);
-  --color-chart-4: oklch(0.74 0.15 84);
-  --color-chart-5: oklch(0.72 0.16 70);
-
-  --color-sidebar: oklch(0.16 0.02 255);
-  --color-sidebar-foreground: oklch(0.98 0 0);
-  --color-sidebar-primary: oklch(0.62 0.22 255);
-  --color-sidebar-primary-foreground: oklch(1 0 0);
-  --color-sidebar-accent: oklch(0.68 0.22 60);
-  --color-sidebar-accent-foreground: oklch(1 0 0);
-  --color-sidebar-border: oklch(0.24 0.02 255);
-  --color-sidebar-ring: oklch(0.62 0.22 255);
-
-  /* Radius */
-  --radius: 0.75rem;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+:root {
+  --barra: 64px;
+  /* Grão: o ruído vira transparência (alfa = luminância), então aparece como textura e não como véu. */
+  --grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.7 0 0 0 -.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  /* Linha de linho em laçadas: deitada (lombada, horizonte) e em pé (vinco do caderno). */
+  --corrente: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='14'%3E%3Cellipse cx='9' cy='7' rx='8' ry='4' fill='none' stroke='%23e6dcc6' stroke-width='1.6'/%3E%3C/svg%3E");
+  --corrente-em-pe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='18'%3E%3Cellipse cx='7' cy='9' rx='4' ry='8' fill='none' stroke='%23e6dcc6' stroke-width='1.4' stroke-opacity='.7'/%3E%3C/svg%3E");
+  /* Furo vazado: miolo escuro dentro de um anel. */
+  --furo-vazado: radial-gradient(
+    circle,
+    #0a0705 2.4px,
+    var(--color-furo) 2.9px 3.4px,
+    transparent 3.8px
+  );
 }
 
 @layer base {
-  :root {
-    /* Variáveis HSL originais para uso customizado */
-    --background: 220 20% 6%;
-    --foreground: 0 0% 98%;
-
-    --card: 220 18% 10%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 220 18% 10%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 220 90% 56%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 25 95% 55%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 60%;
-
-    --accent: 25 95% 55%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
-    --ring: 220 90% 56%;
-
-    /* Custom Design Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(220 90% 56%) 0%, hsl(25 95% 55%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(220 20% 6%) 0%, hsl(220 25% 12%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(220 18% 12%) 0%, hsl(220 18% 8%) 100%);
-    --gradient-text: linear-gradient(90deg, hsl(220 90% 65%) 0%, hsl(25 95% 60%) 100%);
-
-    --glow-primary: 0 0 60px hsl(220 90% 56% / 0.3);
-    --glow-accent: 0 0 40px hsl(25 95% 55% / 0.25);
-
-    --shadow-card: 0 4px 30px hsl(220 20% 3% / 0.5);
-    --shadow-elevated: 0 20px 60px hsl(220 20% 3% / 0.6);
-
-    --sidebar-background: 220 18% 10%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 220 90% 56%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 25 95% 55%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 15% 20%;
-    --sidebar-ring: 220 90% 56%;
-
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+  * {
+    border-color: var(--color-ferro);
   }
 
-  * {
-    border-color: hsl(var(--border));
+  html {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    height: 100%;
   }
 
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-family: 'Outfit', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-tabua);
+    color: var(--color-linho);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
+  ::selection {
+    background-color: var(--color-ferrugem);
+    color: var(--color-tabua);
   }
 
-  code, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+  :focus-visible {
+    outline: 2px solid var(--color-ferrugem);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
 }
 
 @layer components {
-  .gradient-text {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: var(--gradient-text);
+  /* O panorama: painéis lado a lado no desktop, coluna no celular. */
+  .panorama {
+    display: flex;
+    height: calc(100svh - var(--barra));
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
   }
-
-  .gradient-border {
+  .panorama::-webkit-scrollbar {
+    display: none;
+  }
+  .painel {
     position: relative;
-    background: var(--gradient-primary);
-    padding: 1px;
-    border-radius: var(--radius);
-  }
-
-  .gradient-border-inner {
-    background-color: hsl(var(--card));
-    border-radius: calc(var(--radius) - 1px);
-    width: 100%;
+    flex: 0 0 86vw;
     height: 100%;
+    scroll-snap-align: start;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-right: 1px solid var(--color-ferro);
+    padding: 36px 48px 32px;
+  }
+  /* O painel recebe foco ao ser aberto pela lombada; o contorno ficaria em volta da tela inteira. */
+  .painel:focus {
+    outline: none;
+  }
+  .painel:last-child {
+    flex-basis: 100vw;
   }
 
-  .glow-primary {
-    box-shadow: var(--glow-primary);
+  /* Meio sol ferrugem, granulado. */
+  .sol {
+    position: absolute;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    border-radius: 999px 999px 0 0;
+    background: var(--color-ferrugem);
+  }
+  .sol::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--grao);
+    mix-blend-mode: multiply;
+    opacity: 0.45;
   }
 
-  .glow-accent {
-    box-shadow: var(--glow-accent);
+  /* Horizonte costurado: a mesma linha da lombada, passando por furos. */
+  .horizonte {
+    position: absolute;
+    height: 14px;
+    transform: translateY(50%);
+    background:
+      var(--corrente) left center / 18px 14px round no-repeat,
+      var(--furo-vazado) left center / 18px 14px round no-repeat;
+    background-repeat: round no-repeat;
   }
 
-  .card-gradient {
-    background: var(--gradient-card);
+  /* Abertura: o nome atravessa o sol sobre o horizonte; o sol esquenta a tábua em volta. */
+  .palco {
+    position: relative;
+    flex: 1;
+    min-height: 420px;
+    --hz: 30%;
+  }
+  .palco::before {
+    content: "";
+    position: absolute;
+    inset: 0 -48px;
+    background: radial-gradient(
+      60% 55% at 50% calc(100% - var(--hz)),
+      rgb(216 105 63 / 0.12),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+  .palco .sol {
+    left: 50%;
+    bottom: var(--hz);
+    width: min(56vw, 800px);
+    transform: translateX(-50%);
+  }
+  .palco .horizonte {
+    left: -48px;
+    right: -48px;
+    bottom: var(--hz);
+  }
+  .palco h1 {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--hz) + 10px);
+    width: min(54vw, 780px);
+    transform: translateX(-50%);
+  }
+  .palco .sob {
+    position: absolute;
+    inset: auto 0 0;
+    height: calc(var(--hz) - 10px);
   }
 
-  .hero-gradient {
-    background: var(--gradient-hero);
+  /* Caderno aberto: página esquerda, vinco furado com a linha passando, página direita. */
+  .aberto {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) 20px minmax(0, 1.2fr);
+    background: var(--color-grafite);
+    transition: background-color 0.2s;
+  }
+  .aberto > .pagina {
+    padding: 16px 16px 16px 20px;
+  }
+  .aberto > .pagina + .vinco + .pagina {
+    padding: 16px 20px 16px 16px;
+    background: var(--color-pagina);
+    transition: background-color 0.2s;
+  }
+  .vinco {
+    background:
+      var(--corrente-em-pe) center top / 14px 18px repeat-y,
+      var(--furo-vazado) center top / 20px 18px repeat-y,
+      linear-gradient(90deg, var(--color-grafite) 50%, var(--color-pagina) 50%);
+    background-repeat:
+      no-repeat round,
+      no-repeat round,
+      no-repeat;
+    transition: background-color 0.2s;
+  }
+  .aberto:hover {
+    background: var(--color-ferrugem);
+    color: var(--color-tabua);
+  }
+  .aberto:hover > .pagina + .vinco + .pagina {
+    background: #c95e36;
+  }
+  .aberto:hover .vinco {
+    background:
+      var(--corrente-em-pe) center top / 14px 18px repeat-y,
+      var(--furo-vazado) center top / 20px 18px repeat-y,
+      linear-gradient(90deg, var(--color-ferrugem) 50%, #c95e36 50%);
+    background-repeat:
+      no-repeat round,
+      no-repeat round,
+      no-repeat;
+  }
+
+  /* A lombada deitada: furo vazio, cheio (lido) e ferrugem (atual). */
+  .furo {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    border: 1.5px solid var(--color-furo);
+    transition:
+      background-color 0.3s,
+      border-color 0.3s;
+  }
+  .corrente {
+    position: relative;
+    flex: 1;
+    height: 14px;
+    margin: 0 12px;
+    background:
+      radial-gradient(circle, var(--color-furo) 1.5px, transparent 2px) left
+      center / 18px 14px;
+    background-repeat: round no-repeat;
+  }
+  /* A linha se costura até a próxima estação quando a seção é lida. */
+  .corrente::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--corrente) left center / 18px 14px;
+    background-repeat: round no-repeat;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.6s cubic-bezier(0.22, 0.8, 0.26, 1);
+  }
+  [data-estado="lido"] .corrente::after {
+    clip-path: inset(0);
+  }
+  [data-estado="lido"] .furo {
+    background: var(--color-linho);
+    border-color: var(--color-linho);
+  }
+  [data-estado="atual"] .furo {
+    background: var(--color-ferrugem);
+    border-color: var(--color-ferrugem);
   }
 }
 
-@layer utilities {
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+@media (max-width: 900px) {
+  .panorama {
+    display: block;
+    height: auto;
+    overflow: visible;
+    scroll-snap-type: none;
   }
-
-  .animate-pulse-slow {
-    animation: pulse-slow 4s ease-in-out infinite;
+  .painel {
+    height: auto;
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-ferro);
+    padding: 28px 20px 56px;
   }
-
-  .animate-slide-up {
-    animation: slide-up 0.6s ease-out forwards;
+  .palco {
+    flex: none;
+    min-height: 0;
+    height: calc(46vw + 40px + 330px);
+    --hz: 330px;
   }
-
-  .animate-slide-in-left {
-    animation: slide-in-left 0.5s ease-out forwards;
+  .palco::before {
+    inset: 0 -20px;
   }
-
-  .animate-fade-in {
-    animation: fade-in 0.8s ease-out forwards;
+  .palco .sol {
+    width: 92vw;
   }
-
-  .animate-scale-in {
-    animation: scale-in 0.5s ease-out forwards;
+  .palco .horizonte {
+    left: -20px;
+    right: -20px;
   }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+  .palco h1 {
+    width: 88vw;
   }
-
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+  /* No celular o caderno abre em pé: o vinco vira uma costura deitada entre as duas metades. */
+  .aberto {
+    grid-template-columns: 1fr;
   }
-
-  @keyframes slide-up {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+  .aberto > .pagina,
+  .aberto > .pagina + .vinco + .pagina {
+    padding: 18px 20px;
   }
-
-  @keyframes slide-in-left {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
+  .vinco,
+  .aberto:hover .vinco {
+    height: 14px;
+    background:
+      var(--corrente) left center / 18px 14px,
+      var(--furo-vazado) left center / 18px 14px,
+      linear-gradient(180deg, var(--color-grafite) 50%, var(--color-pagina) 50%);
+    background-repeat:
+      round no-repeat,
+      round no-repeat,
+      no-repeat;
   }
-
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  .aberto:hover .vinco {
+    background:
+      var(--corrente) left center / 18px 14px,
+      var(--furo-vazado) left center / 18px 14px,
+      linear-gradient(180deg, var(--color-ferrugem) 50%, #c95e36 50%);
+    background-repeat:
+      round no-repeat,
+      round no-repeat,
+      no-repeat;
   }
-
-  @keyframes fade-out {
-    from { opacity: 1; }
-    to { opacity: 0; }
+  /* Seis estações cabem em 375px: as laçadas entre elas encurtam. */
+  .corrente {
+    margin: 0 2px;
   }
-
-  @keyframes scale-in {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+  body {
+    padding-bottom: var(--barra);
   }
+}
 
-  @keyframes slide-in-from-right {
-    from {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
+/* Unlayered, so it beats every Tailwind layer without !important. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
   }
-
-  @keyframes slide-out-to-right {
-    from {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-  }
-
-  @keyframes slide-in-from-left {
-    from {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes slide-out-to-left {
-    from {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-  }
-
-  @keyframes slide-in-from-top {
-    from {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slide-out-to-top {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-  }
-
-  @keyframes slide-in-from-bottom {
-    from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slide-out-to-bottom {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-  }
-
-  .animate-slide-in-from-right {
-    animation: slide-in-from-right 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-slide-out-to-right {
-    animation: slide-out-to-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-slide-in-from-left {
-    animation: slide-in-from-left 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-slide-out-to-left {
-    animation: slide-out-to-left 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-slide-in-from-top {
-    animation: slide-in-from-top 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-slide-out-to-top {
-    animation: slide-out-to-top 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-slide-in-from-bottom {
-    animation: slide-in-from-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-slide-out-to-bottom {
-    animation: slide-out-to-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
-  .delay-500 { animation-delay: 500ms; }
 }
