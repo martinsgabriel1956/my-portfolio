@@ -36,7 +36,7 @@ Fullstack work concentrated in a few concrete domains: e-commerce (precious-meta
 
 ## Brand Commitments
 
-- Name: Gabriel Martins; monogram "GM".
+- Name: Gabriel Martins; mark "gm." (lowercase, ferrugem dot). Files in `public/brand/`; favicon `src/app/icon.svg`.
 - Language: pt-BR, first person, direct.
 
 ## Evidence on Hand

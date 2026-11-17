@@ -174,7 +174,7 @@ Uma paleta de madeira escura e linho cru, com um único acento queimado.
 - **Label** (400, 14px): empresa, techs, local, rodapé e nomes da lombada, sempre em linho gasto. Sem caixa alta, sem tracking aberto.
 
 ### Named Rules
-**A Regra da Minúscula Fina.** Títulos de painel e de empresa são minúsculos e em peso 200 ou 300. Negrito (600) aparece só no monograma "GM" e no link de pular conteúdo.
+**A Regra da Minúscula Fina.** Títulos de painel e de empresa são minúsculos e em peso 200 ou 300. Negrito (600) aparece só no link de pular conteúdo.
 
 **A Regra do Ponto Médio.** Listas inline (stack, techs, local) se separam com " · ", nunca com chips ou badges.
 
@@ -246,3 +246,12 @@ O meio sol ferrugem granulado nasce de um horizonte costurado (laçadas sobre fu
 - **Don't** usar chips, badges ou pílulas para techs e habilidades.
 - **Don't** pôr texto linho sobre ferrugem; sobre ferrugem a tinta é tábua.
 - **Don't** usar as laçadas como enfeite solto, sem estar costurando algo.
+
+## Marca
+
+**gm.** em Albert Sans 500, minúsculas, com o ponto final trocado por um círculo ferrugem (o sol). Ecoa o "gabriel martins." do título. Desenhada a partir dos contornos reais da fonte e centrada pela tinta visível.
+- `src/app/icon.svg`, `favicon.ico` (16/32/48) e `apple-icon.png` (180): linho sobre tábua quadrada.
+- `public/brand/gm-escuro.svg`: linho, sem fundo, para fundos escuros (link de início do site).
+- `public/brand/gm-claro.svg`: tábua, sem fundo, para fundos claros (currículo, documentos).
+- `public/brand/gm-512.png`: avatar para perfis (LinkedIn, GitHub).
+- Sobre ferrugem (o sol da abertura), a marca vira texto "gm." todo em tábua, pela Regra da Tinta Invertida.
