@@ -209,7 +209,7 @@ Paleta de um tom quente só: tábua escura, linho claro e ferrugem como única v
 
 **Desktop (≥ 901px):** o `main` é um panorama horizontal com altura `100svh - 64px`. Cada painel tem 86vw de largura (o último, 100vw), borda direita em ferro e padding 36px 48px 32px; o próximo painel espia à direita. A roda vertical, o gesto lateral e as setas movem o panorama na horizontal com perseguição suave (cada quadro anda 5% do que falta); um painel que rola por dentro rola primeiro. Os títulos dos painéis têm parallax leve (0.1 da distância até a borda). Não há CSS scroll-snap: a parada é feita pelo trilho e pelos atalhos.
 
-**Celular (≤ 900px):** o panorama fica fixo e os painéis se empilham no mesmo lugar; a rolagem da página troca o painel ativo (entra com opacidade 0.5s e escala de 1.1 para 1 em 1s) e rola o conteúdo dele por dentro. Padding 28px 20px 56px. O título do painel que entra sobe de trás de uma máscara (750ms).
+**Celular (≤ 900px):** o panorama fica fixo e os painéis se empilham no mesmo lugar; a rolagem da página troca o painel ativo (uma tela inteira de rolagem entre painéis; entra com opacidade 0.5s e escala de 1.1 para 1 em 1s) e rola o conteúdo dele por dentro. No canto inferior direito, o índice do zip: 01–06 em 12px, a seção atual com opacidade cheia e um tracinho de 10px que abre (0.3s), e uma barra vertical de 1px que enche com a rolagem; na capa fica em tábua, no resto em linho. Padding 28px 20px 56px. O título do painel que entra sobe de trás de uma máscara (750ms).
 
 **Trilho:** barra fixa de 64px no rodapé, uma estação por seção ligada por trechos; no celular os rótulos somem e os trechos encurtam para caber seis estações em 375px.
 
