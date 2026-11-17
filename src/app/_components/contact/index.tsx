@@ -65,7 +65,7 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
         © {new Date().getFullYear()} Gabriel Martins.
       </p>
       <div
-        className="contracapa right-12 bottom-0 aspect-square w-[min(28vw,400px)] max-[900px]:relative max-[900px]:right-auto max-[900px]:mt-9 max-[900px]:aspect-[2/1] max-[900px]:w-full max-[900px]:shrink-0"
+        className="contracapa right-12 bottom-0 aspect-square w-[min(28vw,400px)] max-[900px]:hidden"
         aria-hidden="true"
       >
         <ArteColisao

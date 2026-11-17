@@ -4,11 +4,10 @@ import { useState } from "react";
 import { ArteColisao } from "../colisao";
 import type { Faixa } from "../projects";
 
-const DESKTOP = "(min-width: 901px)";
-
 /**
- * A arte e a lista de faixas da capa, ligadas: passar, focar ou (no celular)
- * tocar uma faixa dobra a linha da trajetória dela.
+ * A arte e a lista de faixas da capa, ligadas: passar ou focar uma faixa
+ * dobra a linha da trajetória dela. No celular a lista some; ela já está no
+ * painel de projetos.
  */
 export function LadoA({ faixas }: { faixas: Faixa[] }) {
   const [foco, setFoco] = useState(0);
@@ -32,16 +31,13 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
         <nav
           aria-labelledby="lado-a"
           // O fundo chapado faz as linhas impressas pararem na lista, como no verso de um disco.
-          className="absolute top-6 right-8 z-[2] w-[min(330px,26vw)] bg-ferrugem px-4 py-3 max-[900px]:top-auto max-[900px]:right-5 max-[900px]:bottom-[116px] max-[900px]:left-5 max-[900px]:w-auto max-[900px]:p-0"
+          className="absolute top-6 right-8 z-[2] w-[min(330px,26vw)] bg-ferrugem px-4 py-3 max-[900px]:hidden"
         >
-          <p
-            id="lado-a"
-            className="mb-2 text-sm font-medium max-[900px]:sr-only"
-          >
+          <p id="lado-a" className="mb-2 text-sm font-medium">
             lado a · {faixas.length} faixas
           </p>
           <ol
-            className="text-[15px] leading-snug max-[900px]:grid max-[900px]:grid-cols-4 max-[900px]:gap-1"
+            className="text-[15px] leading-snug"
             onMouseLeave={() => setEscolhendo(false)}
           >
             {faixas.map((faixa, i) => (
@@ -51,17 +47,11 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
                   onMouseEnter={() => escolher(i)}
                   onFocus={() => escolher(i)}
                   onBlur={() => setEscolhendo(false)}
-                  onClick={(event) => {
-                    // No celular o toque escolhe a faixa; a lista completa está no painel de projetos.
-                    if (matchMedia(DESKTOP).matches) return;
-                    event.preventDefault();
-                    escolher(i);
-                  }}
                   data-foco={i === foco || undefined}
-                  className="grid grid-cols-[1.75rem_1fr] py-0.5 underline-offset-4 data-foco:font-medium data-foco:underline max-[900px]:flex max-[900px]:min-h-11 max-[900px]:min-w-11 max-[900px]:items-center max-[900px]:justify-center max-[900px]:border max-[900px]:border-tabua/40 max-[900px]:data-foco:border-tabua max-[900px]:data-foco:bg-tabua max-[900px]:data-foco:text-ferrugem max-[900px]:data-foco:no-underline"
+                  className="grid grid-cols-[1.75rem_1fr] py-0.5 underline-offset-4 data-foco:font-medium data-foco:underline"
                 >
                   <span className="tabular-nums">{faixa.numero}</span>
-                  <span className="max-[900px]:sr-only">{faixa.name}</span>
+                  <span>{faixa.name}</span>
                 </a>
               </li>
             ))}
