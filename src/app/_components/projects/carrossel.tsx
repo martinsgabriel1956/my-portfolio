@@ -1,0 +1,261 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import type { Faixa } from ".";
+
+const REDUZ = "(prefers-reduced-motion: reduce)";
+// Os eases do zip (GSAP power4 = quint).
+const QUINT_IN_OUT = "cubic-bezier(0.86, 0, 0.07, 1)";
+const QUINT_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
+// Escala de todos os tempos: 1 = o ritmo do zip (troca em ~2,3s); menor = mais rápido.
+const RITMO = 0.6;
+const CHEIO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
+
+type Slide = { i: number; chave: number; dir?: 1 | -1 };
+
+/** O carrossel do zip: a faixa atual gira e encolhe para fora, a próxima sobe recortada e o texto nasce de trás de máscaras. */
+export function Carrossel({ faixas }: { faixas: Faixa[] }) {
+  const [slides, setSlides] = useState<Slide[]>([{ i: 0, chave: 0 }]);
+  const [atual, setAtual] = useState(0);
+  const animando = useRef(false);
+  const chave = useRef(0);
+  const palco = useRef<HTMLDivElement>(null);
+  const total = faixas.length;
+
+  const ir = (destino: number, dir: 1 | -1) => {
+    if (animando.current || destino === atual) return;
+    setAtual(destino);
+    const nova = { i: destino, chave: ++chave.current, dir };
+    const velho = palco.current?.lastElementChild as HTMLElement | null;
+    if (!velho || matchMedia(REDUZ).matches) {
+      setSlides([{ ...nova, dir: undefined }]);
+      return;
+    }
+    animando.current = true;
+    const saindo = Number(velho.dataset.chave);
+    velho.inert = true;
+    velho.animate(
+      [
+        {},
+        {
+          transform: `translateY(${dir > 0 ? -200 : 200}%) rotate(30deg) scale(0.25)`,
+          opacity: 0,
+        },
+      ],
+      { duration: 2000 * RITMO, easing: QUINT_IN_OUT, fill: "forwards" },
+    ).onfinish = () => setSlides((s) => s.filter((x) => x.chave !== saindo));
+    setTimeout(() => setSlides((s) => [...s, nova]), 750 * RITMO);
+  };
+  const passo = (dir: 1 | -1) => ir((atual + dir + total) % total, dir);
+
+  // Os links da capa (#faixa-NN) escolhem o projeto; o navegador rola até o painel.
+  const irRef = useRef(ir);
+  useEffect(() => {
+    irRef.current = ir;
+  });
+  useEffect(() => {
+    const escolher = (hash: string) => {
+      const i = faixas.findIndex((f) => `#${f.id}` === hash);
+      if (i >= 0) irRef.current(i, 1);
+      return i >= 0;
+    };
+    const clique = (event: MouseEvent) => {
+      // A capa no celular já cancela o clique: lá o toque só escolhe a trajetória.
+      if (event.defaultPrevented) return;
+      const link = (event.target as Element).closest?.('a[href^="#faixa-"]');
+      if (!link || !escolher(link.getAttribute("href") ?? "")) return;
+      // O pulo nativo alinha pelo mais perto e deixa o painel anterior espiando; aqui o painel encosta na borda.
+      event.preventDefault();
+      const painel = document.getElementById("projetos");
+      painel?.scrollIntoView({
+        inline: "start",
+        block: "nearest",
+        behavior: matchMedia(REDUZ).matches ? "auto" : "smooth",
+      });
+      painel?.focus({ preventScroll: true });
+    };
+    escolher(location.hash);
+    document.addEventListener("click", clique);
+    return () => document.removeEventListener("click", clique);
+  }, [faixas]);
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col gap-4">
+      {faixas.map((f) => (
+        <span
+          key={f.id}
+          id={f.id}
+          className="pointer-events-none absolute inset-0"
+        />
+      ))}
+      <p className="sr-only" aria-live="polite">
+        Projeto {atual + 1} de {total}: {faixas[atual].name}
+      </p>
+      <div ref={palco} className="relative min-h-0 flex-1 overflow-hidden">
+        {slides.map((s) => (
+          <Cartao
+            key={s.chave}
+            slide={s}
+            faixa={faixas[s.i]}
+            total={total}
+            aoChegar={() => {
+              setTimeout(() => {
+                animando.current = false;
+              }, 100);
+            }}
+          />
+        ))}
+      </div>
+      <nav
+        aria-label="Projetos"
+        className="flex flex-wrap items-center gap-x-6 gap-y-2"
+      >
+        <button
+          type="button"
+          onClick={() => passo(-1)}
+          className="min-h-11 text-sm text-linho-gasto transition-colors hover:text-linho"
+        >
+          ← anterior
+        </button>
+        <ol className="flex flex-1 flex-wrap justify-center gap-1">
+          {faixas.map((f, i) => (
+            <li key={f.id}>
+              <button
+                type="button"
+                aria-label={f.name}
+                aria-current={i === atual || undefined}
+                onClick={() => ir(i, i > atual ? 1 : -1)}
+                className="min-h-11 min-w-11 text-sm text-linho-gasto tabular-nums transition-colors hover:text-linho aria-current:text-ferrugem"
+              >
+                {f.numero}
+              </button>
+            </li>
+          ))}
+        </ol>
+        <button
+          type="button"
+          onClick={() => passo(1)}
+          className="min-h-11 text-sm text-linho-gasto transition-colors hover:text-linho"
+        >
+          próximo →
+        </button>
+      </nav>
+    </div>
+  );
+}
+
+/** Um bloco que sobe de trás de uma máscara, como o SplitText do zip. */
+function Mascara({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-block overflow-hidden align-bottom">
+      <span className="subir inline-block">{children}</span>
+    </span>
+  );
+}
+
+function Cartao({
+  slide,
+  faixa,
+  total,
+  aoChegar,
+}: {
+  slide: Slide;
+  faixa: Faixa;
+  total: number;
+  aoChegar: () => void;
+}) {
+  const ref = useRef<HTMLElement>(null);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: entra uma vez, ao montar
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !slide.dir) return;
+    el.animate(
+      [
+        {
+          transform: `translateY(${slide.dir > 0 ? 100 : -100}%)`,
+          clipPath:
+            slide.dir > 0
+              ? "polygon(20% 20%, 80% 20%, 80% 100%, 20% 100%)"
+              : "polygon(20% 0%, 80% 0%, 80% 80%, 20% 80%)",
+        },
+        { transform: "none", clipPath: CHEIO },
+      ],
+      { duration: 1500 * RITMO, easing: QUINT_OUT },
+    ).onfinish = aoChegar;
+    // Palavras do título a partir de 0,75s, uma a cada 0,1s; o resto entra junto, 0,25s antes delas terminarem (tempos do zip, × RITMO).
+    const palavras = el.querySelectorAll(".titulo .subir");
+    const resto = el.querySelectorAll(".resto .subir");
+    const sobe = (alvo: Element, atraso: number) =>
+      alvo.animate([{ transform: "translateY(100%)" }, { transform: "none" }], {
+        duration: 1000 * RITMO,
+        delay: atraso * RITMO,
+        easing: QUINT_OUT,
+        fill: "backwards",
+      });
+    palavras.forEach((p, i) => {
+      sobe(p, 750 + i * 100);
+    });
+    const depois = 750 + (palavras.length - 1) * 100 + 250;
+    resto.forEach((r, i) => {
+      sobe(r, depois + i * 60);
+    });
+  }, []);
+
+  return (
+    <article
+      ref={ref}
+      data-chave={slide.chave}
+      aria-labelledby={`${faixa.id}-titulo`}
+      className="absolute inset-0 flex flex-col overflow-hidden border bg-grafite p-8 will-change-transform max-[900px]:p-5"
+    >
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-[0.12em] -right-[0.04em] text-[clamp(10rem,42vh,26rem)] leading-none font-extralight tracking-[-0.06em] text-ferro tabular-nums select-none"
+      >
+        {faixa.numero}
+      </span>
+      <div className="relative mt-auto flex flex-col items-center gap-4 px-[10%] pb-16 text-center max-[900px]:px-0 max-[900px]:pb-6">
+        <h3
+          id={`${faixa.id}-titulo`}
+          className="titulo text-[clamp(2rem,4.6vw,4.6rem)] leading-[1.02] font-light tracking-[-0.03em]"
+        >
+          {faixa.name.split(" ").map((palavra, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: a posição é a identidade da palavra no título
+            <span key={i}>
+              <Mascara>{palavra}</Mascara>{" "}
+            </span>
+          ))}
+        </h3>
+        <div className="resto flex max-w-[60ch] flex-col gap-2">
+          <p className="text-sm text-linho-gasto">
+            <Mascara>{faixa.company}</Mascara>
+          </p>
+          <p className="text-base leading-normal text-linho-gasto max-[900px]:text-sm">
+            <Mascara>{faixa.description}</Mascara>
+          </p>
+        </div>
+      </div>
+      <div className="resto relative flex items-end justify-between gap-6 text-sm text-linho-gasto">
+        {faixa.techs.length > 0 && (
+          <div>
+            <p className="mb-2 text-linho">
+              <Mascara>tecnologias</Mascara>
+            </p>
+            <ul className="flex flex-col max-[900px]:flex-row max-[900px]:flex-wrap max-[900px]:gap-x-2">
+              {faixa.techs.map((tech) => (
+                <li key={tech}>
+                  <Mascara>{tech}</Mascara>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <p className="ml-auto flex shrink-0 gap-2 tabular-nums">
+          <Mascara>{faixa.numero}</Mascara>
+          <Mascara>/</Mascara>
+          <Mascara>{String(total).padStart(2, "0")}</Mascara>
+        </p>
+      </div>
+    </article>
+  );
+}

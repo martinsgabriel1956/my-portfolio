@@ -164,7 +164,7 @@ Tema escuro apenas. Ferrugem é a única cor viva. Estado se expressa por forma 
 Paleta de um tom quente só: tábua escura, linho claro e ferrugem como única voz viva.
 
 ### Primary
-- **Ferrugem** (ferrugem): fundo chapado da capa, da contracapa e da imagem de compartilhamento; ponto da marca "gm."; estação atual do trilho; contorno de foco; seleção de texto; sublinhado do email e dos certificados; "atual" na experiência; número da faixa ao passar o mouse na lista de projetos.
+- **Ferrugem** (ferrugem): fundo chapado da capa, da contracapa e da imagem de compartilhamento; ponto da marca "gm."; estação atual do trilho; contorno de foco; seleção de texto; sublinhado do email e dos certificados; "atual" na experiência; número da faixa atual no carrossel de projetos.
 
 ### Neutral
 - **Tábua** (tabua): chão da página, tinta impressa sobre a capa (título, arte, lista), fundo do trilho e da pílula "gm.".
@@ -194,7 +194,7 @@ Paleta de um tom quente só: tábua escura, linho claro e ferrugem como única v
 - **Headline** (200, clamp(3.4rem, 7vw, 7rem), 0.95): título de cada painel ("projetos", "experiência", "habilidades", "formação", "contato").
 - **Title-lg** (300, clamp(34px, 4vw, 56px), 1.05): nome da empresa na experiência, em minúsculas.
 - **Title / Title-sm** (300, clamp(26px, 2.4vw, 34px) e clamp(22px, 2vw, 28px)): grupos de formação, domínios de projeto, categorias de habilidade.
-- **Item** (300, clamp(20px, 1.7vw, 26px), 1.15): nome do projeto na lista.
+- **Item** (300, clamp(2rem, 4.6vw, 4.6rem), 1.02): nome do projeto no cartão do carrossel.
 - **Rótulo da faixa** (500, 24px): nome do projeto em foco no canto da capa, abaixo de "trajetória NN · domínio".
 - **Body / Body-lg** (400, 16px / 18px): descrições e texto de contato, até 46ch.
 - **Label** (400–500, 14px, tabular): números de faixa, datas, tecnologias, trilho, "lado a · N faixas".
@@ -239,14 +239,14 @@ Diretos e retos, com ícone de 18px à esquerda.
 ### Cards / Containers
 - **Painel:** tábua, 86vw, borda direita ferro, rola por dentro quando o conteúdo passa da altura.
 - **Cartão de habilidade:** grafite, canto reto, padding 20px 22px, título title-sm em minúsculas e lista em body-lg linho gasto separada por " · ".
-- **Linha de lista (projetos, experiência, formação):** borda superior ferro, 20px de respiro, número tabular à esquerda.
+- **Linha de lista (experiência, formação):** borda superior ferro, 20px de respiro, número tabular à esquerda.
 
 ### Navigation
 - **Trilho:** barra tábua de 64px no rodapé com borda superior ferro. Estação 14px, raio 3px: por ler em estação apagada com trecho tracejado linho gasto (4px/5px); lida em linho gasto com trecho cheio em linho (preenchimento de 0.6s); atual em ferrugem. Alvo mínimo 44px. Rótulos em label linho gasto, linho ao passar ou quando lido/atual.
 - **Lista "lado a":** no desktop, lista numerada no alto à direita da capa, fundo ferrugem; a faixa em foco ganha peso 500 e sublinhado. No celular vira grade 4x2 só de números (alvos de 44px, borda tábua a 40%); a escolhida fica cheia em tábua com número ferrugem.
 
 ### Marca "gm."
-Pílula tábua com "gm." em ferrugem (marca, 600, 26px) no canto superior esquerdo da capa. No favicon e nos arquivos de marca, os glifos são linho sobre tábua com o ponto em ferrugem.
+Pílula tábua com "gm." em ferrugem (marca, 600, 26px) no canto superior esquerdo da capa. No favicon, os glifos e o ponto são tábua sobre ferrugem, como a capa da abertura; nos arquivos de marca em `public/brand`, linho sobre tábua com o ponto em ferrugem.
 
 ### Arte da Colisão (componente assinatura)
 SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada trajetória sai do centro como curva quadrática; o sinal da curva diz o domínio (ecommerce, admin, saúde curvam para lados diferentes) e uma marca de impacto cruza cada camada. No calorímetro, a célula de energia de cada projeto tem 18 + 5 por tecnologia (até 12), e só deposita fora do setor aberto.
@@ -258,7 +258,7 @@ SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada traj
 Cortina tábua fixa sobre a página: a capa "gm." de 140px em ferrugem se imprime do meio (0.5s), dois anéis linho gasto se abrem em volta (o externo tracejado), e a tábua se fecha no meio e se dissolve (1.2s, ease-in-out, a partir de 1s) enquanto o título e o pé da capa sobem 24px. Só CSS, nunca bloqueia cliques; com movimento reduzido não aparece.
 
 ### Projetos
-Uma lista única numerada (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono); cada faixa abre por uma cortina de cima para baixo (clip-path) acompanhando a rolagem: no desktop, enquanto o painel entra pela direita, escalonada 6% por item; no celular, ao entrar na vista.
+Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono). Cada cartão é grafite com o número da faixa gigante em ferro no fundo, no lugar de uma imagem. Na troca, o cartão atual gira 30°, encolhe a 25% e sai pela vertical (ease-in-out quint); 0,45s depois o próximo sobe recortado por um polígono que se abre até o cheio (ease-out quint), e o título nasce palavra por palavra de trás de máscaras, seguido do resto. Os tempos são os do zip de referência vezes `RITMO` (0,6, troca em ~1,4s). Navega por anterior/próximo, pela numeração e pelos links da capa (`#faixa-NN`); a roda não troca projeto, porque ela anda o panorama.
 
 ## Do's and Don'ts
 
@@ -268,7 +268,7 @@ Uma lista única numerada (01, 02…) na ordem das experiências, sem agrupar po
 - **Do** derivar a geometria da arte de dados reais (domínio para a curva, contagem de tecnologias para a energia).
 - **Do** manter o setor aberto do calorímetro (135°–295°) voltado para o título em toda composição que use a colisão, inclusive a imagem de compartilhamento.
 - **Do** usar Albert Sans 200–300 em minúsculas nos títulos e dígitos tabulares em todo número alinhado.
-- **Do** respeitar `prefers-reduced-motion`: sem abertura, sem traçado, sem cortina, rolagem instantânea.
+- **Do** respeitar `prefers-reduced-motion`: sem abertura, sem traçado, troca de projeto instantânea, rolagem instantânea.
 
 ### Don't:
 - **Don't** introduzir uma segunda cor viva, nem tema claro.
