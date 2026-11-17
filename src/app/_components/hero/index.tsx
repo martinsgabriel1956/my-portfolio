@@ -13,10 +13,11 @@ export function Hero() {
     >
       <a
         href="#inicio"
-        className="self-start py-2 text-lg font-semibold"
+        className="self-start py-2"
         aria-label="Gabriel Martins, início"
       >
-        GM
+        {/* biome-ignore lint/performance/noImgElement: SVG de 3 KB, next/image não otimiza vetor */}
+        <img src="/brand/gm-escuro.svg" alt="" width={47} height={22} />
       </a>
       <h1
         id="hero-heading"

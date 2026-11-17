@@ -62,7 +62,7 @@ export default async function Home() {
     <>
       <div className="abertura" aria-hidden="true">
         <div className="abertura-sol">
-          <div className="sol">GM</div>
+          <div className="sol">gm.</div>
         </div>
         <div className="horizonte" />
       </div>
