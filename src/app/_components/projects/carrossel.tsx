@@ -20,6 +20,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   const animando = useRef(false);
   const chave = useRef(0);
   const palco = useRef<HTMLDivElement>(null);
+  const toque = useRef<{ x: number; y: number } | null>(null);
   const total = faixas.length;
 
   const ir = (destino: number, dir: 1 | -1) => {
@@ -60,8 +61,6 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
       return i >= 0;
     };
     const clique = (event: MouseEvent) => {
-      // A capa no celular já cancela o clique: lá o toque só escolhe a trajetória.
-      if (event.defaultPrevented) return;
       const link = (event.target as Element).closest?.('a[href^="#faixa-"]');
       if (!link || !escolher(link.getAttribute("href") ?? "")) return;
       // O pulo nativo alinha pelo mais perto e deixa o painel anterior espiando; aqui o painel encosta na borda.
@@ -91,7 +90,24 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
       <p className="sr-only" aria-live="polite">
         Projeto {atual + 1} de {total}: {faixas[atual].name}
       </p>
-      <div ref={palco} className="relative min-h-0 flex-1 overflow-hidden">
+      <div
+        ref={palco}
+        // Deslizar para o lado troca o projeto; o gesto vertical continua rolando a página (no celular, ela troca o painel).
+        onTouchStart={(e) => {
+          const t = e.touches[0];
+          toque.current = { x: t.clientX, y: t.clientY };
+        }}
+        onTouchEnd={(e) => {
+          const ini = toque.current;
+          toque.current = null;
+          if (!ini) return;
+          const t = e.changedTouches[0];
+          const dx = t.clientX - ini.x;
+          if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(t.clientY - ini.y))
+            passo(dx < 0 ? 1 : -1);
+        }}
+        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden"
+      >
         {slides.map((s) => (
           <Cartao
             key={s.chave}
@@ -106,9 +122,15 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           />
         ))}
       </div>
+      <p
+        aria-hidden="true"
+        className="text-center text-sm text-linho-gasto tabular-nums min-[901px]:hidden"
+      >
+        {faixas[atual].numero} / {String(total).padStart(2, "0")}
+      </p>
       <nav
         aria-label="Projetos"
-        className="flex flex-wrap items-center gap-x-6 gap-y-2"
+        className="flex flex-wrap items-center gap-x-6 gap-y-2 max-[900px]:sr-only"
       >
         <button
           type="button"
@@ -250,7 +272,7 @@ function Cartao({
             </ul>
           </div>
         )}
-        <p className="ml-auto flex shrink-0 gap-2 tabular-nums">
+        <p className="ml-auto flex shrink-0 gap-2 tabular-nums max-[900px]:hidden">
           <Mascara>{faixa.numero}</Mascara>
           <Mascara>/</Mascara>
           <Mascara>{String(total).padStart(2, "0")}</Mascara>

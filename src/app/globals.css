@@ -15,6 +15,8 @@
 
 :root {
   --barra: 64px;
+  /* GSAP power4 (quint) out, o ease do zip. */
+  --quint-out: cubic-bezier(0.23, 1, 0.32, 1);
   /* Grão: o ruído vira transparência (alfa = luminância), então aparece como textura e não como véu. */
   --grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.7 0 0 0 -.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 }
@@ -122,6 +124,74 @@
         calc(1.5s + var(--n) * 0.08s) forwards;
     }
   }
+  /*
+   * O hover grid do zip nas habilidades: as categorias se empilham no mesmo
+   * lugar; a atual abre cada habilidade recortada a partir de uma direção, com
+   * clarão e zoom interno. A que sai fecha o recorte e só depois volta ao
+   * ponto de partida (deslocada e clara), pronta para a próxima entrada.
+   */
+  .palco-item {
+    grid-area: 1 / 1;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s 0.95s;
+  }
+  .palco-item[data-atual] {
+    z-index: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: none;
+  }
+  .palco-titulo {
+    opacity: 0;
+    scale: 0.9;
+    transition:
+      opacity 0.95s var(--quint-out),
+      scale 0s 0.95s;
+  }
+  .ladrilho {
+    --de: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    clip-path: var(--de);
+    translate: var(--dx) var(--dy);
+    filter: brightness(300%);
+    transition:
+      clip-path 0.95s var(--quint-out),
+      translate 0s 0.95s,
+      filter 0s 0.95s;
+  }
+  .ladrilho[data-dir="right"] {
+    --de: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+  }
+  .ladrilho[data-dir="left"] {
+    --de: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
+  }
+  .ladrilho[data-dir="top"] {
+    --de: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+  .ladrilho[data-dir="bottom"] {
+    --de: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+  }
+  .ladrilho > span {
+    scale: 1.5;
+    transform-origin: 0 100%;
+    transition: scale 0.95s var(--quint-out);
+  }
+  [data-atual] .palco-titulo,
+  [data-atual] .ladrilho,
+  [data-atual] .ladrilho > span {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+    filter: none;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transition:
+      opacity 0.95s var(--quint-out),
+      scale 0.95s var(--quint-out),
+      translate 0.95s var(--quint-out),
+      filter 0.95s var(--quint-out),
+      clip-path 0.95s var(--quint-out);
+  }
+
   .trajetoria {
     transition: opacity 0.3s;
   }

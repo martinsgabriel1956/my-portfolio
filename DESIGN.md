@@ -224,7 +224,7 @@ Plano. Não há sombras. Profundidade vem da sobreposição de superfícies chap
 
 ## Shapes
 
-Cantos retos (0px) em botões, cartões, painéis e quadros do celular. Duas exceções com papel fixo: a pílula (999px) só na marca "gm.", e o raio de 3px na estação do trilho, que lê como um pad. Os círculos pertencem à arte do detector: camadas a 80, 170 e 275 (esta tracejada 5/9), calorímetro segmentado em 32 células a 430, com o setor aberto de 135° a 295° voltado para o título para que o anel nunca cruze o nome. Traços finos (1.2–1.6) para camadas e trajetórias, traço grosso (8) para células de energia.
+Cantos retos (0px) em botões, cartões, painéis. Duas exceções com papel fixo: a pílula (999px) só na marca "gm.", e o raio de 3px na estação do trilho, que lê como um pad. Os círculos pertencem à arte do detector: camadas a 80, 170 e 275 (esta tracejada 5/9), calorímetro segmentado em 32 células a 430, com o setor aberto de 135° a 295° voltado para o título para que o anel nunca cruze o nome. Traços finos (1.2–1.6) para camadas e trajetórias, traço grosso (8) para células de energia.
 
 ## Components
 
@@ -243,22 +243,22 @@ Diretos e retos, com ícone de 18px à esquerda.
 
 ### Navigation
 - **Trilho:** barra tábua de 64px no rodapé com borda superior ferro. Estação 14px, raio 3px: por ler em estação apagada com trecho tracejado linho gasto (4px/5px); lida em linho gasto com trecho cheio em linho (preenchimento de 0.6s); atual em ferrugem. Alvo mínimo 44px. Rótulos em label linho gasto, linho ao passar ou quando lido/atual.
-- **Lista "lado a":** no desktop, lista numerada no alto à direita da capa, fundo ferrugem; a faixa em foco ganha peso 500 e sublinhado. No celular vira grade 4x2 só de números (alvos de 44px, borda tábua a 40%); a escolhida fica cheia em tábua com número ferrugem.
+- **Lista "lado a":** no desktop, lista numerada no alto à direita da capa, fundo ferrugem; a faixa em foco ganha peso 500 e sublinhado. No celular some: a lista completa está no painel de projetos.
 
 ### Marca "gm."
 Pílula tábua com "gm." em ferrugem (marca, 600, 26px) no canto superior esquerdo da capa. No favicon, os glifos e o ponto são tábua sobre ferrugem, como a capa da abertura; nos arquivos de marca em `public/brand`, linho sobre tábua com o ponto em ferrugem.
 
 ### Arte da Colisão (componente assinatura)
 SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada trajetória sai do centro como curva quadrática; o sinal da curva diz o domínio (ecommerce, admin, saúde curvam para lados diferentes) e uma marca de impacto cruza cada camada. No calorímetro, a célula de energia de cada projeto tem 18 + 5 por tecnologia (até 12), e só deposita fora do setor aberto.
-- **Estado:** passar ou focar uma faixa (desktop) ou tocar um número (celular) dobra a linha dela (traço 3 + uma linha gêmea a 8 de distância), baixa as outras para 0.3 de opacidade e sublinha a faixa na lista. A capa não leva rótulo de trajetória nem linha de local: o dono tirou os dois.
+- **Estado:** passar ou focar uma faixa (desktop) dobra a linha dela (traço 3 + uma linha gêmea a 8 de distância), baixa as outras para 0.3 de opacidade e sublinha a faixa na lista. A capa não leva rótulo de trajetória nem linha de local: o dono tirou os dois.
 - **Chegada:** cada trajetória se traça do centro uma vez, 0.9s cubic-bezier(0.16, 1, 0.3, 1), a partir de 1.5s com 0.08s entre elas.
-- **Contracapa:** no fim do painel de contato, um quadrado ferrugem com grão mostra a mesma colisão cortada, com "fim do lado a".
+- **Contracapa:** no fim do painel de contato, um quadrado ferrugem com grão mostra a mesma colisão cortada, com "fim do lado a". Só no desktop; no celular some.
 
 ### Abertura
 Cortina tábua fixa sobre a página: a capa "gm." de 140px em ferrugem se imprime do meio (0.5s), dois anéis linho gasto se abrem em volta (o externo tracejado), e a tábua se fecha no meio e se dissolve (1.2s, ease-in-out, a partir de 1s) enquanto o título e o pé da capa sobem 24px. Só CSS, nunca bloqueia cliques; com movimento reduzido não aparece.
 
 ### Projetos
-Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono). Cada cartão é grafite com o número da faixa gigante em ferro no fundo, no lugar de uma imagem. Na troca, o cartão atual gira 30°, encolhe a 25% e sai pela vertical (ease-in-out quint); 0,45s depois o próximo sobe recortado por um polígono que se abre até o cheio (ease-out quint), e o título nasce palavra por palavra de trás de máscaras, seguido do resto. Os tempos são os do zip de referência vezes `RITMO` (0,6, troca em ~1,4s). Navega por anterior/próximo, pela numeração e pelos links da capa (`#faixa-NN`); a roda não troca projeto, porque ela anda o panorama.
+Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono). Cada cartão é grafite com o número da faixa gigante em ferro no fundo, no lugar de uma imagem. Na troca, o cartão atual gira 30°, encolhe a 25% e sai pela vertical (ease-in-out quint); 0,45s depois o próximo sobe recortado por um polígono que se abre até o cheio (ease-out quint), e o título nasce palavra por palavra de trás de máscaras, seguido do resto. Os tempos são os do zip de referência vezes `RITMO` (0,6, troca em ~1,4s). Navega por anterior/próximo, pela numeração e pelos links da capa (`#faixa-NN`); a roda não troca projeto, porque ela anda o panorama. Deslizar o cartão para o lado também troca. No celular a navegação sai da tela (fica só para leitor de tela) e o contador do cartão dá lugar a um "01 / 08" discreto em linho gasto abaixo dele; a troca é pelo gesto.
 
 ## Do's and Don'ts
 
