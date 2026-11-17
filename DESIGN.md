@@ -1,23 +1,22 @@
 ---
 name: Gabriel Martins, portfólio
-description: Panorama escuro de painéis lado a lado, costurado por uma linha de linho que marca o quanto já foi lido.
+description: Panorama escuro de painéis lado a lado que abre numa capa de disco ferrugem impressa com a colisão de um detector, uma trajetória por projeto.
 colors:
   tabua: "#120e0b"
   grafite: "#1f1a15"
-  pagina: "#2a221b"
   ferro: "#2e251c"
-  furo: "#7a6a56"
+  estacao-apagada: "#3a3029"
+  tabua-acesa: "#2b221b"
   linho: "#e6dcc6"
   linho-gasto: "#ab9f86"
-  ferrugem: "#d8693f"
-  ferrugem-funda: "#c95e36"
   linho-aceso: "#fff6e2"
+  ferrugem: "#d8693f"
 typography:
   display:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(3.4rem, 8vw, 8rem)"
+    fontSize: "clamp(3.4rem, 7vw, 7rem)"
     fontWeight: 200
-    lineHeight: 0.9
+    lineHeight: 0.92
     letterSpacing: "-0.04em"
   headline:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
@@ -35,17 +34,23 @@ typography:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(26px, 2.4vw, 34px)"
     fontWeight: 300
-    lineHeight: 1.05
+    lineHeight: 1.25
     letterSpacing: "-0.02em"
   title-sm:
+    fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(22px, 2vw, 28px)"
+    fontWeight: 300
+    lineHeight: 1.25
+    letterSpacing: "-0.02em"
+  item:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
     fontSize: "clamp(20px, 1.7vw, 26px)"
     fontWeight: 300
     lineHeight: 1.15
-  lead:
+  body-lg:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(18px, 1.6vw, 22px)"
-    fontWeight: 300
+    fontSize: "18px"
+    fontWeight: 400
     lineHeight: 1.375
   body:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
@@ -57,25 +62,28 @@ typography:
     fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.43
-  button:
+    fontFeature: "tnum"
+  marca:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "16px"
-    fontWeight: 500
+    fontSize: "26px"
+    fontWeight: 600
+    lineHeight: 1
+    letterSpacing: "-0.03em"
 rounded:
   none: "0px"
-  full: "999px"
+  estacao: "3px"
+  pilula: "999px"
 spacing:
-  junta: "8px"
-  botoes: "10px"
-  bloco: "20px"
   barra: "64px"
   painel-desktop: "36px 48px 32px"
-  painel-mobile: "28px 20px 56px"
+  painel-celular: "28px 20px 56px"
+  linha: "20px"
+  coluna: "48px"
 components:
   button-linho:
     backgroundColor: "{colors.linho}"
     textColor: "{colors.tabua}"
-    typography: "{typography.button}"
+    typography: "{typography.body}"
     rounded: "{rounded.none}"
     padding: "0 20px"
     height: "48px"
@@ -84,174 +92,188 @@ components:
   button-fio:
     backgroundColor: "transparent"
     textColor: "{colors.linho}"
-    typography: "{typography.button}"
+    typography: "{typography.body}"
     rounded: "{rounded.none}"
     padding: "0 20px"
     height: "48px"
-  caderno-aberto:
-    backgroundColor: "{colors.grafite}"
+  button-tabua:
+    backgroundColor: "{colors.tabua}"
     textColor: "{colors.linho}"
+    typography: "{typography.body}"
     rounded: "{rounded.none}"
-    padding: "16px 20px"
-  caderno-aberto-pagina-direita:
-    backgroundColor: "{colors.pagina}"
-  caderno-aberto-hover:
+    padding: "0 20px"
+    height: "48px"
+  button-tabua-hover:
+    backgroundColor: "{colors.tabua-acesa}"
+  marca-gm:
+    backgroundColor: "{colors.tabua}"
+    textColor: "{colors.ferrugem}"
+    typography: "{typography.marca}"
+    rounded: "{rounded.pilula}"
+    padding: "2px 12px 4px"
+  capa:
     backgroundColor: "{colors.ferrugem}"
     textColor: "{colors.tabua}"
-  bloco-habilidade:
+    padding: "{spacing.painel-desktop}"
+  painel:
+    backgroundColor: "{colors.tabua}"
+    textColor: "{colors.linho}"
+    padding: "{spacing.painel-desktop}"
+    width: "86vw"
+  cartao-habilidade:
     backgroundColor: "{colors.grafite}"
     textColor: "{colors.linho}"
     rounded: "{rounded.none}"
     padding: "20px 22px"
-  lombada:
+  trilho:
     backgroundColor: "{colors.tabua}"
     textColor: "{colors.linho-gasto}"
     typography: "{typography.label}"
     height: "{spacing.barra}"
-  lombada-furo:
-    rounded: "{rounded.full}"
+  estacao:
+    backgroundColor: "{colors.estacao-apagada}"
+    rounded: "{rounded.estacao}"
     size: "14px"
+  estacao-lida:
+    backgroundColor: "{colors.linho-gasto}"
+  estacao-atual:
+    backgroundColor: "{colors.ferrugem}"
 ---
 
 # Design System: Gabriel Martins, portfólio
 
 ## Overview
 
-**Creative North Star: "O Caderno Costurado ao Sol"**
+**Creative North Star: "A Capa Impressa"**
 
-O site é um panorama: painéis de largura quase total (86vw) postos lado a lado sobre uma tábua escura, lidos da esquerda para a direita no desktop e empilhados em coluna no celular. Uma linha de linho em laçadas atravessa tudo: costura o horizonte da abertura, passa pelo vinco furado de cada projeto e corre deitada na lombada fixa no rodapé, onde vai se completando conforme a leitura avança. A linha é o único ornamento recorrente, e ela sempre significa alguma coisa (horizonte, encadernação, progresso).
+O site é um disco. A abertura inteira é uma capa chapada em ferrugem com grão de gráfica, e a arte dessa capa é a tela de evento de um detector de partículas impressa em tábua: camadas concêntricas, um calorímetro segmentado e uma trajetória por projeto real. O verso da capa lista as faixas ("lado a"), numeradas em dígitos tabulares. Depois da capa, o chão é tábua escura e as seções correm lado a lado num panorama horizontal, com um trilho fino embaixo que mostra quanto já foi lido.
 
-A densidade é baixa e tipográfica. Títulos são Albert Sans extrafina em minúsculas, gigantes, com tracking negativo; o resto do texto fica em pesos leves e no linho gasto. A cor viva existe uma vez: ferrugem, no meio sol granulado da abertura e do contato, no estado atual da lombada, no "atual" das datas, no sublinhado de links e no hover dos cadernos. Superfícies são planas e retas; a profundidade vem de três tons de madeira escura, não de sombra.
+Lidera a precisão técnica: traço fino, números tabulares, geometria calculada a partir de dados reais (curva pelo domínio do projeto, célula de energia pelo número de tecnologias). Os temperos são o cuidado de impressão (grão, cor chapada, recorte do calorímetro para não passar sobre o nome) e o calor da ferrugem sobre o escuro. A tipografia é uma só família, Albert Sans, fina e em minúsculas nos títulos.
 
-O mundo recusa a página longa de seções empilhadas com hero centralizado e cartões iguais, e recusa o visual de template de dev.
+Tema escuro apenas. Ferrugem é a única cor viva. Estado se expressa por forma de linha, não por cor nova.
 
 **Key Characteristics:**
-- Tema escuro único (`color-scheme: dark`), sem alternância clara.
-- Painéis com scroll-snap horizontal no desktop; coluna vertical abaixo de 900px.
-- Títulos extrafinos (200) em minúsculas, de 3.4rem a 8rem.
-- Ferrugem como única cor viva; tudo o mais é tábua, grafite e linho.
-- Linha de linho em laçadas e furos vazados como gramática de ligação.
-- Cantos retos em tudo que é retângulo; o redondo fica para sol e furos.
+- Capa de disco ferrugem chapada como primeira tela, com grão de impressão por cima de tudo.
+- Arte gerada por dados: uma trajetória por projeto, curvada pelo domínio, com célula de energia do tamanho da stack.
+- Panorama horizontal de painéis de 86vw no desktop; slider empilhado no celular.
+- Albert Sans extralight em minúsculas para títulos; peso sobe só para nome e rótulos.
+- Cantos retos em quase tudo; a pílula é exclusiva da marca "gm.".
 
 ## Colors
 
-Uma paleta de madeira escura e linho cru, com um único acento queimado.
+Paleta de um tom quente só: tábua escura, linho claro e ferrugem como única voz viva.
 
 ### Primary
-- **Ferrugem** (`ferrugem`): o meio sol, o furo da estação atual na lombada, a palavra "atual" nas datas de experiência, o sublinhado de links (email, credenciais), o contorno de foco, a seleção de texto e o preenchimento do caderno aberto em hover.
-- **Ferrugem Funda** (`ferrugem-funda`): só como segunda página do caderno em hover, para o vinco continuar legível sobre o ferrugem.
+- **Ferrugem** (ferrugem): fundo chapado da capa, da contracapa e da imagem de compartilhamento; ponto da marca "gm."; estação atual do trilho; contorno de foco; seleção de texto; sublinhado do email e dos certificados; "atual" na experiência; número da faixa ao passar o mouse na lista de projetos.
 
 ### Neutral
-- **Tábua** (`tabua`): fundo do corpo, da lombada e da imagem de compartilhamento; também a tinta do nome sobre o sol e do texto sobre ferrugem.
-- **Grafite** (`grafite`): blocos de habilidade e a página esquerda do caderno aberto.
-- **Página** (`pagina`): a página direita do caderno, um passo mais clara que o grafite.
-- **Ferro** (`ferro`): toda borda e divisor (cor padrão de `border-color`), entre painéis, no topo da lombada e entre itens de lista.
-- **Furo** (`furo`): anel dos furos vazados e dos furos vazios da lombada, e os pontos da corrente ainda não costurada.
-- **Linho** (`linho`): tinta principal, a linha das laçadas e o botão cheio.
-- **Linho Gasto** (`linho-gasto`): texto secundário (empresa, cargo, descrição, techs, datas, rodapé) e o contorno do botão de fio.
-- **Linho Aceso** (`linho-aceso`): só o hover do botão cheio.
+- **Tábua** (tabua): chão da página, tinta impressa sobre a capa (título, arte, lista), fundo do trilho e da pílula "gm.".
+- **Grafite** (grafite): superfície tonal dos cartões de habilidades, um degrau acima da tábua.
+- **Ferro** (ferro): toda borda e divisória; separa painéis e linhas de lista.
+- **Estação apagada** (estacao-apagada): estação do trilho ainda por ler.
+- **Tábua acesa** (tabua-acesa): hover do botão tábua.
+- **Linho** (linho): texto principal fora da capa e trecho lido do trilho.
+- **Linho gasto** (linho-gasto): texto secundário, metadados, estação lida e trecho tracejado por ler.
+- **Linho aceso** (linho-aceso): hover do botão linho.
 
 ### Named Rules
-**A Regra do Sol Único.** Ferrugem é a única cor saturada do sistema. Não entra segundo acento, nem azul de link, nem verde de sucesso; um estado novo usa ferrugem, linho ou linho gasto.
+**The Uma Voz Rule.** Ferrugem é a única cor saturada do sistema. Nenhuma segunda cor de destaque, nenhum gradiente de cor; o que precisa chamar atenção usa ferrugem ou forma.
 
-**A Regra da Tinta Invertida.** Sobre ferrugem, o texto vira tábua (nome no sol, caderno em hover, seleção). Linho nunca vai em cima de ferrugem.
+**The Tinta Invertida Rule.** Sobre a capa ferrugem, tudo é impresso em tábua: texto, arte, bordas. Fora dela, a tinta é linho. A capa nunca recebe linho como texto, exceto o rótulo do botão tábua.
 
 ## Typography
 
-**Display Font:** Albert Sans (com ui-sans-serif, system-ui, sans-serif), carregada por `next/font` nos pesos 200 a 600.
-**Body Font:** Albert Sans, a mesma família.
+**Display Font:** Albert Sans (com ui-sans-serif, system-ui, sans-serif)
+**Body Font:** Albert Sans
+**Label/Mono Font:** Albert Sans com dígitos tabulares (`tabular-nums`)
 
-**Character:** Uma sans geométrica e calorosa, usada fina e grande nos títulos e leve no texto corrido. A hierarquia vem do tamanho e do peso, não de troca de família.
+**Character:** Uma família só, levada aos extremos de peso: 200 nos títulos grandes, 300 nos subtítulos, 500/600 só em rótulos curtos e na marca. Minúsculas nos títulos dão o tom humano sem perder o rigor.
 
 ### Hierarchy
-- **Display** (200, clamp(3.4rem, 8vw, 8rem), 0.9; no celular clamp(2.6rem, 12vw, 3.4rem)): só o título da abertura, em minúsculas e duas batidas como um cartão de visita: "gabriel martins." em linho peso 400 e, na linha de baixo, "desenvolvedor fullstack." em linho gasto. Sem stack nem domínios no título: quem prova o resto são os painéis.
-- **Headline** (200, clamp(3.4rem, 7vw, 7rem), 0.95): o título de cada painel ("projetos", "experiência", "habilidades", "formação", "contato"), escrito em minúsculas.
-- **Title Large** (300, clamp(34px, 4vw, 56px), 1.05): nome de empresa na experiência, em minúsculas.
-- **Title** (300, clamp(26px, 2.4vw, 34px)): títulos de grupo (domínios de projeto, "Acadêmica", "Cursos"); categorias de habilidade usam a variante 22 a 28px.
-- **Title Small** (300, clamp(20px, 1.7vw, 26px), 1.15): nome do projeto no caderno.
-- **Lead** (300, clamp(18px, 1.6vw, 22px)): texto de apoio em pesos leves; na abertura, a linha de fatos (nível · local · disponibilidade) usa 16 a 18px em linho gasto com o nível em linho, até 46ch.
-- **Body** (400, 16px, 1.5): descrições; texto de apoio em 18px no contato e nas habilidades.
-- **Label** (400, 14px): empresa, techs, local, rodapé e nomes da lombada, sempre em linho gasto. Sem caixa alta, sem tracking aberto.
+- **Display** (200, clamp(3.4rem, 7vw, 7rem), 0.92): o título da capa em duas batidas; a primeira linha ("gabriel martins.") sobe para 400. No celular, clamp(2.6rem, 12vw, 3.4rem). Texto simples, sem animação de letras.
+- **Headline** (200, clamp(3.4rem, 7vw, 7rem), 0.95): título de cada painel ("projetos", "experiência", "habilidades", "formação", "contato").
+- **Title-lg** (300, clamp(34px, 4vw, 56px), 1.05): nome da empresa na experiência, em minúsculas.
+- **Title / Title-sm** (300, clamp(26px, 2.4vw, 34px) e clamp(22px, 2vw, 28px)): grupos de formação, domínios de projeto, categorias de habilidade.
+- **Item** (300, clamp(20px, 1.7vw, 26px), 1.15): nome do projeto na lista.
+- **Rótulo da faixa** (500, 24px): nome do projeto em foco no canto da capa, abaixo de "trajetória NN · domínio".
+- **Body / Body-lg** (400, 16px / 18px): descrições e texto de contato, até 46ch.
+- **Label** (400–500, 14px, tabular): números de faixa, datas, tecnologias, trilho, "lado a · N faixas".
+- **Marca** (600, 26px, -0.03em): "gm." na pílula.
 
 ### Named Rules
-**A Regra da Minúscula Fina.** Títulos de painel e de empresa são minúsculos e em peso 200 ou 300. Negrito (600) aparece só no link de pular conteúdo.
+**The Fina e Minúscula Rule.** Títulos de seção e de capa usam peso 200–300 em minúsculas com tracking negativo (-0.02em a -0.04em). Peso alto é para nome, marca e rótulo curto, nunca para título de seção.
 
-**A Regra do Ponto Médio.** Listas inline (stack, techs, local) se separam com " · ", nunca com chips ou badges.
+**The Dígito Tabular Rule.** Todo número que se alinha em coluna (faixas, datas) usa dígitos tabulares; o número da faixa é o mesmo na capa e no painel de projetos.
 
 ## Layout
 
-No desktop (acima de 900px), `main` é um trilho horizontal com altura `100svh - 64px`, `scroll-snap-type: x mandatory` e barra de rolagem oculta. Cada painel ocupa 86vw, para o próximo espiar pela borda direita; o último ocupa 100vw. Painéis rolam por dentro na vertical quando o conteúdo passa da altura, e a roda do mouse anda o trilho para o lado só depois que o painel chegou ao fim. Padding do painel: 36px 48px 32px; divisor vertical de 1px em ferro.
+**Desktop (≥ 901px):** o `main` é um panorama horizontal com altura `100svh - 64px`. Cada painel tem 86vw de largura (o último, 100vw), borda direita em ferro e padding 36px 48px 32px; o próximo painel espia à direita. A roda vertical, o gesto lateral e as setas movem o panorama na horizontal com perseguição suave (cada quadro anda 5% do que falta); um painel que rola por dentro rola primeiro. Os títulos dos painéis têm parallax leve (0.1 da distância até a borda). Não há CSS scroll-snap: a parada é feita pelo trilho e pelos atalhos.
 
-Abaixo de 900px o trilho vira coluna comum: painéis com altura automática, divisor horizontal, padding 28px 20px 56px, e o corpo ganha 64px de folga embaixo para a lombada fixa.
+**Celular (≤ 900px):** o panorama fica fixo e os painéis se empilham no mesmo lugar; a rolagem da página troca o painel ativo (entra com opacidade 0.5s e escala de 1.1 para 1 em 1s) e rola o conteúdo dele por dentro. Padding 28px 20px 56px. O título do painel que entra sobe de trás de uma máscara (750ms).
 
-Ritmo: 8px entre cadernos e blocos (juntas finas, como cadernos empilhados), 10px entre botões, 20 a 22px de respiro interno nos blocos, 20 a 28px abaixo dos títulos de painel. Larguras de leitura são limitadas por painel (900px na experiência, 1000px nas habilidades, 1100px na formação, 44 a 46ch no texto corrido). Projetos usam uma coluna de 11rem para o domínio e duas colunas de cadernos a partir de `lg`.
+**Trilho:** barra fixa de 64px no rodapé, uma estação por seção ligada por trechos; no celular os rótulos somem e os trechos encurtam para caber seis estações em 375px.
 
-Na abertura o título manda: fica no alto, alinhado à esquerda. Embaixo, o chão: horizonte costurado de ponta a ponta com altura clamp(150px, 26vh, 230px) abaixo dele, onde ficam a linha de fatos e os botões. O sol é pequeno (clamp(200px, 24vw, 380px); 44vw no celular) e nasce do horizonte a 4% da borda direita, do lado para onde se lê.
+**Ritmo:** linhas de lista com 20px de respiro vertical e borda superior em ferro; colunas a 48px; larguras de leitura limitadas (900–1400px conforme o painel).
 
 ## Elevation & Depth
 
-O sistema é plano. Não há `box-shadow` em lugar nenhum. A profundidade vem do empilhamento tonal tábua, grafite, página (cada um um passo mais claro), dos divisores de 1px em ferro e de dois efeitos de luz: o grão (ruído SVG com alfa por luminância, em `multiply` a 45%) dentro do sol, e um brilho radial ferrugem a 12% em volta do sol da abertura.
+Plano. Não há sombras. Profundidade vem da sobreposição de superfícies chapadas (a lista "lado a" tem fundo ferrugem para que as linhas da arte parem nela, como o verso impresso de um disco), do degrau tonal grafite sobre tábua e do grão de impressão (ruído SVG em multiply a 0.22) sobre a capa e a contracapa.
 
 ### Named Rules
-**A Regra da Madeira Plana.** Nenhuma superfície flutua. Para destacar um bloco, suba um tom (grafite para página) ou troque para ferrugem no hover; não adicione sombra.
+**The Chapado Rule.** Nada flutua. Superfícies são planas e se separam por cor chapada, borda ferro de 1px ou degrau tonal; sombra não faz parte do sistema.
 
 ## Shapes
 
-Retângulos de cantos retos (0px) em botões, cadernos, blocos e painéis. O redondo (999px) é reservado para o que é redondo no mundo: o meio sol (semicírculo com proporção 2:1, cantos de cima em 999px) e os furos de 14px da lombada. As laçadas são elipses SVG de 18 por 14px (deitadas) ou 14 por 18px (em pé, no vinco), sempre em linho, repetidas com `round` para fechar a conta sem cortar laçada. O furo vazado é um miolo quase preto dentro de um anel na cor furo.
+Cantos retos (0px) em botões, cartões, painéis e quadros do celular. Duas exceções com papel fixo: a pílula (999px) só na marca "gm.", e o raio de 3px na estação do trilho, que lê como um pad. Os círculos pertencem à arte do detector: camadas a 80, 170 e 275 (esta tracejada 5/9), calorímetro segmentado em 32 células a 430, com o setor aberto de 135° a 295° voltado para o título para que o anel nunca cruze o nome. Traços finos (1.2–1.6) para camadas e trajetórias, traço grosso (8) para células de energia.
 
 ## Components
 
 ### Buttons
-Retângulos firmes, sem raio, com ícone SVG de 18px à esquerda.
-- **Shape:** cantos retos (0px), altura mínima 48px, padding horizontal 20px, gap 8px.
-- **Linho (primário):** fundo linho, texto tábua, peso 500. Uma ação primária por bloco ("Entre em contato", "Copiar email").
-- **Fio (secundário):** fundo transparente, contorno 1px linho gasto, texto linho ("Currículo (PDF)", LinkedIn, GitHub).
-- **Hover / Focus:** linho clareia para linho aceso; fio troca o contorno para linho. Foco é o contorno global de 2px ferrugem com 3px de afastamento. Transição só de cor.
+Diretos e retos, com ícone de 18px à esquerda.
+- **Shape:** canto reto (0px), altura mínima 48px, padding horizontal 20px, peso 500.
+- **Linho (primário):** fundo linho, texto tábua; hover para linho aceso. Usado em "Copiar email".
+- **Fio (secundário):** borda 1px linho gasto, texto linho; hover a borda acende para linho. LinkedIn, GitHub, Currículo.
+- **Tábua (na capa):** fundo tábua, texto linho; hover tábua acesa. "Entre em contato" sobre ferrugem.
+- **Focus:** contorno global de 2px ferrugem com 3px de afastamento.
 
-### Caderno aberto (cartão de projeto)
-O cartão de projeto é um caderno em duas páginas.
-- **Estrutura:** grade de três colunas (0.85fr, 20px, 1.2fr): página esquerda em grafite com nome e empresa; vinco de 20px com furos vazados e a linha em pé passando por eles; página direita em página com descrição e techs.
-- **Hover:** o caderno inteiro vira ferrugem (página direita em ferrugem funda) e todo o texto vira tábua, em 0.2s.
-- **Celular:** o caderno abre em pé: as páginas se empilham e o vinco vira uma costura deitada de 14px entre elas.
+### Cards / Containers
+- **Painel:** tábua, 86vw, borda direita ferro, rola por dentro quando o conteúdo passa da altura.
+- **Cartão de habilidade:** grafite, canto reto, padding 20px 22px, título title-sm em minúsculas e lista em body-lg linho gasto separada por " · ".
+- **Linha de lista (projetos, experiência, formação):** borda superior ferro, 20px de respiro, número tabular à esquerda.
 
-### Bloco de habilidade
-Retângulo grafite, padding 20px 22px, título de categoria em minúsculas e lista de habilidades separada por ponto médio em linho gasto. Juntas de 8px em duas colunas.
+### Navigation
+- **Trilho:** barra tábua de 64px no rodapé com borda superior ferro. Estação 14px, raio 3px: por ler em estação apagada com trecho tracejado linho gasto (4px/5px); lida em linho gasto com trecho cheio em linho (preenchimento de 0.6s); atual em ferrugem. Alvo mínimo 44px. Rótulos em label linho gasto, linho ao passar ou quando lido/atual.
+- **Lista "lado a":** no desktop, lista numerada no alto à direita da capa, fundo ferrugem; a faixa em foco ganha peso 500 e sublinhado. No celular vira grade 4x2 só de números (alvos de 44px, borda tábua a 40%); a escolhida fica cheia em tábua com número ferrugem.
 
-### Listas com régua
-Experiência, formação e cursos são listas sem cartão: cada item tem uma borda de 1px ferro em cima e 16 a 20px de respiro vertical. Datas usam algarismos tabulares; o fim em aberto aparece como "atual" em ferrugem.
+### Marca "gm."
+Pílula tábua com "gm." em ferrugem (marca, 600, 26px) no canto superior esquerdo da capa. No favicon e nos arquivos de marca, os glifos são linho sobre tábua com o ponto em ferrugem.
 
-### Links de texto
-Sublinhado ferrugem com afastamento (1px nos cursos, 2px no email gigante do contato); o hover engrossa o traço. Links externos levam seta diagonal de 16px e texto oculto "(abre em nova aba)".
+### Arte da Colisão (componente assinatura)
+SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada trajetória sai do centro como curva quadrática; o sinal da curva diz o domínio (ecommerce, admin, saúde curvam para lados diferentes) e uma marca de impacto cruza cada camada. No calorímetro, a célula de energia de cada projeto tem 18 + 5 por tecnologia (até 12), e só deposita fora do setor aberto.
+- **Estado:** passar ou focar uma faixa (desktop) ou tocar um número (celular) dobra a linha dela (traço 3 + uma linha gêmea a 8 de distância), baixa as outras para 0.3 de opacidade e sublinha a faixa na lista. A capa não leva rótulo de trajetória nem linha de local: o dono tirou os dois.
+- **Chegada:** cada trajetória se traça do centro uma vez, 0.9s cubic-bezier(0.16, 1, 0.3, 1), a partir de 1.5s com 0.08s entre elas.
+- **Contracapa:** no fim do painel de contato, um quadrado ferrugem com grão mostra a mesma colisão cortada, com "fim do lado a".
 
-### Navigation: a lombada
-Barra fixa de 64px embaixo, fundo tábua, borda superior ferro. Cada estação é um furo de 14px (contorno 1.5px furo) seguido do nome em 14px linho gasto; entre estações corre uma corrente de pontos. Estados: vazio (só anel), lido (furo cheio de linho, e a corrente até a próxima estação se costura com laçadas em 0.6s, `cubic-bezier(0.22, 0.8, 0.26, 1)`), atual (furo ferrugem, `aria-current="location"`). No celular os nomes ficam só para leitores de tela e as laçadas encurtam para caber seis estações em 375px; alvos têm no mínimo 44px.
+### Abertura
+Cortina tábua fixa sobre a página: a capa "gm." de 140px em ferrugem se imprime do meio (0.5s), dois anéis linho gasto se abrem em volta (o externo tracejado), e a tábua se fecha no meio e se dissolve (1.2s, ease-in-out, a partir de 1s) enquanto o título e o pé da capa sobem 24px. Só CSS, nunca bloqueia cliques; com movimento reduzido não aparece.
 
-### Sol e horizonte (assinatura)
-O meio sol ferrugem granulado nasce de um horizonte costurado (laçadas sobre furos vazados) que atravessa o painel de ponta a ponta. Aparece pequeno na abertura, nascendo à direita sob o título, e no canto do contato, fechando o percurso. A imagem de compartilhamento repete o par tábua mais meio sol ferrugem.
+### Projetos
+Uma lista única numerada (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono); cada faixa abre por uma cortina de cima para baixo (clip-path) acompanhando a rolagem: no desktop, enquanto o painel entra pela direita, escalonada 6% por item; no celular, ao entrar na vista.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** manter um único acento: ferrugem (#d8693f) para estado atual, foco, sublinhado e o sol.
-- **Do** escrever títulos de painel em minúsculas, Albert Sans 200, com tracking -0.04em.
-- **Do** usar a linha de linho em laçadas e os furos vazados para ligar coisas (horizonte, vinco, lombada), sempre com significado.
-- **Do** dar profundidade subindo de tábua para grafite e página, com divisores de 1px em ferro.
-- **Do** separar listas inline com " · " e deixar techs em 14px linho gasto.
-- **Do** respeitar `prefers-reduced-motion`: rolagem programática vira `auto` e transições caem para 0.01ms.
+- **Do** imprimir tudo sobre a capa em tábua e tudo fora dela em linho / linho gasto.
+- **Do** expressar estado da arte e do trilho por forma de linha: linha dupla = em foco, tracejado = por ler, cheio = lido.
+- **Do** derivar a geometria da arte de dados reais (domínio para a curva, contagem de tecnologias para a energia).
+- **Do** manter o setor aberto do calorímetro (135°–295°) voltado para o título em toda composição que use a colisão, inclusive a imagem de compartilhamento.
+- **Do** usar Albert Sans 200–300 em minúsculas nos títulos e dígitos tabulares em todo número alinhado.
+- **Do** respeitar `prefers-reduced-motion`: sem abertura, sem traçado, sem cortina, rolagem instantânea.
 
 ### Don't:
-- **Don't** usar sombras, brilhos ou cartões flutuantes.
-- **Don't** arredondar retângulos; raio total fica só para o sol e os furos.
-- **Don't** introduzir uma segunda cor viva ou um tema claro.
-- **Don't** usar chips, badges ou pílulas para techs e habilidades.
-- **Don't** pôr texto linho sobre ferrugem; sobre ferrugem a tinta é tábua.
-- **Don't** usar as laçadas como enfeite solto, sem estar costurando algo.
-
-## Marca
-
-**gm.** em Albert Sans 500, minúsculas, com o ponto final trocado por um círculo ferrugem (o sol). Ecoa o "gabriel martins." do título. Desenhada a partir dos contornos reais da fonte e centrada pela tinta visível.
-- `src/app/icon.svg`, `favicon.ico` (16/32/48) e `apple-icon.png` (180): linho sobre tábua quadrada.
-- `public/brand/gm-escuro.svg`: linho, sem fundo, para fundos escuros (link de início do site).
-- `public/brand/gm-claro.svg`: tábua, sem fundo, para fundos claros (currículo, documentos).
-- `public/brand/gm-512.png`: avatar para perfis (LinkedIn, GitHub).
-- Sobre ferrugem (o sol da abertura), a marca vira texto "gm." todo em tábua, pela Regra da Tinta Invertida.
+- **Don't** introduzir uma segunda cor viva, nem tema claro.
+- **Don't** mudar a cor de uma trajetória ou estação para dizer estado além da ferrugem da estação atual; estado é forma.
+- **Don't** usar sombra, cartão arredondado ou pílula fora da marca "gm.".
+- **Don't** animar as letras do título; o h1 é texto simples.
+- **Don't** deixar o anel do calorímetro ou uma trajetória passar por cima do nome.
+- **Don't** usar pesos 600+ em títulos de seção.

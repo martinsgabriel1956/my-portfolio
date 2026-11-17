@@ -1,56 +1,48 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ShuffleText } from "./shuffle-text";
+import type { Faixa } from "../projects";
+import { LadoA } from "./lado-a";
 
-/** Cartão de visita: nome e ofício em duas batidas; o sol pequeno nasce à direita, para onde se lê. */
-export function Hero() {
+/** A capa do disco: nome e ofício em tábua sobre ferrugem, com a colisão dos projetos impressa como arte. */
+export function Hero({ faixas }: { faixas: Faixa[] }) {
   return (
     <section
       id="inicio"
       tabIndex={-1}
       aria-labelledby="hero-heading"
-      className="painel flex flex-col"
+      className="painel capa flex flex-col"
     >
+      <LadoA faixas={faixas} />
       <a
         href="#inicio"
-        className="self-start py-2"
+        className="relative z-[1] self-start rounded-full bg-tabua px-3 pt-0.5 pb-1 text-[26px] leading-none font-semibold tracking-[-0.03em] text-ferrugem"
         aria-label="Gabriel Martins, início"
       >
-        {/* biome-ignore lint/performance/noImgElement: SVG de 3 KB, next/image não otimiza vetor */}
-        <img src="/brand/gm-escuro.svg" alt="" width={47} height={22} />
+        gm.
       </a>
       <h1
         id="hero-heading"
-        className="mt-[clamp(20px,6vh,72px)] text-[clamp(3.4rem,8vw,8rem)] leading-[0.9] font-extralight tracking-[-0.04em] text-linho-gasto lowercase max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
+        className="relative z-[1] mt-[clamp(20px,6vh,72px)] max-w-[9.5em] self-start text-[clamp(3.4rem,7vw,7rem)] leading-[0.92] font-extralight tracking-[-0.04em] lowercase max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
       >
-        <span className="font-normal text-linho">
-          <ShuffleText text="Gabriel Martins." delay={1200} />
-        </span>
+        <span className="font-normal">gabriel martins.</span>
         <br />
-        <ShuffleText text="Desenvolvedor fullstack." delay={1500} />
+        desenvolvedor fullstack.
       </h1>
-      <div className="chao">
-        <div className="sol" aria-hidden="true" />
-        <div className="horizonte" aria-hidden="true" />
-        <div className="flex h-full flex-wrap items-center justify-between gap-x-8 gap-y-5 min-[901px]:pr-[120px]">
-          <p className="max-w-[46ch] text-[clamp(16px,1.3vw,18px)] text-linho-gasto">
-            Rio de Janeiro, RJ · Remoto
-          </p>
-          <Button asChild>
-            <a href="#contato">
-              <ArrowRight aria-hidden="true" />
-              Entre em contato
-            </a>
-          </Button>
-        </div>
+      <div className="pe-da-capa relative z-[1] mt-auto flex flex-wrap items-center gap-x-6 gap-y-4">
+        <Button variant="tabua" asChild>
+          <a href="#contato">
+            <ArrowRight aria-hidden="true" />
+            Entre em contato
+          </a>
+        </Button>
+        <p
+          aria-hidden="true"
+          className="flex items-center gap-1.5 text-sm max-[900px]:hidden"
+        >
+          ou role para o lado
+          <ArrowRight className="size-4" />
+        </p>
       </div>
-      <p
-        aria-hidden="true"
-        className="absolute right-12 bottom-4 flex items-center gap-1.5 text-sm text-linho-gasto max-[900px]:hidden"
-      >
-        role para o lado
-        <ArrowRight className="size-4" aria-hidden="true" />
-      </p>
     </section>
   );
 }

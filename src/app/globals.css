@@ -7,9 +7,7 @@
 @theme {
   --color-tabua: #120e0b;
   --color-grafite: #1f1a15;
-  --color-pagina: #2a221b;
   --color-ferro: #2e251c;
-  --color-furo: #7a6a56;
   --color-linho: #e6dcc6;
   --color-linho-gasto: #ab9f86;
   --color-ferrugem: #d8693f;
@@ -19,16 +17,6 @@
   --barra: 64px;
   /* Grão: o ruído vira transparência (alfa = luminância), então aparece como textura e não como véu. */
   --grao: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.7 0 0 0 -.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-  /* Linha de linho em laçadas: deitada (lombada, horizonte) e em pé (vinco do caderno). */
-  --corrente: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='14'%3E%3Cellipse cx='9' cy='7' rx='8' ry='4' fill='none' stroke='%23e6dcc6' stroke-width='1.6'/%3E%3C/svg%3E");
-  --corrente-em-pe: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='18'%3E%3Cellipse cx='7' cy='9' rx='4' ry='8' fill='none' stroke='%23e6dcc6' stroke-width='1.4' stroke-opacity='.7'/%3E%3C/svg%3E");
-  /* Furo vazado: miolo escuro dentro de um anel. */
-  --furo-vazado: radial-gradient(
-    circle,
-    #0a0705 2.4px,
-    var(--color-furo) 2.9px 3.4px,
-    transparent 3.8px
-  );
 }
 
 @layer base {
@@ -89,7 +77,7 @@
     border-right: 1px solid var(--color-ferro);
     padding: 36px 48px 32px;
   }
-  /* O painel recebe foco ao ser aberto pela lombada; o contorno ficaria em volta da tela inteira. */
+  /* O painel recebe foco ao ser aberto pelo trilho; o contorno ficaria em volta da tela inteira. */
   .painel:focus {
     outline: none;
   }
@@ -97,234 +85,173 @@
     flex-basis: 100vw;
   }
 
-  /* Meio sol ferrugem, granulado. */
-  .sol {
-    position: absolute;
-    aspect-ratio: 2 / 1;
-    overflow: hidden;
-    border-radius: 999px 999px 0 0;
+  /* A capa: o painel de abertura impresso em ferrugem chapado, com grão de gráfica. */
+  .capa {
     background: var(--color-ferrugem);
+    color: var(--color-tabua);
   }
-  .sol::after {
+  .capa::after,
+  .contracapa::after {
     content: "";
     position: absolute;
     inset: 0;
     background: var(--grao);
     mix-blend-mode: multiply;
-    opacity: 0.45;
-  }
-
-  /* Horizonte costurado: a mesma linha da lombada, passando por furos. */
-  .horizonte {
-    position: absolute;
-    height: 14px;
-    transform: translateY(50%);
-    background:
-      var(--corrente) left center / 18px 14px round no-repeat,
-      var(--furo-vazado) left center / 18px 14px round no-repeat;
-    background-repeat: round no-repeat;
-  }
-
-  /* Abertura: a frase manda; embaixo, o horizonte costurado e um sol pequeno nascendo à direita, para onde se lê. */
-  .chao {
-    position: relative;
-    margin-top: auto;
-    height: clamp(150px, 26vh, 230px);
-  }
-  .chao::before {
-    content: "";
-    position: absolute;
-    inset: -100% -48px 0;
-    background: radial-gradient(
-      30% 50% at 84% 50%,
-      rgb(216 105 63 / 0.12),
-      transparent 70%
-    );
+    opacity: 0.22;
     pointer-events: none;
+    /* Por cima de tudo que está impresso na capa, inclusive a lista de faixas. */
+    z-index: 3;
   }
-  .chao .sol {
-    right: 4%;
-    bottom: 100%;
-    width: clamp(200px, 24vw, 380px);
-  }
-  .chao .horizonte {
-    left: -48px;
-    right: -48px;
-    top: 0;
-    transform: translateY(-50%);
-  }
-
-  /* Caderno aberto: página esquerda, vinco furado com a linha passando, página direita. */
-  .aberto {
-    display: grid;
-    grid-template-columns: minmax(0, 0.85fr) 20px minmax(0, 1.2fr);
-    background: var(--color-grafite);
-    transition: background-color 0.2s;
-  }
-  .aberto > .pagina {
-    padding: 16px 16px 16px 20px;
-  }
-  .aberto > .pagina + .vinco + .pagina {
-    padding: 16px 20px 16px 16px;
-    background: var(--color-pagina);
-    transition: background-color 0.2s;
-  }
-  .vinco {
-    background:
-      var(--corrente-em-pe) center top / 14px 18px repeat-y,
-      var(--furo-vazado) center top / 20px 18px repeat-y,
-      linear-gradient(90deg, var(--color-grafite) 50%, var(--color-pagina) 50%);
-    background-repeat:
-      no-repeat round,
-      no-repeat round,
-      no-repeat;
-    transition: background-color 0.2s;
-  }
-  .aberto:hover {
+  .contracapa {
+    position: absolute;
+    overflow: hidden;
     background: var(--color-ferrugem);
     color: var(--color-tabua);
   }
-  .aberto:hover > .pagina + .vinco + .pagina {
-    background: #c95e36;
+
+  /*
+   * A colisão: anéis do detector e uma trajetória por projeto. Estado é forma
+   * de linha, nunca cor nova: a trajetória em foco ganha uma segunda linha.
+   */
+  /* Na chegada, cada trajetória sai do centro uma vez, uma depois da outra. */
+  @media (prefers-reduced-motion: no-preference) {
+    .colisao .linha {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: tracar 0.9s cubic-bezier(0.16, 1, 0.3, 1)
+        calc(1.5s + var(--n) * 0.08s) forwards;
+    }
   }
-  .aberto:hover .vinco {
-    background:
-      var(--corrente-em-pe) center top / 14px 18px repeat-y,
-      var(--furo-vazado) center top / 20px 18px repeat-y,
-      linear-gradient(90deg, var(--color-ferrugem) 50%, #c95e36 50%);
-    background-repeat:
-      no-repeat round,
-      no-repeat round,
-      no-repeat;
+  .trajetoria {
+    transition: opacity 0.3s;
+  }
+  .colisao[data-escolhendo] .trajetoria:not([data-foco]) {
+    opacity: 0.3;
+  }
+  @keyframes tracar {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
 
-  /* A lombada deitada: furo vazio, cheio (lido) e ferrugem (atual). */
-  .furo {
+  /* O trilho: uma estação por seção, como um pad. Por ler é apagado e tracejado; lido acende; atual é ferrugem. */
+  .estacao {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
-    border-radius: 999px;
-    border: 1.5px solid var(--color-furo);
-    transition:
-      background-color 0.3s,
-      border-color 0.3s;
+    border-radius: 3px;
+    background: #3a3029;
+    transition: background-color 0.3s;
   }
-  .corrente {
+  .trecho {
     position: relative;
     flex: 1;
-    height: 14px;
+    height: 1px;
     margin: 0 12px;
-    background:
-      radial-gradient(circle, var(--color-furo) 1.5px, transparent 2px) left
-      center / 18px 14px;
-    background-repeat: round no-repeat;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-linho-gasto) 0 4px,
+      transparent 4px 9px
+    );
   }
-  /* A linha se costura até a próxima estação quando a seção é lida. */
-  .corrente::after {
+  .trecho::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--corrente) left center / 18px 14px;
-    background-repeat: round no-repeat;
+    background: var(--color-linho);
     clip-path: inset(0 100% 0 0);
     transition: clip-path 0.6s cubic-bezier(0.22, 0.8, 0.26, 1);
   }
-  [data-estado="lido"] .corrente::after {
+  [data-estado="lido"] .trecho::after {
     clip-path: inset(0);
   }
-  [data-estado="lido"] .furo {
-    background: var(--color-linho);
-    border-color: var(--color-linho);
+  [data-estado="lido"] .estacao {
+    background: var(--color-linho-gasto);
   }
-  [data-estado="atual"] .furo {
+  [data-estado="atual"] .estacao {
     background: var(--color-ferrugem);
-    border-color: var(--color-ferrugem);
   }
 
   /*
-   * Abertura: a linha costura o horizonte de ponta a ponta, o meio sol com o
-   * "GM" nasce dele e a tábua se fecha sobre a costura, abrindo a página.
+   * Abertura: a capa ferrugem com o "gm." aparece no centro, os anéis do
+   * detector se abrem em volta e a tábua se fecha no meio, abrindo a página.
    * Só CSS: sem JS para esperar, e nunca bloqueia cliques.
    */
   .abertura {
     position: fixed;
     inset: 0;
     z-index: 70;
+    display: grid;
+    place-items: center;
     background: var(--color-tabua);
     clip-path: inset(0);
     pointer-events: none;
     /* Ease-in-out: começa e termina devagar, sem bater no fim. */
     animation: abertura-abrir 1.2s cubic-bezier(0.76, 0, 0.24, 1) 1s forwards;
   }
-  /* A página chega enquanto a tábua se abre: o título e o chão sobem de leve, um depois do outro. */
+  /* A página chega enquanto a tábua se abre: o título e o pé da capa sobem de leve, um depois do outro. */
   .abertura ~ .panorama #inicio h1,
-  .abertura ~ .panorama #inicio .chao {
+  .abertura ~ .panorama #inicio .pe-da-capa {
     animation: abertura-chegar 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;
   }
-  .abertura ~ .panorama #inicio .chao {
+  .abertura ~ .panorama #inicio .pe-da-capa {
     animation-delay: 1.4s;
   }
-  .abertura::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      40% 35% at 50% 50%,
-      rgb(216 105 63 / 0.12),
-      transparent 70%
-    );
-    opacity: 0;
-    animation: abertura-surgir 0.64s ease-out 0.26s forwards;
-  }
-  .abertura .horizonte {
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    clip-path: inset(0 100% 0 0);
-    animation: abertura-costurar 0.52s cubic-bezier(0.22, 0.8, 0.26, 1) forwards;
-  }
-  .abertura-sol {
-    position: absolute;
-    left: 50%;
-    bottom: 50%;
-    width: 180px;
-    aspect-ratio: 2 / 1;
-    overflow: hidden;
-    transform: translateX(-50%);
-  }
-  .abertura-sol .sol {
-    inset: 0;
+  .abertura-capa {
+    position: relative;
     display: flex;
     align-items: flex-end;
-    justify-content: center;
-    padding-bottom: 20px;
+    width: 140px;
+    height: 140px;
+    padding: 14px 16px;
+    background: var(--color-ferrugem);
     color: var(--color-tabua);
     font-size: 30px;
     font-weight: 500;
     letter-spacing: -0.02em;
     line-height: 1;
-    transform: translateY(100%);
-    animation: abertura-nascer 0.64s cubic-bezier(0.16, 1, 0.3, 1) 0.26s
+    clip-path: inset(50% 0 50% 0);
+    animation: abertura-imprimir 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s
       forwards;
   }
+  .abertura-capa::before,
+  .abertura-capa::after {
+    content: "";
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 260px;
+    height: 260px;
+    margin: -130px 0 0 -130px;
+    border: 1px solid var(--color-linho-gasto);
+    border-radius: 999px;
+    opacity: 0;
+    animation: abertura-anel 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  }
+  .abertura-capa::after {
+    width: 420px;
+    height: 420px;
+    margin: -210px 0 0 -210px;
+    border-style: dashed;
+    animation-delay: 0.52s;
+  }
 
-  @keyframes abertura-costurar {
+  @keyframes abertura-imprimir {
     to {
       clip-path: inset(0);
     }
   }
-  @keyframes abertura-nascer {
+  @keyframes abertura-anel {
+    from {
+      opacity: 0.8;
+      scale: 0.4;
+    }
     to {
-      transform: none;
+      opacity: 0.5;
+      scale: 1;
     }
   }
-  @keyframes abertura-surgir {
-    to {
-      opacity: 1;
-    }
-  }
-  /* Fecha sobre a costura e, na segunda metade, a linha se dissolve em vez de sumir num quadro. */
+  /* Fecha no meio e, na segunda metade, se dissolve em vez de sumir num quadro. */
   @keyframes abertura-abrir {
     55% {
       opacity: 1;
@@ -346,7 +273,7 @@
 @media (max-width: 900px) {
   /*
    * O slider do zip: a tela fica presa e a rolagem da página troca o painel no
-   * lugar. O Costura mapeia scrollY para painel ativo + rolagem interna.
+   * lugar. O Trilho mapeia scrollY para painel ativo + rolagem interna.
    */
   .panorama {
     position: fixed;
@@ -380,54 +307,11 @@
       opacity 0.5s cubic-bezier(0.33, 1, 0.68, 1),
       scale 1s cubic-bezier(0.33, 1, 0.68, 1);
   }
-  .chao {
-    height: auto;
-    margin-top: 120px;
-    padding-top: 32px;
+  .painel.capa {
+    background: var(--color-ferrugem);
   }
-  .chao::before {
-    inset: -100% -20px 0;
-  }
-  .chao .sol {
-    right: 20px;
-    width: 44vw;
-  }
-  .chao .horizonte {
-    left: -20px;
-    right: -20px;
-  }
-  /* No celular o caderno abre em pé: o vinco vira uma costura deitada entre as duas metades. */
-  .aberto {
-    grid-template-columns: 1fr;
-  }
-  .aberto > .pagina,
-  .aberto > .pagina + .vinco + .pagina {
-    padding: 18px 20px;
-  }
-  .vinco,
-  .aberto:hover .vinco {
-    height: 14px;
-    background:
-      var(--corrente) left center / 18px 14px,
-      var(--furo-vazado) left center / 18px 14px,
-      linear-gradient(180deg, var(--color-grafite) 50%, var(--color-pagina) 50%);
-    background-repeat:
-      round no-repeat,
-      round no-repeat,
-      no-repeat;
-  }
-  .aberto:hover .vinco {
-    background:
-      var(--corrente) left center / 18px 14px,
-      var(--furo-vazado) left center / 18px 14px,
-      linear-gradient(180deg, var(--color-ferrugem) 50%, #c95e36 50%);
-    background-repeat:
-      round no-repeat,
-      round no-repeat,
-      no-repeat;
-  }
-  /* Seis estações cabem em 375px: as laçadas entre elas encurtam. */
-  .corrente {
+  /* Seis estações cabem em 375px: os trechos entre elas encurtam. */
+  .trecho {
     margin: 0 2px;
   }
   body {
@@ -436,8 +320,8 @@
 }
 
 /*
- * Projetos: a formação 7 do zip (Infusion grid). Cada caderno é revelado de
- * cima para baixo por uma cortina, escalonado, acompanhando a rolagem. A
+ * Projetos: a formação 7 do zip (Infusion grid). Cada faixa é revelada de
+ * cima para baixo por uma cortina, escalonada, acompanhando a rolagem. A
  * janela que desce com o conteúdo parado do zip é o mesmo que um clip-path.
  */
 @keyframes cortina {
@@ -453,13 +337,13 @@
     .formacao > li {
       animation: cortina linear both;
       animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      /* Celular: o painel rola por dentro (Costura) e cada caderno abre ao entrar. */
+      /* Celular: o painel rola por dentro (Trilho) e cada faixa abre ao entrar. */
       animation-timeline: view();
       animation-range: entry 0% entry 100%;
     }
   }
   @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
-    /* Desktop: o painel inteiro entra pela direita; os cadernos abrem enquanto ele desliza. */
+    /* Desktop: o painel inteiro entra pela direita; as faixas abrem enquanto ele desliza. */
     #projetos {
       view-timeline: --projetos inline;
     }
@@ -486,7 +370,7 @@
   }
   /* Sem abertura, o hero não espera: o atraso da chegada não pode esconder o conteúdo. */
   .abertura ~ .panorama #inicio h1,
-  .abertura ~ .panorama #inicio .chao {
+  .abertura ~ .panorama #inicio .pe-da-capa {
     animation: none;
   }
 }
