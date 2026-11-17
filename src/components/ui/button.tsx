@@ -11,6 +11,7 @@ const buttonVariants = cva(
       variant: {
         linho: "bg-linho text-tabua hover:bg-[#fff6e2]",
         fio: "border border-linho-gasto text-linho hover:border-linho",
+        tabua: "bg-tabua text-linho hover:bg-[#2b221b]",
       },
     },
     defaultVariants: {

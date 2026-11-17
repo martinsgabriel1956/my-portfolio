@@ -1,13 +1,13 @@
 import {
   Contact,
-  Costura,
   Education,
   type Estacao,
   Experience,
+  faixasOf,
   Hero,
   Projects,
-  projectGroupsOf,
   Skills,
+  Trilho,
 } from "./_components";
 import { getCertifications } from "./_components/education/action/get-certification";
 import { getEducation } from "./_components/education/action/get-education";
@@ -22,15 +22,19 @@ export default async function Home() {
       getEducation(),
       getCertifications(),
     ]);
-  const projectGroups = projectGroupsOf(experiences);
+  const faixas = faixasOf(experiences);
 
-  // Só entram no panorama (e na lombada) os painéis que têm conteúdo.
+  // Só entram no panorama (e no trilho) os painéis que têm conteúdo.
   const paineis = [
-    { id: "inicio", label: "início", node: <Hero key="inicio" /> },
-    projectGroups.length > 0 && {
+    {
+      id: "inicio",
+      label: "início",
+      node: <Hero key="inicio" faixas={faixas} />,
+    },
+    faixas.length > 0 && {
       id: "projetos",
       label: "projetos",
-      node: <Projects key="projetos" groups={projectGroups} />,
+      node: <Projects key="projetos" faixas={faixas} />,
     },
     experiences.length > 0 && {
       id: "experiencia",
@@ -53,7 +57,11 @@ export default async function Home() {
         />
       ),
     },
-    { id: "contato", label: "contato", node: <Contact key="contato" /> },
+    {
+      id: "contato",
+      label: "contato",
+      node: <Contact key="contato" faixas={faixas} />,
+    },
   ].filter((p) => p !== false);
 
   const estacoes: Estacao[] = paineis.map(({ id, label }) => ({ id, label }));
@@ -61,10 +69,7 @@ export default async function Home() {
   return (
     <>
       <div className="abertura" aria-hidden="true">
-        <div className="abertura-sol">
-          <div className="sol">gm.</div>
-        </div>
-        <div className="horizonte" />
+        <div className="abertura-capa">gm.</div>
       </div>
       <a
         href="#projetos"
@@ -79,7 +84,7 @@ export default async function Home() {
       >
         {paineis.map((p) => p.node)}
       </main>
-      <Costura estacoes={estacoes} />
+      <Trilho estacoes={estacoes} />
     </>
   );
 }

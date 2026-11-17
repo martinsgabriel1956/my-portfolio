@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-11T22:21:13.655994+00:00",
+  "generatedAt": "2026-11-17T00:00:00Z",
   "title": "Design System: Gabriel Martins, portfólio",
   "extensions": {
     "colorMeta": {
@@ -9,14 +9,14 @@
         "displayName": "Tábua",
         "canonical": "#120e0b",
         "tonalRamp": [
-          "oklch(15% 0.005 55)",
+          "oklch(15% 0.004 55)",
           "oklch(25% 0.006 55)",
-          "oklch(35% 0.007 55)",
-          "oklch(45% 0.009 55)",
-          "oklch(58% 0.01 55)",
-          "oklch(70% 0.008 55)",
+          "oklch(35% 0.008 55)",
+          "oklch(45% 0.01 55)",
+          "oklch(58% 0.011 55)",
+          "oklch(70% 0.009 55)",
           "oklch(82% 0.007 55)",
-          "oklch(94% 0.005 55)"
+          "oklch(94% 0.004 55)"
         ]
       },
       "grafite": {
@@ -24,29 +24,14 @@
         "displayName": "Grafite",
         "canonical": "#1f1a15",
         "tonalRamp": [
-          "oklch(15% 0.006 60)",
-          "oklch(25% 0.007 60)",
-          "oklch(35% 0.009 60)",
+          "oklch(15% 0.004 60)",
+          "oklch(25% 0.006 60)",
+          "oklch(35% 0.008 60)",
           "oklch(45% 0.01 60)",
-          "oklch(58% 0.012 60)",
-          "oklch(70% 0.01 60)",
-          "oklch(82% 0.008 60)",
-          "oklch(94% 0.006 60)"
-        ]
-      },
-      "pagina": {
-        "role": "neutral",
-        "displayName": "Página",
-        "canonical": "#2a221b",
-        "tonalRamp": [
-          "oklch(15% 0.009 60)",
-          "oklch(25% 0.011 60)",
-          "oklch(35% 0.013 60)",
-          "oklch(45% 0.016 60)",
-          "oklch(58% 0.017 60)",
-          "oklch(70% 0.015 60)",
-          "oklch(82% 0.012 60)",
-          "oklch(94% 0.009 60)"
+          "oklch(58% 0.011 60)",
+          "oklch(70% 0.009 60)",
+          "oklch(82% 0.007 60)",
+          "oklch(94% 0.004 60)"
         ]
       },
       "ferro": {
@@ -54,29 +39,44 @@
         "displayName": "Ferro",
         "canonical": "#2e251c",
         "tonalRamp": [
-          "oklch(15% 0.01 65)",
-          "oklch(25% 0.012 65)",
-          "oklch(35% 0.015 65)",
-          "oklch(45% 0.017 65)",
-          "oklch(58% 0.019 65)",
-          "oklch(70% 0.016 65)",
-          "oklch(82% 0.013 65)",
-          "oklch(94% 0.01 65)"
+          "oklch(15% 0.007 60)",
+          "oklch(25% 0.01 60)",
+          "oklch(35% 0.013 60)",
+          "oklch(45% 0.017 60)",
+          "oklch(58% 0.019 60)",
+          "oklch(70% 0.015 60)",
+          "oklch(82% 0.011 60)",
+          "oklch(94% 0.007 60)"
         ]
       },
-      "furo": {
+      "estacao-apagada": {
         "role": "neutral",
-        "displayName": "Furo",
-        "canonical": "#7a6a56",
+        "displayName": "Estação apagada",
+        "canonical": "#3a3029",
         "tonalRamp": [
-          "oklch(15% 0.017 70)",
-          "oklch(25% 0.022 70)",
-          "oklch(35% 0.026 70)",
-          "oklch(45% 0.031 70)",
-          "oklch(58% 0.034 70)",
-          "oklch(70% 0.028 70)",
-          "oklch(82% 0.023 70)",
-          "oklch(94% 0.018 70)"
+          "oklch(15% 0.006 50)",
+          "oklch(25% 0.009 50)",
+          "oklch(35% 0.012 50)",
+          "oklch(45% 0.015 50)",
+          "oklch(58% 0.017 50)",
+          "oklch(70% 0.013 50)",
+          "oklch(82% 0.01 50)",
+          "oklch(94% 0.006 50)"
+        ]
+      },
+      "tabua-acesa": {
+        "role": "neutral",
+        "displayName": "Tábua acesa",
+        "canonical": "#2b221b",
+        "tonalRamp": [
+          "oklch(15% 0.006 55)",
+          "oklch(25% 0.009 55)",
+          "oklch(35% 0.012 55)",
+          "oklch(45% 0.015 55)",
+          "oklch(58% 0.017 55)",
+          "oklch(70% 0.013 55)",
+          "oklch(82% 0.01 55)",
+          "oklch(94% 0.006 55)"
         ]
       },
       "linho": {
@@ -84,29 +84,44 @@
         "displayName": "Linho",
         "canonical": "#e6dcc6",
         "tonalRamp": [
-          "oklch(15% 0.017 85)",
-          "oklch(25% 0.022 85)",
-          "oklch(35% 0.026 85)",
-          "oklch(45% 0.031 85)",
-          "oklch(58% 0.034 85)",
-          "oklch(70% 0.028 85)",
-          "oklch(82% 0.023 85)",
-          "oklch(94% 0.018 85)"
+          "oklch(15% 0.01 85)",
+          "oklch(25% 0.015 85)",
+          "oklch(35% 0.02 85)",
+          "oklch(45% 0.025 85)",
+          "oklch(58% 0.028 85)",
+          "oklch(70% 0.022 85)",
+          "oklch(82% 0.017 85)",
+          "oklch(94% 0.01 85)"
         ]
       },
       "linho-gasto": {
         "role": "neutral",
-        "displayName": "Linho Gasto",
+        "displayName": "Linho gasto",
         "canonical": "#ab9f86",
         "tonalRamp": [
-          "oklch(15% 0.017 85)",
-          "oklch(25% 0.022 85)",
-          "oklch(35% 0.026 85)",
-          "oklch(45% 0.031 85)",
-          "oklch(58% 0.034 85)",
-          "oklch(70% 0.028 85)",
-          "oklch(82% 0.023 85)",
-          "oklch(94% 0.018 85)"
+          "oklch(15% 0.012 85)",
+          "oklch(25% 0.018 85)",
+          "oklch(35% 0.023 85)",
+          "oklch(45% 0.029 85)",
+          "oklch(58% 0.033 85)",
+          "oklch(70% 0.026 85)",
+          "oklch(82% 0.019 85)",
+          "oklch(94% 0.012 85)"
+        ]
+      },
+      "linho-aceso": {
+        "role": "neutral",
+        "displayName": "Linho aceso",
+        "canonical": "#fff6e2",
+        "tonalRamp": [
+          "oklch(15% 0.01 85)",
+          "oklch(25% 0.015 85)",
+          "oklch(35% 0.02 85)",
+          "oklch(45% 0.025 85)",
+          "oklch(58% 0.028 85)",
+          "oklch(70% 0.022 85)",
+          "oklch(82% 0.017 85)",
+          "oklch(94% 0.01 85)"
         ]
       },
       "ferrugem": {
@@ -114,254 +129,283 @@
         "displayName": "Ferrugem",
         "canonical": "#d8693f",
         "tonalRamp": [
-          "oklch(15% 0.079 42)",
-          "oklch(25% 0.099 42)",
-          "oklch(35% 0.119 42)",
-          "oklch(45% 0.14 42)",
-          "oklch(58% 0.154 42)",
-          "oklch(70% 0.129 42)",
-          "oklch(82% 0.105 42)",
-          "oklch(94% 0.081 42)"
-        ]
-      },
-      "ferrugem-funda": {
-        "role": "primary",
-        "displayName": "Ferrugem Funda",
-        "canonical": "#c95e36",
-        "tonalRamp": [
-          "oklch(15% 0.074 42)",
-          "oklch(25% 0.093 42)",
-          "oklch(35% 0.112 42)",
-          "oklch(45% 0.131 42)",
-          "oklch(58% 0.144 42)",
-          "oklch(70% 0.121 42)",
-          "oklch(82% 0.098 42)",
-          "oklch(94% 0.076 42)"
-        ]
-      },
-      "linho-aceso": {
-        "role": "neutral",
-        "displayName": "Linho Aceso",
-        "canonical": "#fff6e2",
-        "tonalRamp": [
-          "oklch(15% 0.015 85)",
-          "oklch(25% 0.019 85)",
-          "oklch(35% 0.022 85)",
-          "oklch(45% 0.026 85)",
-          "oklch(58% 0.029 85)",
-          "oklch(70% 0.024 85)",
-          "oklch(82% 0.02 85)",
-          "oklch(94% 0.015 85)"
+          "oklch(15% 0.05 42)",
+          "oklch(25% 0.075 42)",
+          "oklch(35% 0.1 42)",
+          "oklch(45% 0.125 42)",
+          "oklch(58% 0.142 42)",
+          "oklch(70% 0.112 42)",
+          "oklch(82% 0.083 42)",
+          "oklch(94% 0.052 42)"
         ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Só o nome na abertura, minúsculo, cor da tábua, atravessando o sol."
+        "purpose": "Título da capa em duas batidas; primeira linha a 400; no celular clamp(2.6rem, 12vw, 3.4rem). Texto simples."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Título de cada painel, minúsculo."
+        "purpose": "Título de cada painel do panorama, em minúsculas."
       },
       "title-lg": {
-        "displayName": "Title Large",
-        "purpose": "Nome de empresa na experiência."
+        "displayName": "Title grande",
+        "purpose": "Nome da empresa na experiência."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Títulos de grupo: domínios, Acadêmica, Cursos."
+        "purpose": "Grupos de formação."
       },
       "title-sm": {
-        "displayName": "Title Small",
-        "purpose": "Nome do projeto no caderno."
+        "displayName": "Title pequeno",
+        "purpose": "Domínios de projeto e categorias de habilidade."
       },
-      "lead": {
-        "displayName": "Lead",
-        "purpose": "Frase de posicionamento da abertura."
+      "item": {
+        "displayName": "Item",
+        "purpose": "Nome do projeto na lista."
+      },
+      "body-lg": {
+        "displayName": "Body grande",
+        "purpose": "Texto de contato e listas de habilidades."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Descrições."
+        "purpose": "Descrições e botões."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Empresa, techs, local, rodapé, lombada; sempre linho gasto."
+        "purpose": "Números de faixa, datas, stack, trilho; dígitos tabulares."
       },
-      "button": {
-        "displayName": "Button",
-        "purpose": "Rótulo dos botões linho e fio."
+      "marca": {
+        "displayName": "Marca",
+        "purpose": "gm. na pílula."
       }
     },
     "shadows": [],
     "textures": [
       {
         "name": "grao",
-        "value": "var(--grao)",
-        "purpose": "Ruído SVG com alfa por luminância, em multiply a 45% dentro do sol."
-      },
-      {
-        "name": "corrente",
-        "value": "var(--corrente)",
-        "purpose": "Laçada deitada 18x14 em linho: horizonte, lombada costurada, vinco no celular."
-      },
-      {
-        "name": "corrente-em-pe",
-        "value": "var(--corrente-em-pe)",
-        "purpose": "Laçada em pé 14x18 no vinco do caderno."
-      },
-      {
-        "name": "furo-vazado",
-        "value": "var(--furo-vazado)",
-        "purpose": "Miolo escuro dentro de anel cor furo, sob as laçadas."
-      },
-      {
-        "name": "brilho-do-sol",
-        "value": "radial-gradient(60% 55% at 50% calc(100% - var(--hz)), rgb(216 105 63 / 0.12), transparent 70%)",
-        "purpose": "Calor ferrugem em volta do sol da abertura."
+        "value": "SVG feTurbulence fractalNoise baseFrequency .7, alfa = luminância; mix-blend-mode multiply, opacity 0.22",
+        "purpose": "Grão de impressão por cima de tudo na capa e na contracapa."
       }
     ],
     "motion": [
       {
-        "name": "cor",
-        "value": "background-color 0.2s",
-        "purpose": "Hover do caderno e dos botões."
+        "name": "abertura-imprimir",
+        "value": "0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s",
+        "purpose": "A capa gm. se imprime do meio (clip-path)."
       },
       {
-        "name": "furo",
-        "value": "background-color 0.3s, border-color 0.3s",
-        "purpose": "Furo da lombada mudando de estado."
+        "name": "abertura-anel",
+        "value": "0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s / 0.52s",
+        "purpose": "Dois anéis se abrem em volta da capa."
       },
       {
-        "name": "costura",
+        "name": "abertura-abrir",
+        "value": "1.2s cubic-bezier(0.76, 0, 0.24, 1) 1s",
+        "purpose": "A tábua se fecha no meio e se dissolve."
+      },
+      {
+        "name": "abertura-chegar",
+        "value": "1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s / 1.4s, translateY 24px",
+        "purpose": "Título e pé da capa sobem enquanto a cortina abre."
+      },
+      {
+        "name": "tracar",
+        "value": "0.9s cubic-bezier(0.16, 1, 0.3, 1), delay 1.5s + n × 0.08s",
+        "purpose": "Cada trajetória se traça do centro uma vez."
+      },
+      {
+        "name": "trajetoria-foco",
+        "value": "opacity 0.3s",
+        "purpose": "Outras trajetórias baixam para 0.3 quando uma está em foco."
+      },
+      {
+        "name": "trecho-lido",
         "value": "clip-path 0.6s cubic-bezier(0.22, 0.8, 0.26, 1)",
-        "purpose": "Corrente da lombada se costurando até a próxima estação."
+        "purpose": "Trecho do trilho se enche ao ser lido."
       },
       {
-        "name": "rolagem",
-        "value": "smooth (auto com prefers-reduced-motion)",
-        "purpose": "Navegação pela lombada e roda horizontal no desktop."
+        "name": "painel-celular",
+        "value": "opacity 0.5s + scale 1.1→1 em 1s, cubic-bezier(0.33, 1, 0.68, 1)",
+        "purpose": "Painel ativo cobre o anterior no slider empilhado."
+      },
+      {
+        "name": "titulo-mascara",
+        "value": "750ms cubic-bezier(0.215, 0.61, 0.355, 1)",
+        "purpose": "Título do painel sobe de trás de máscara no celular."
+      },
+      {
+        "name": "cortina",
+        "value": "clip-path inset(0 0 100% 0)→inset(0), cubic-bezier(0.25, 0.46, 0.45, 0.94), scroll/view timeline",
+        "purpose": "Faixas de projeto abrem de cima para baixo com a rolagem."
+      },
+      {
+        "name": "panorama-lerp",
+        "value": "0.05 por quadro, velocidade 1.75, passo máx 150px; parallax 0.1",
+        "purpose": "Deslizamento horizontal do panorama no desktop."
       }
     ],
     "breakpoints": [
       {
-        "name": "coluna",
-        "value": "900px",
-        "purpose": "Até 900px o panorama vira coluna vertical."
+        "name": "celular",
+        "value": "max-width: 900px"
+      },
+      {
+        "name": "desktop",
+        "value": "min-width: 901px"
       },
       {
         "name": "md",
         "value": "768px"
       },
       {
-        "name": "lg",
-        "value": "1024px"
+        "name": "xl",
+        "value": "1280px"
       }
-    ]
+    ],
+    "arte": {
+      "aneis": [
+        80,
+        170,
+        275
+      ],
+      "anelTracejado": "275, dash 5 9",
+      "calorimetro": 430,
+      "segmentos": 32,
+      "setorAberto": [
+        135,
+        295
+      ],
+      "energia": "18 + 5 × min(techs, 12)",
+      "curvaPorDominio": {
+        "ecommerce": 1,
+        "admin": -1,
+        "health": 0.55,
+        "semDominio": 0.25
+      },
+      "foco": "traço 3 + linha gêmea 1.6 a 8 de distância"
+    }
   },
   "components": [
     {
-      "name": "Botão Linho",
+      "name": "Botão linho",
       "kind": "button",
       "refersTo": "button-linho",
-      "description": "Ação primária: uma por bloco.",
-      "html": "<button class=\"ds-btn-linho\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg>Entre em contato</button>",
-      "css": ".ds-btn-linho{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;font-family: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:500;border-radius:0;transition:background-color .15s,border-color .15s;cursor:pointer;background:var(--color-linho, #e6dcc6);color:var(--color-tabua, #120e0b);border:none;} .ds-btn-linho:hover{background:#fff6e2;} .ds-btn-linho:focus-visible{outline:2px solid var(--color-ferrugem, #d8693f);outline-offset:3px;}"
+      "description": "Ação primária fora da capa (Copiar email).",
+      "html": "<button class=\"ds-btn ds-btn-linho\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg>Copiar email</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:500;border:0;border-radius:0;transition:background-color .15s,border-color .15s;cursor:pointer} .ds-btn svg{width:18px;height:18px} .ds-btn:focus-visible{outline:2px solid var(--color-ferrugem,#d8693f);outline-offset:3px} .ds-btn-linho{background:var(--color-linho,#e6dcc6);color:var(--color-tabua,#120e0b)} .ds-btn-linho:hover{background:#fff6e2}"
     },
     {
-      "name": "Botão Fio",
+      "name": "Botão fio",
       "kind": "button",
       "refersTo": "button-fio",
-      "description": "Ação secundária em contorno: currículo, LinkedIn, GitHub.",
-      "html": "<button class=\"ds-btn-fio\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M10 9H8\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/></svg>Currículo (PDF)</button>",
-      "css": ".ds-btn-fio{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;font-family: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:500;border-radius:0;transition:background-color .15s,border-color .15s;cursor:pointer;background:transparent;color:var(--color-linho, #e6dcc6);border:1px solid var(--color-linho-gasto, #ab9f86);} .ds-btn-fio:hover{border-color:var(--color-linho, #e6dcc6);} .ds-btn-fio:focus-visible{outline:2px solid var(--color-ferrugem, #d8693f);outline-offset:3px;}"
+      "description": "Ação secundária com borda (LinkedIn, GitHub, Currículo).",
+      "html": "<button class=\"ds-btn ds-btn-fio\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg>LinkedIn</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:500;border:0;border-radius:0;transition:background-color .15s,border-color .15s;cursor:pointer} .ds-btn svg{width:18px;height:18px} .ds-btn:focus-visible{outline:2px solid var(--color-ferrugem,#d8693f);outline-offset:3px} .ds-btn-fio{background:transparent;color:var(--color-linho,#e6dcc6);border:1px solid var(--color-linho-gasto,#ab9f86)} .ds-btn-fio:hover{border-color:var(--color-linho,#e6dcc6)}"
     },
     {
-      "name": "Caderno aberto",
-      "kind": "card",
-      "refersTo": "caderno-aberto",
-      "description": "Cartão de projeto em duas páginas com vinco furado; vira ferrugem no hover.",
-      "html": "<article class=\"ds-caderno\"><div class=\"ds-caderno-esq\"><h4>GTech Solutions</h4><p>Eternno</p></div><span class=\"ds-vinco\"></span><div class=\"ds-caderno-dir\"><p>Loja com pagamento pelo Mercado Pago, cotação ao vivo e cálculo de frete.</p><p class=\"ds-techs\">Next.js · Node.js · TypeScript</p></div></article>",
-      "css": ".ds-caderno{display:grid;grid-template-columns:minmax(0,.85fr) 20px minmax(0,1.2fr);background:var(--color-grafite, #1f1a15);color:var(--color-linho, #e6dcc6);font-family: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;transition:background-color .2s;max-width:480px;} .ds-caderno h4{margin:0;font-size:24px;font-weight:300;line-height:1.15;} .ds-caderno p{margin:4px 0 0;font-size:14px;color:var(--color-linho-gasto, #ab9f86);} .ds-caderno-dir p:first-child{margin:0;font-size:16px;line-height:1.5;} .ds-caderno-esq{padding:16px 16px 16px 20px;} .ds-caderno-dir{padding:16px 20px 16px 16px;background:var(--color-pagina, #2a221b);transition:background-color .2s;} .ds-vinco{background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='18'%3E%3Cellipse cx='7' cy='9' rx='4' ry='8' fill='none' stroke='%23e6dcc6' stroke-width='1.4' stroke-opacity='.7'/%3E%3C/svg%3E\") center top/14px 18px round,radial-gradient(circle,#0a0705 2.4px,var(--color-furo, #7a6a56) 2.9px 3.4px,transparent 3.8px) center top/20px 18px,linear-gradient(90deg,var(--color-grafite, #1f1a15) 50%,var(--color-pagina, #2a221b) 50%);background-repeat:no-repeat round,no-repeat round,no-repeat;} .ds-caderno:hover{background:var(--color-ferrugem, #d8693f);color:var(--color-tabua, #120e0b);} .ds-caderno:hover p{color:var(--color-tabua, #120e0b);} .ds-caderno:hover .ds-caderno-dir{background:#c95e36;} .ds-caderno:hover .ds-vinco{background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='18'%3E%3Cellipse cx='7' cy='9' rx='4' ry='8' fill='none' stroke='%23e6dcc6' stroke-width='1.4' stroke-opacity='.7'/%3E%3C/svg%3E\") center top/14px 18px round,radial-gradient(circle,#0a0705 2.4px,var(--color-furo, #7a6a56) 2.9px 3.4px,transparent 3.8px) center top/20px 18px,linear-gradient(90deg,var(--color-ferrugem, #d8693f) 50%,#c95e36 50%);background-repeat:no-repeat round,no-repeat round,no-repeat;}"
+      "name": "Botão tábua",
+      "kind": "button",
+      "refersTo": "button-tabua",
+      "description": "Ação sobre a capa ferrugem (Entre em contato).",
+      "html": "<div class=\"ds-capa-fundo\"><button class=\"ds-btn ds-btn-tabua\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg>Entre em contato</button></div>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif;font-size:16px;font-weight:500;border:0;border-radius:0;transition:background-color .15s,border-color .15s;cursor:pointer} .ds-btn svg{width:18px;height:18px} .ds-btn:focus-visible{outline:2px solid var(--color-ferrugem,#d8693f);outline-offset:3px} .ds-capa-fundo{background:var(--color-ferrugem,#d8693f);padding:24px} .ds-btn-tabua{background:var(--color-tabua,#120e0b);color:var(--color-linho,#e6dcc6)} .ds-btn-tabua:hover{background:#2b221b}"
     },
     {
-      "name": "Bloco de habilidade",
-      "kind": "card",
-      "refersTo": "bloco-habilidade",
-      "description": "Categoria de habilidades em grafite, lista separada por ponto médio.",
-      "html": "<dl class=\"ds-bloco\"><dt>frontend</dt><dd>React · Next.js · TypeScript · Tailwind</dd></dl>",
-      "css": ".ds-bloco{margin:0;background:var(--color-grafite, #1f1a15);padding:20px 22px;color:var(--color-linho, #e6dcc6);font-family: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;max-width:420px;} .ds-bloco dt{font-size:26px;font-weight:300;letter-spacing:-.02em;line-height:1.25;} .ds-bloco dd{margin:8px 0 0;font-size:18px;line-height:1.375;color:var(--color-linho-gasto, #ab9f86);}"
-    },
-    {
-      "name": "Lombada",
-      "kind": "nav",
-      "refersTo": "lombada",
-      "description": "Navegação fixa embaixo: furo vazio, lido (linho, corrente costurada) e atual (ferrugem).",
-      "html": "<nav class=\"ds-lombada\"><a class=\"ds-estacao ds-lido\" href=\"#\"><span class=\"ds-furo\"></span>início</a><span class=\"ds-corrente ds-costurada\"></span><a class=\"ds-estacao ds-atual\" href=\"#\" aria-current=\"location\"><span class=\"ds-furo\"></span>projetos</a><span class=\"ds-corrente\"></span><a class=\"ds-estacao\" href=\"#\"><span class=\"ds-furo\"></span>contato</a></nav>",
-      "css": ".ds-lombada{display:flex;align-items:center;height:64px;padding:0 24px;background:var(--color-tabua, #120e0b);border-top:1px solid var(--color-ferro,#2e251c);font-family: 'Albert Sans', ui-sans-serif, system-ui, sans-serif;} .ds-estacao{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;color:var(--color-linho-gasto, #ab9f86);text-decoration:none;transition:color .15s;white-space:nowrap;} .ds-estacao:hover,.ds-lido,.ds-atual{color:var(--color-linho, #e6dcc6);} .ds-estacao:focus-visible{outline:2px solid var(--color-ferrugem, #d8693f);outline-offset:3px;} .ds-furo{width:14px;height:14px;border-radius:999px;border:1.5px solid var(--color-furo, #7a6a56);box-sizing:border-box;} .ds-lido .ds-furo{background:var(--color-linho, #e6dcc6);border-color:var(--color-linho, #e6dcc6);} .ds-atual .ds-furo{background:var(--color-ferrugem, #d8693f);border-color:var(--color-ferrugem, #d8693f);} .ds-corrente{flex:1;height:14px;margin:0 12px;background:radial-gradient(circle,var(--color-furo, #7a6a56) 1.5px,transparent 2px) left center/18px 14px;background-repeat:round no-repeat;} .ds-costurada{background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='14'%3E%3Cellipse cx='9' cy='7' rx='8' ry='4' fill='none' stroke='%23e6dcc6' stroke-width='1.6'/%3E%3C/svg%3E\") left center/18px 14px;background-repeat:round no-repeat;}"
-    },
-    {
-      "name": "Sol no horizonte",
+      "name": "Marca gm.",
       "kind": "custom",
-      "refersTo": null,
-      "description": "Assinatura: meio sol ferrugem granulado nascendo do horizonte costurado.",
-      "html": "<div class=\"ds-palco\"><div class=\"ds-sol\"></div><div class=\"ds-horizonte\"></div></div>",
-      "css": ".ds-palco{position:relative;height:200px;background:var(--color-tabua, #120e0b);overflow:hidden;} .ds-sol{position:absolute;left:50%;bottom:40px;width:280px;aspect-ratio:2/1;transform:translateX(-50%);border-radius:999px 999px 0 0;background:var(--color-ferrugem, #d8693f);} .ds-horizonte{position:absolute;left:0;right:0;bottom:40px;height:14px;transform:translateY(50%);background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='14'%3E%3Cellipse cx='9' cy='7' rx='8' ry='4' fill='none' stroke='%23e6dcc6' stroke-width='1.6'/%3E%3C/svg%3E\") left center/18px 14px,radial-gradient(circle,#0a0705 2.4px,var(--color-furo, #7a6a56) 2.9px 3.4px,transparent 3.8px) left center/18px 14px;background-repeat:round no-repeat;}"
+      "refersTo": "marca-gm",
+      "description": "Pílula tábua com gm. em ferrugem; única forma arredondada do sistema.",
+      "html": "<div class=\"ds-capa-fundo\"><a class=\"ds-gm\" href=\"#\">gm.</a></div>",
+      "css": ".ds-capa-fundo{background:var(--color-ferrugem,#d8693f);padding:24px} .ds-gm{display:inline-block;background:var(--color-tabua,#120e0b);color:var(--color-ferrugem,#d8693f);border-radius:999px;padding:2px 12px 4px;font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif;font-size:26px;font-weight:600;letter-spacing:-0.03em;line-height:1;text-decoration:none} .ds-gm:focus-visible{outline:2px solid var(--color-tabua,#120e0b);outline-offset:3px}"
+    },
+    {
+      "name": "Trilho",
+      "kind": "nav",
+      "refersTo": "trilho",
+      "description": "Barra de progresso de leitura: estação por seção; lida, atual em ferrugem, por ler tracejada.",
+      "html": "<nav class=\"ds-trilho\"><ol><li data-e=\"lido\"><a href=\"#\"><span class=\"ds-est\"></span>início</a><span class=\"ds-tr\"></span></li><li data-e=\"atual\"><a href=\"#\" aria-current=\"location\"><span class=\"ds-est\"></span>projetos</a><span class=\"ds-tr\"></span></li><li><a href=\"#\"><span class=\"ds-est\"></span>contato</a></li></ol></nav>",
+      "css": ".ds-trilho{height:64px;display:flex;align-items:center;padding:0 24px;background:var(--color-tabua,#120e0b);border-top:1px solid var(--color-ferro,#2e251c);font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif} .ds-trilho ol{display:flex;flex:1;align-items:center;list-style:none;margin:0;padding:0} .ds-trilho li{display:flex;flex:1;align-items:center} .ds-trilho li:last-child{flex:0} .ds-trilho a{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;color:var(--color-linho-gasto,#ab9f86);text-decoration:none;white-space:nowrap;transition:color .15s} .ds-trilho a:hover,.ds-trilho li[data-e] a{color:var(--color-linho,#e6dcc6)} .ds-est{width:14px;height:14px;border-radius:3px;background:#3a3029} [data-e=lido] .ds-est{background:var(--color-linho-gasto,#ab9f86)} [data-e=atual] .ds-est{background:var(--color-ferrugem,#d8693f)} .ds-tr{flex:1;height:1px;margin:0 12px;background:repeating-linear-gradient(90deg,var(--color-linho-gasto,#ab9f86) 0 4px,transparent 4px 9px)} [data-e=lido] .ds-tr{background:var(--color-linho,#e6dcc6)} .ds-trilho a:focus-visible{outline:2px solid var(--color-ferrugem,#d8693f);outline-offset:3px}"
+    },
+    {
+      "name": "Lista lado a",
+      "kind": "nav",
+      "refersTo": "capa",
+      "description": "Lista numerada de faixas no verso da capa; a faixa em foco ganha peso e sublinhado.",
+      "html": "<nav class=\"ds-lado\"><p>lado a · 3 faixas</p><ol><li><a href=\"#\" data-foco><span>01</span>Loja de moda</a></li><li><a href=\"#\"><span>02</span>Painel admin</a></li><li><a href=\"#\"><span>03</span>Clínica</a></li></ol></nav>",
+      "css": ".ds-lado{background:var(--color-ferrugem,#d8693f);color:var(--color-tabua,#120e0b);padding:12px 16px;width:300px;font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif} .ds-lado p{margin:0 0 8px;font-size:14px;font-weight:500} .ds-lado ol{list-style:none;margin:0;padding:0;font-size:15px} .ds-lado a{display:grid;grid-template-columns:1.75rem 1fr;padding:2px 0;color:inherit;text-decoration:none;text-underline-offset:4px} .ds-lado span{font-variant-numeric:tabular-nums} .ds-lado a[data-foco],.ds-lado a:hover,.ds-lado a:focus-visible{font-weight:500;text-decoration:underline} .ds-lado a:focus-visible{outline:2px solid var(--color-tabua,#120e0b);outline-offset:3px}"
+    },
+    {
+      "name": "Linha de projeto",
+      "kind": "card",
+      "refersTo": "painel",
+      "description": "Faixa no painel de projetos: número tabular, nome fino, empresa, descrição e stack.",
+      "html": "<div class=\"ds-painel\"><div class=\"ds-faixa\"><span class=\"ds-n\">01</span><div><h4>Loja de moda</h4><p>Empresa</p></div><div><p class=\"ds-d\">Checkout e catálogo de um ecommerce.</p><p>Next.js · TypeScript · Postgres</p></div></div></div>",
+      "css": ".ds-painel{background:var(--color-tabua,#120e0b);color:var(--color-linho,#e6dcc6);padding:24px;font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif} .ds-faixa{display:grid;grid-template-columns:2.5rem minmax(0,.9fr) minmax(0,1.2fr);gap:8px 24px;border-top:1px solid var(--color-ferro,#2e251c);padding:20px 0} .ds-n{padding-top:4px;font-size:14px;color:var(--color-linho-gasto,#ab9f86);font-variant-numeric:tabular-nums;transition:color .15s} .ds-faixa:hover .ds-n{color:var(--color-ferrugem,#d8693f)} .ds-faixa h4{margin:0;font-size:24px;line-height:1.15;font-weight:300} .ds-faixa p{margin:4px 0 0;font-size:14px;color:var(--color-linho-gasto,#ab9f86)} .ds-faixa .ds-d{margin:0;font-size:16px;line-height:1.5}"
+    },
+    {
+      "name": "Cartão de habilidade",
+      "kind": "card",
+      "refersTo": "cartao-habilidade",
+      "description": "Degrau grafite sobre tábua, canto reto, categoria em minúsculas.",
+      "html": "<div class=\"ds-hab\"><dt>frontend</dt><dd>React · Next.js · Tailwind CSS</dd></div>",
+      "css": ".ds-hab{background:var(--color-grafite,#1f1a15);color:var(--color-linho,#e6dcc6);padding:20px 22px;max-width:360px;font-family:'Albert Sans', ui-sans-serif, system-ui, sans-serif} .ds-hab dt{font-size:26px;line-height:1.25;font-weight:300;letter-spacing:-0.02em;text-transform:lowercase} .ds-hab dd{margin:8px 0 0;font-size:18px;line-height:1.375;color:var(--color-linho-gasto,#ab9f86)}"
     }
   ],
   "narrative": {
-    "northStar": "O Caderno Costurado ao Sol",
-    "overview": "**Creative North Star: \"O Caderno Costurado ao Sol\"**\n\nO site é um panorama: painéis de largura quase total (86vw) postos lado a lado sobre uma tábua escura, lidos da esquerda para a direita no desktop e empilhados em coluna no celular. Uma linha de linho em laçadas atravessa tudo: costura o horizonte da abertura, passa pelo vinco furado de cada projeto e corre deitada na lombada fixa no rodapé, onde vai se completando conforme a leitura avança. A linha é o único ornamento recorrente, e ela sempre significa alguma coisa (horizonte, encadernação, progresso).\n\nA densidade é baixa e tipográfica. Títulos são Albert Sans extrafina em minúsculas, gigantes, com tracking negativo; o resto do texto fica em pesos leves e no linho gasto. A cor viva existe uma vez: ferrugem, no meio sol granulado da abertura e do contato, no estado atual da lombada, no \"atual\" das datas, no sublinhado de links e no hover dos cadernos. Superfícies são planas e retas; a profundidade vem de três tons de madeira escura, não de sombra.\n\nO mundo recusa a página longa de seções empilhadas com hero centralizado e cartões iguais, e recusa o visual de template de dev.",
+    "northStar": "A Capa Impressa",
+    "overview": "O site é um disco. A abertura inteira é uma capa chapada em ferrugem com grão de gráfica, e a arte dessa capa é a tela de evento de um detector de partículas impressa em tábua: camadas concêntricas, um calorímetro segmentado e uma trajetória por projeto real. O verso da capa lista as faixas (\"lado a\"), numeradas em dígitos tabulares. Depois da capa, o chão é tábua escura e as seções correm lado a lado num panorama horizontal, com um trilho fino embaixo que mostra quanto já foi lido.\n\nLidera a precisão técnica: traço fino, números tabulares, geometria calculada a partir de dados reais (curva pelo domínio do projeto, célula de energia pelo número de tecnologias). Os temperos são o cuidado de impressão (grão, cor chapada, recorte do calorímetro para não passar sobre o nome) e o calor da ferrugem sobre o escuro. A tipografia é uma só família, Albert Sans, fina e em minúsculas nos títulos.\n\nTema escuro apenas. Ferrugem é a única cor viva. Estado se expressa por forma de linha, não por cor nova.",
     "keyCharacteristics": [
-      "Tema escuro único (`color-scheme: dark`), sem alternância clara.",
-      "Painéis com scroll-snap horizontal no desktop; coluna vertical abaixo de 900px.",
-      "Títulos extrafinos (200) em minúsculas, de 3.4rem a 8rem.",
-      "Ferrugem como única cor viva; tudo o mais é tábua, grafite e linho.",
-      "Linha de linho em laçadas e furos vazados como gramática de ligação.",
-      "Cantos retos em tudo que é retângulo; o redondo fica para sol e furos."
+      "Capa de disco ferrugem chapada como primeira tela, com grão de impressão por cima de tudo.",
+      "Arte gerada por dados: uma trajetória por projeto, curvada pelo domínio, com célula de energia do tamanho da stack.",
+      "Panorama horizontal de painéis de 86vw no desktop; slider empilhado no celular.",
+      "Albert Sans extralight em minúsculas para títulos; peso sobe só para nome e rótulos.",
+      "Cantos retos em quase tudo; a pílula é exclusiva da marca \"gm.\"."
     ],
     "rules": [
       {
-        "name": "A Regra do Sol Único",
-        "body": "Ferrugem é a única cor saturada do sistema. Não entra segundo acento, nem azul de link, nem verde de sucesso; um estado novo usa ferrugem, linho ou linho gasto.",
+        "name": "The Uma Voz Rule",
+        "body": "Ferrugem é a única cor saturada do sistema. Nenhuma segunda cor de destaque, nenhum gradiente de cor; o que precisa chamar atenção usa ferrugem ou forma.",
         "section": "colors"
       },
       {
-        "name": "A Regra da Tinta Invertida",
-        "body": "Sobre ferrugem, o texto vira tábua (nome no sol, caderno em hover, seleção). Linho nunca vai em cima de ferrugem.",
+        "name": "The Tinta Invertida Rule",
+        "body": "Sobre a capa ferrugem, tudo é impresso em tábua: texto, arte, bordas. Fora dela, a tinta é linho. A capa nunca recebe linho como texto, exceto o rótulo do botão tábua.",
         "section": "colors"
       },
       {
-        "name": "A Regra da Minúscula Fina",
-        "body": "Títulos de painel e de empresa são minúsculos e em peso 200 ou 300. Negrito (600) aparece só no monograma \"GM\" e no link de pular conteúdo.",
+        "name": "The Fina e Minúscula Rule",
+        "body": "Títulos de seção e de capa usam peso 200–300 em minúsculas com tracking negativo (-0.02em a -0.04em). Peso alto é para nome, marca e rótulo curto, nunca para título de seção.",
         "section": "typography"
       },
       {
-        "name": "A Regra do Ponto Médio",
-        "body": "Listas inline (stack, techs, local) se separam com \" · \", nunca com chips ou badges.",
+        "name": "The Dígito Tabular Rule",
+        "body": "Todo número que se alinha em coluna (faixas, datas) usa dígitos tabulares; o número da faixa é o mesmo na capa e no painel de projetos.",
         "section": "typography"
       },
       {
-        "name": "A Regra da Madeira Plana",
-        "body": "Nenhuma superfície flutua. Para destacar um bloco, suba um tom (grafite para página) ou troque para ferrugem no hover; não adicione sombra.",
+        "name": "The Chapado Rule",
+        "body": "Nada flutua. Superfícies são planas e se separam por cor chapada, borda ferro de 1px ou degrau tonal; sombra não faz parte do sistema.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "**Do** manter um único acento: ferrugem (#d8693f) para estado atual, foco, sublinhado e o sol.",
-      "**Do** escrever títulos de painel em minúsculas, Albert Sans 200, com tracking -0.04em.",
-      "**Do** usar a linha de linho em laçadas e os furos vazados para ligar coisas (horizonte, vinco, lombada), sempre com significado.",
-      "**Do** dar profundidade subindo de tábua para grafite e página, com divisores de 1px em ferro.",
-      "**Do** separar listas inline com \" · \" e deixar techs em 14px linho gasto.",
-      "**Do** respeitar `prefers-reduced-motion`: rolagem programática vira `auto` e transições caem para 0.01ms."
+      "**Do** imprimir tudo sobre a capa em tábua e tudo fora dela em linho / linho gasto.",
+      "**Do** expressar estado da arte e do trilho por forma de linha: linha dupla = em foco, tracejado = por ler, cheio = lido.",
+      "**Do** derivar a geometria da arte de dados reais (domínio para a curva, contagem de tecnologias para a energia).",
+      "**Do** manter o setor aberto do calorímetro (135°–295°) voltado para o título em toda composição que use a colisão, inclusive a imagem de compartilhamento.",
+      "**Do** usar Albert Sans 200–300 em minúsculas nos títulos e dígitos tabulares em todo número alinhado.",
+      "**Do** respeitar `prefers-reduced-motion`: sem abertura, sem traçado, sem cortina, rolagem instantânea."
     ],
     "donts": [
-      "**Don't** usar sombras, brilhos ou cartões flutuantes.",
-      "**Don't** arredondar retângulos; raio total fica só para o sol e os furos.",
-      "**Don't** introduzir uma segunda cor viva ou um tema claro.",
-      "**Don't** usar chips, badges ou pílulas para techs e habilidades.",
-      "**Don't** pôr texto linho sobre ferrugem; sobre ferrugem a tinta é tábua.",
-      "**Don't** usar as laçadas como enfeite solto, sem estar costurando algo."
+      "**Don't** introduzir uma segunda cor viva, nem tema claro.",
+      "**Don't** mudar a cor de uma trajetória ou estação para dizer estado além da ferrugem da estação atual; estado é forma.",
+      "**Don't** usar sombra, cartão arredondado ou pílula fora da marca \"gm.\".",
+      "**Don't** animar as letras do título; o h1 é texto simples.",
+      "**Don't** deixar o anel do calorímetro ou uma trajetória passar por cima do nome.",
+      "**Don't** usar pesos 600+ em títulos de seção."
     ]
   }
 }

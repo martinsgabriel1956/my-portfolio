@@ -227,6 +227,42 @@
         ],
         "createdAt": "2026-11-11T22:23:43.044Z",
         "reason": "Claude: exploration mocks of rejected/alternative directions; their fonts were never meant to match the shipped DESIGN.md (Albert Sans)"
+      },
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/*.html"
+        ],
+        "createdAt": "2026-11-17T18:28:09.176Z",
+        "reason": "Claude: decision sketches reproduce the incumbent two-beat display title (Albert Sans 200, ~8rem cap), which the user chose to keep in the 2026-11-17 identity interview"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/ruido.html"
+        ],
+        "createdAt": "2026-11-17T18:32:42.664Z",
+        "reason": "Claude: the uppercase tracked lines are corner product codes of the info-noise sleeve grammar (catalog world tdr-info-noise-sleeve), pinned to the frame corners, not a kicker above the headline"
+      },
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/**/*.html"
+        ],
+        "createdAt": "2026-11-17T18:50:53.309Z",
+        "reason": "Claude: decision sketches reproduce the incumbent two-beat display title the user chose to keep in the 2026-11-17 identity interview"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/mistura/6-capa-impressa.html"
+        ],
+        "createdAt": "2026-11-17T18:50:53.329Z",
+        "reason": "Claude: the detector SVG deliberately bleeds off the sleeve's top edge (cover artwork bleed); text sits 36-48px inside"
       }
     ]
   }

@@ -17,14 +17,22 @@ Exemplo aprovado como referência de composição: .impeccable/mocks/examples/va
 
 ## Direction contract
 
-THESIS: Um panorama de painéis que se lê de lado, costurado por uma linha que mostra quanto já foi lido. Recusa a página longa de seções empilhadas com hero centralizado e cards iguais.
+THESIS: A abertura é um disco: uma capa chapada em ferrugem cuja arte é a colisão de um detector, com uma trajetória por projeto real. Recusa o hero de dev com título sobre fundo escuro e cartões iguais embaixo.
 
-OWN-WORLD: Tábua escura #120e0b, linho #e6dcc6 como tinta, ferrugem #d8693f como única cor viva, grafite #1f1a15 nos blocos. Albert Sans fina e em minúsculas nos títulos, gigante. Um meio sol ferrugem granulado nasce de um horizonte costurado. Projetos são cadernos abertos em duas páginas com vinco furado. Lombada costurada deitada embaixo: furo vazio, furo cheio, furo ferrugem no atual.
+OWN-WORLD: Chão tábua #120e0b, capa ferrugem #d8693f chapada com grão de impressão, tinta tábua sobre a capa e linho #e6dcc6 fora dela. Anéis concêntricos e trajetórias em traço fino; estado por forma de linha (dupla = em foco, tracejada = por ler), nunca por cor nova. Logotipo "gm." em pílula tábua, lista de faixas "lado a" numerada em dígitos tabulares, Albert Sans fina em minúsculas.
 
-STORY: O visitante vê quem é e o que constrói no primeiro painel, entende os três domínios ao passar para o lado, confirma a trajetória e sai com uma ação: email, LinkedIn ou currículo.
+STORY: Em um segundo: quem é, o que faz, onde. Passando o olho pelas faixas, cada projeto acende sua trajetória e diz o domínio; a pessoa entende os três domínios, desliza o panorama e sai com email, LinkedIn ou currículo.
 
-FIRST VIEWPORT: Painel com o título em duas batidas, minúsculas, Albert Sans 200, no alto à esquerda: "gabriel martins." em linho 400 e "desenvolvedor fullstack." em linho gasto, sem stack nem domínios (o dono não quer se limitar a tecnologias). Embaixo, o horizonte costurado de ponta a ponta com um meio sol ferrugem pequeno nascendo à direita; abaixo dele, a linha "Rio de Janeiro, RJ · Remoto" e um único botão, "Entre em contato", em linho cheio (o currículo fica só no painel de contato). O próximo painel espia pela borda direita. A lombada fica embaixo, com "início" em ferrugem. (Composição V9, rodada 3, com o texto escolhido pelo dono.)
+FIRST VIEWPORT: Painel inteiro em ferrugem. "gm." no canto superior esquerdo; título em duas batidas em tábua à esquerda; colisão sangrando pela direita; lista "lado a" com os 8 projetos no alto ao centro; embaixo à esquerda "Rio de Janeiro, RJ · Remoto" e "Entre em contato" em tábua; rótulo da trajetória em foco embaixo à direita. Fora da capa, o trilho fino com uma estação por seção.
 
-FORM: Fusão escolhida pelo dono de Blocos tipográficos (digital-design-canon-metro-typographic-tiles) com Encadernação exposta (craft-making-coptic-exposed-binding) e Sol interno (light-shadow-caustics-indoor-weather-sun); seed:3a483e2bad1806b2, rodadas ousadas 1 a 4. Assinatura: rolagem vertical vira horizontal no desktop, painéis travam por scroll-snap e a lombada costura conforme o avanço. No celular, a coluna é vertical e a lombada continua embaixo.
+FORM: Mistura pedida pelo dono de Capa do Disco (posters-covers-sleeves-yeye-pop-sleeve) com Evento do Detector (scientific-notation-particle-detector-event-display), variante "Capa impressa"; nenhuma era o sorteio; seed:a6c1b75be1fb9b13. Interação assinatura: passar ou focar uma faixa dobra a linha da trajetória dela e troca o rótulo; na chegada, as trajetórias saem do centro uma vez.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Nova direção escolhida (2026-11-17), substitui o mundo "caderno costurado"
+
+Entrevista: mantém tema escuro, ferrugem como única cor viva, panorama de lado e Albert Sans fina em minúsculas. Sai a costura (laçadas, furos, lombada costurada, cadernos abertos, sol e fita). Lidera precisão técnica; temperos: cuidado artesanal, calor humano, ousadia. Símbolo vem da música (o que o dono tem fora do código) e dos domínios. A navegação mantém a função de progresso de leitura com cara nova.
+
+Rodadas (seed:a6c1b75be1fb9b13): guardados Sequenciador, Capa do Disco (catálogo posters-covers-sleeves-yeye-pop-sleeve), Trilho Espectral (operate-c-emission-line-rail) e Evento do Detector (scientific-notation-particle-detector-event-display). O dono pediu misturas; escolheu a mistura Capa + Colisão, variante "Capa impressa".
+
+DIREÇÃO: A abertura inteira é uma capa de disco ferrugem chapada. A arte da capa é a tela de evento de um detector, impressa em tábua: anéis concêntricos e trajetórias, uma por projeto real; o projeto em foco ganha linha dupla (estado por forma de linha, sem cor nova) e um rótulo com domínio e nome. Logotipo "gm." arredondado em tábua no canto, lista de faixas "lado a" com as seções (a atual sublinhada), título em duas batidas em tábua, "Entre em contato" em tábua com texto linho. Fora da capa, no chão escuro, o trilho fino com uma estação por seção em forma de pad (atual cheio em ferrugem, demais só no aro). Esboço aprovado: .impeccable/mocks/decision/mistura/6-capa-impressa.html (code-led, sem comp).

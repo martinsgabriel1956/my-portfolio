@@ -1,6 +1,8 @@
 import { FileText, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CV_URL, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/links";
+import { ArteColisao } from "../colisao";
+import type { Faixa } from "../projects";
 import { CopyEmailButton } from "./copy-email-button";
 
 const links = [
@@ -9,7 +11,8 @@ const links = [
   { href: CV_URL, label: "Currículo (PDF)", Icon: FileText, download: true },
 ];
 
-export function Contact() {
+/** Fecha o disco: o contato, e no canto a contracapa com a mesma colisão. */
+export function Contact({ faixas }: { faixas: Faixa[] }) {
   return (
     <section
       id="contato"
@@ -62,9 +65,17 @@ export function Contact() {
         © {new Date().getFullYear()} Gabriel Martins.
       </p>
       <div
-        className="sol right-12 bottom-0 w-[min(30vw,440px)] max-[900px]:relative max-[900px]:right-auto max-[900px]:mt-9 max-[900px]:block max-[900px]:w-full"
+        className="contracapa right-12 bottom-0 aspect-square w-[min(28vw,400px)] max-[900px]:relative max-[900px]:right-auto max-[900px]:mt-9 max-[900px]:aspect-[2/1] max-[900px]:w-full max-[900px]:shrink-0"
         aria-hidden="true"
-      />
+      >
+        <ArteColisao
+          rastros={faixas}
+          className="absolute top-full left-0 w-[200%] -translate-x-1/2 -translate-y-1/2"
+        />
+        <p className="absolute top-4 left-5 text-sm font-medium">
+          fim do lado a
+        </p>
+      </div>
     </section>
   );
 }

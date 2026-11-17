@@ -1,34 +1,28 @@
 import type { Experience, ExperienceProject } from "@/db/schema";
-import { DOMAIN_ORDER, DOMAINS } from "@/lib/domains";
 
-type Project = ExperienceProject & { company: string };
+/** Um projeto como faixa do disco: o número é o mesmo na capa e no painel de projetos. */
+export type Faixa = ExperienceProject & {
+  company: string;
+  numero: string;
+  id: string;
+};
 
-/** Projetos de todas as experiências, agrupados na ordem dos domínios; sem domínio vão para "outros projetos". */
-export function projectGroupsOf(experiences: Experience[]) {
-  const all: Project[] = experiences.flatMap((exp) =>
-    (exp.projects ?? []).map((project) => ({
-      ...project,
-      company: exp.company,
-    })),
-  );
-  const groups = DOMAIN_ORDER.map((domain) => ({
-    title: DOMAINS[domain],
-    items: all.filter((project) => project.domain === domain),
-  }));
-  groups.push({
-    title: "outros projetos",
-    items: all.filter(
-      (project) => !project.domain || !(project.domain in DOMAINS),
-    ),
-  });
-  return groups.filter((group) => group.items.length > 0);
+/** Projetos de todas as experiências, numerados na ordem em que aparecem. */
+export function faixasOf(experiences: Experience[]): Faixa[] {
+  return experiences
+    .flatMap((exp) =>
+      (exp.projects ?? []).map((project) => ({
+        ...project,
+        company: exp.company,
+      })),
+    )
+    .map((project, i) => {
+      const numero = String(i + 1).padStart(2, "0");
+      return { ...project, numero, id: `faixa-${numero}` };
+    });
 }
 
-export function Projects({
-  groups,
-}: {
-  groups: ReturnType<typeof projectGroupsOf>;
-}) {
+export function Projects({ faixas }: { faixas: Faixa[] }) {
   return (
     <section
       id="projetos"
@@ -42,38 +36,38 @@ export function Projects({
       >
         projetos
       </h2>
-      <ul className="formacao grid gap-2 lg:grid-cols-2">
-        {groups
-          .flatMap((group) => group.items)
-          .map((project, i) => (
-            <li
-              key={`${project.company}-${project.name}`}
-              className="aberto group"
-              style={{ "--i": Math.min(i, 8) } as React.CSSProperties}
-            >
-              <div className="pagina">
-                <h3 className="text-[clamp(20px,1.7vw,26px)] leading-[1.15] font-light">
-                  {project.name}
-                </h3>
-                <p className="mt-1 text-sm text-linho-gasto group-hover:text-tabua">
-                  {project.company}
+      <ol className="formacao max-w-[1100px]">
+        {faixas.map((faixa, i) => (
+          <li
+            key={faixa.id}
+            id={faixa.id}
+            tabIndex={-1}
+            className="group grid gap-x-6 gap-y-2 border-t py-5 md:grid-cols-[2.5rem_minmax(0,0.9fr)_minmax(0,1.2fr)]"
+            style={{ "--i": Math.min(i, 8) } as React.CSSProperties}
+          >
+            <span className="pt-1 text-sm text-linho-gasto tabular-nums transition-colors group-hover:text-ferrugem">
+              {faixa.numero}
+            </span>
+            <div>
+              <h3 className="text-[clamp(20px,1.7vw,26px)] leading-[1.15] font-light">
+                {faixa.name}
+              </h3>
+              <p className="mt-1 text-sm text-linho-gasto">{faixa.company}</p>
+            </div>
+            <div>
+              <p className="text-base leading-normal text-linho-gasto">
+                {faixa.description}
+              </p>
+              {faixa.techs.length > 0 && (
+                <p className="mt-2 text-sm text-linho-gasto">
+                  <span className="sr-only">Tecnologias: </span>
+                  {faixa.techs.join(" · ")}
                 </p>
-              </div>
-              <span className="vinco" aria-hidden="true" />
-              <div className="pagina">
-                <p className="text-base leading-normal text-linho-gasto group-hover:text-tabua">
-                  {project.description}
-                </p>
-                {project.techs.length > 0 && (
-                  <p className="mt-2 text-sm text-linho-gasto group-hover:text-tabua">
-                    <span className="sr-only">Tecnologias: </span>
-                    {project.techs.join(" · ")}
-                  </p>
-                )}
-              </div>
-            </li>
-          ))}
-      </ul>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }

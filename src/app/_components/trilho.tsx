@@ -28,11 +28,11 @@ function comportamento(): ScrollBehavior {
 }
 
 /**
- * A lombada deitada embaixo da página. Mostra o avanço da leitura
- * (furo cheio = lido, ferrugem = atual) e, no desktop, faz a roda do
- * mouse e as setas andarem pelo panorama na horizontal.
+ * O trilho fino embaixo da página. Mostra o avanço da leitura (estação
+ * cheia = lida, ferrugem = atual, aro e tracejado = por ler) e, no desktop,
+ * faz a roda do mouse e as setas andarem pelo panorama na horizontal.
  */
-export function Costura({ estacoes }: { estacoes: Estacao[] }) {
+export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
   const [atual, setAtual] = useState(0);
   const irPara = useRef<(painel: HTMLElement) => void>(() => {});
 
@@ -73,7 +73,7 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
     // Celular: onde cada painel começa no scrollY da página (o slider fixo do zip).
     let inicios: number[] = [];
     let ativo = -1;
-    // Painel para onde a lombada está rolando suave; o foco nele não pode cortar o caminho.
+    // Painel para onde o trilho está rolando suave; o foco nele não pode cortar o caminho.
     let destino = -1;
     irPara.current = (painel) => {
       const i = paineis.indexOf(painel);
@@ -262,10 +262,10 @@ export function Costura({ estacoes }: { estacoes: Estacao[] }) {
                 }}
                 className="flex min-h-11 min-w-11 items-center justify-center gap-2.5 text-sm whitespace-nowrap text-linho-gasto transition-colors hover:text-linho [[data-estado]_&]:text-linho"
               >
-                <span className="furo" aria-hidden="true" />
+                <span className="estacao" aria-hidden="true" />
                 <span className="max-[900px]:sr-only">{label}</span>
               </a>
-              {!ultima && <span className="corrente" aria-hidden="true" />}
+              {!ultima && <span className="trecho" aria-hidden="true" />}
             </li>
           );
         })}
