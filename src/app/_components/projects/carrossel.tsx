@@ -122,11 +122,14 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           />
         ))}
       </div>
+      {/* No celular não há botões: as setas acenam para os lados dizendo que dá para deslizar. */}
       <p
         aria-hidden="true"
-        className="text-center text-sm text-linho-gasto tabular-nums min-[901px]:hidden"
+        className="deslize flex items-center justify-center gap-3 text-sm text-linho-gasto tabular-nums min-[901px]:hidden"
       >
-        {faixas[atual].numero} / {String(total).padStart(2, "0")}
+        <span className="text-ferrugem [--d:-1]">←</span>
+        deslize · {faixas[atual].numero} / {String(total).padStart(2, "0")}
+        <span className="text-ferrugem [--d:1]">→</span>
       </p>
       <nav
         aria-label="Projetos"
