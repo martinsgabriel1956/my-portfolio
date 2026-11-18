@@ -131,7 +131,7 @@
         calc(0.7s + var(--n) * 0.06s) forwards;
     }
     /* A dica de deslizar do carrossel: cada seta acena para o seu lado. */
-    .deslize > span {
+    .deslize svg {
       animation: acenar 1.6s ease-in-out infinite;
     }
   }
@@ -398,64 +398,6 @@
   }
   .painel.capa {
     background: var(--color-ferrugem);
-  }
-  /* O índice do zip: números à direita, um tracinho que abre na seção atual e a barra que enche com a rolagem. */
-  .indice {
-    position: fixed;
-    right: 12px;
-    bottom: calc(var(--barra) + 16px);
-    z-index: 2;
-    padding-right: 12px;
-    color: var(--color-linho);
-    font-size: 14px;
-    font-variant-numeric: tabular-nums;
-    pointer-events: none;
-  }
-  .indice[data-capa] {
-    color: var(--color-tabua);
-  }
-  .indice ol {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .indice li {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    opacity: 0.5;
-    transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1);
-  }
-  .indice li::before {
-    content: "";
-    width: 10px;
-    height: 1px;
-    background: currentColor;
-    scale: 0 1;
-    transform-origin: right;
-    transition: scale 0.3s cubic-bezier(0.33, 1, 0.68, 1);
-  }
-  .indice li[data-atual] {
-    opacity: 1;
-  }
-  .indice li[data-atual]::before {
-    scale: 1;
-  }
-  .progresso {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 1px;
-    height: 100%;
-    background: color-mix(in srgb, currentColor 35%, transparent);
-  }
-  .progresso > span {
-    position: absolute;
-    inset: 0 -1px;
-    background: currentColor;
-    transform-origin: top;
-    scale: 1 0;
   }
   /* Seis estações cabem em 375px: os trechos entre elas encurtam. */
   .trecho {

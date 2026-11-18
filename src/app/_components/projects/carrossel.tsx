@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Faixa } from ".";
 import { DOMINIO } from "./dominio";
@@ -54,7 +55,11 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
     ).onfinish = () => setSlides((s) => s.filter((x) => x.chave !== saindo));
     setTimeout(() => setSlides((s) => [...s, nova]), 750 * RITMO);
   };
-  const passo = (dir: 1 | -1) => ir((atual + dir + total) % total, dir);
+  // Conta a partir do último pedido, não do projeto na tela: três cliques rápidos avançam três.
+  const passo = (dir: 1 | -1) => {
+    const base = pendente.current?.[0] ?? atual;
+    ir((base + dir + total) % total, dir);
+  };
 
   // Os links da capa (#faixa-NN) escolhem o projeto; o navegador rola até o painel.
   const irRef = useRef(ir);
@@ -86,8 +91,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   }, [faixas]);
 
   return (
-    // No celular o palco para acima do índice do canto, que é fixo e cobriria o cartão.
-    <div className="flex min-h-0 flex-1 flex-col gap-4 max-[900px]:pb-20">
+    <div className="flex min-h-0 flex-1 flex-col gap-4">
       {faixas.map((f) => (
         <span
           key={f.id}
@@ -133,35 +137,50 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           />
         ))}
       </div>
-      {/* No celular não há botões: as setas acenam para os lados dizendo que dá para deslizar. */}
-      <p
-        aria-hidden="true"
-        className="deslize flex items-center justify-center gap-3 text-sm text-linho-gasto tabular-nums min-[901px]:hidden"
-      >
-        <span className="text-ferrugem [--d:-1]">←</span>
-        deslize · {faixas[atual].numero} / {String(total).padStart(2, "0")}
-        <span className="text-ferrugem [--d:1]">→</span>
-      </p>
+      {/* No celular, as setas que acenam são os próprios botões; deslizar o cartão também troca. */}
+      <div className="deslize flex items-center justify-center gap-1 text-sm text-linho-gasto tabular-nums min-[901px]:hidden">
+        <button
+          type="button"
+          aria-label="Projeto anterior"
+          onClick={() => passo(-1)}
+          className="flex size-11 items-center justify-center text-ferrugem"
+        >
+          <ArrowLeft className="size-4 [--d:-1]" aria-hidden="true" />
+        </button>
+        <p aria-hidden="true">
+          deslize · {faixas[atual].numero} / {String(total).padStart(2, "0")}
+        </p>
+        <button
+          type="button"
+          aria-label="Próximo projeto"
+          onClick={() => passo(1)}
+          className="flex size-11 items-center justify-center text-ferrugem"
+        >
+          <ArrowRight className="size-4 [--d:1]" aria-hidden="true" />
+        </button>
+      </div>
       <nav
         aria-label="Projetos"
-        className="flex flex-wrap items-center gap-x-6 gap-y-2 max-[900px]:sr-only"
+        className="flex flex-wrap items-center gap-x-6 gap-y-2 max-[900px]:hidden"
       >
         <button
           type="button"
           onClick={() => passo(-1)}
-          className="min-h-11 text-sm text-linho-gasto transition-colors hover:text-linho"
+          className="inline-flex min-h-11 items-center gap-1.5 text-sm text-linho-gasto transition-[color,background-color,border-color] hover:text-linho"
         >
-          ← anterior
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          anterior
         </button>
         <ol className="flex flex-1 flex-wrap justify-center gap-1">
           {faixas.map((f, i) => (
             <li key={f.id}>
               <button
                 type="button"
-                aria-label={f.name}
+                // O nome começa pelo número visível, para quem navega por voz dizer "01".
+                aria-label={`${f.numero} ${f.name}`}
                 aria-current={i === atual || undefined}
                 onClick={() => ir(i, i > atual ? 1 : -1)}
-                className="min-h-11 min-w-11 text-sm text-linho-gasto tabular-nums transition-colors hover:text-linho aria-current:text-ferrugem"
+                className="min-h-11 min-w-11 text-sm text-linho-gasto tabular-nums transition-[color,background-color,border-color] hover:text-linho aria-current:text-ferrugem"
               >
                 {f.numero}
               </button>
@@ -171,9 +190,10 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
         <button
           type="button"
           onClick={() => passo(1)}
-          className="min-h-11 text-sm text-linho-gasto transition-colors hover:text-linho"
+          className="inline-flex min-h-11 items-center gap-1.5 text-sm text-linho-gasto transition-[color,background-color,border-color] hover:text-linho"
         >
-          próximo →
+          próximo
+          <ArrowRight className="size-4" aria-hidden="true" />
         </button>
       </nav>
     </div>

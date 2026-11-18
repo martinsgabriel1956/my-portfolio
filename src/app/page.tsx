@@ -42,7 +42,13 @@ export default async function Home() {
     experiences.length > 0 && {
       id: "experiencia",
       label: "experiência",
-      node: <Experience key="experiencia" experiences={experiences} />,
+      node: (
+        <Experience
+          key="experiencia"
+          experiences={experiences}
+          faixas={faixas}
+        />
+      ),
     },
     categories.length > 0 && {
       id: "habilidades",

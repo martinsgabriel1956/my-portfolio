@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ArteColisao } from "../colisao";
 import type { Faixa } from "../projects";
-import { DOMINIO } from "../projects/dominio";
+import { DOMINIO, legendaDominios } from "../projects/dominio";
 
 /**
  * A arte e a lista de faixas da capa, ligadas: passar ou focar uma faixa
@@ -27,7 +27,7 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
           rastros={faixas}
           foco={foco}
           data-escolhendo={escolhendo || undefined}
-          className="colisao absolute top-[52%] left-[66%] w-[min(124vh,86vw)] -translate-x-1/2 -translate-y-1/2 max-[900px]:top-[43%] max-[900px]:left-[70%] max-[900px]:w-[140vw]"
+          className="colisao absolute top-[52%] left-[70%] w-[min(124vh,86vw)] -translate-x-1/2 -translate-y-1/2 max-[900px]:top-[43%] max-[900px]:left-[70%] max-[900px]:w-[140vw]"
         />
       </div>
       {faixas.length > 0 && (
@@ -36,9 +36,11 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
           // O fundo chapado faz as linhas impressas pararem na lista, como no verso de um disco.
           className="absolute top-6 right-8 z-[2] w-[min(330px,26vw)] bg-ferrugem px-4 py-3 max-[900px]:hidden"
         >
-          <p id="lado-a" className="mb-2 text-sm font-medium">
+          <p id="lado-a" className="text-sm font-medium">
             lado a · {faixas.length} projetos
           </p>
+          {/* A legenda da arte: o que as curvas dizem, impresso. */}
+          <p className="mb-2 text-sm tabular-nums">{legendaDominios(faixas)}</p>
           <ol
             className="text-base leading-snug"
             onMouseLeave={() => setEscolhendo(false)}

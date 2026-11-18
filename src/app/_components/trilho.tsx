@@ -13,8 +13,9 @@ const VELOCIDADE = 1.75;
 const PASSO_MAX = 150;
 // Positivo: o título adianta em vez de atrasar; negativo cortaria o título do painel que espia à direita.
 const PARALLAX = 0.1;
-// No celular, quanto da altura da tela se rola entre um painel e outro: uma tela inteira, como no zip.
-const VAO = 1;
+// No celular, quanto da altura da tela se rola entre um painel e outro. Uma tela inteira (o zip) deixava
+// 84% da rolagem parada; um terço ainda empilha os painéis sem a sensação de travado.
+const VAO = 0.35;
 const POWER3_OUT = "cubic-bezier(0.215, 0.61, 0.355, 1)";
 const SETAS: Record<string, number> = {
   ArrowRight: 1,
@@ -35,7 +36,6 @@ function comportamento(): ScrollBehavior {
 export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
   const [atual, setAtual] = useState(0);
   const irPara = useRef<(painel: HTMLElement) => void>(() => {});
-  const progresso = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const panorama = document.getElementById("panorama");
@@ -141,12 +141,6 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
     const marcar = () => {
       if (!matchMedia(DESKTOP).matches) {
         setAtual(empilhar());
-        // A barra do índice enche com a rolagem, como a do zip.
-        const fim = document.documentElement.scrollHeight - innerHeight;
-        progresso.current?.style.setProperty(
-          "scale",
-          `1 ${fim > 0 ? Math.min(scrollY / fim, 1) : 0}`,
-        );
         return;
       }
       if (ativo >= 0) desempilhar();
@@ -252,62 +246,47 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
   }, [estacoes]);
 
   return (
-    <>
-      {/* Celular: o índice do zip, com um tracinho na seção atual e a barra de progresso. O trilho já é a navegação acessível. */}
-      <div
-        aria-hidden="true"
-        data-capa={atual === 0 || undefined}
-        className="indice min-[901px]:hidden"
-      >
-        <ol>
-          {estacoes.map(({ id }, i) => (
-            <li key={id} data-atual={i === atual || undefined}>
-              {String(i + 1).padStart(2, "0")}
-            </li>
-          ))}
-        </ol>
-        <span className="progresso">
-          <span ref={progresso} />
-        </span>
-      </div>
-      <nav
-        aria-label="Seções"
-        className="fixed inset-x-0 bottom-0 z-10 flex h-[var(--barra)] items-center border-t bg-tabua px-6 max-[900px]:px-3"
-      >
-        <ol className="flex flex-1 items-center">
-          {estacoes.map(({ id, label }, i) => {
-            const estado =
-              i < atual ? "lido" : i === atual ? "atual" : undefined;
-            const ultima = i === estacoes.length - 1;
-            return (
-              <li
-                key={id}
-                data-estado={estado}
-                className={
-                  ultima ? "flex items-center" : "flex flex-1 items-center"
-                }
+    <nav
+      aria-label="Seções"
+      className="fixed inset-x-0 bottom-0 z-10 flex h-[var(--barra)] items-center border-t bg-tabua px-6 max-[900px]:px-3"
+    >
+      <ol className="flex flex-1 items-center">
+        {estacoes.map(({ id, label }, i) => {
+          const estado = i < atual ? "lido" : i === atual ? "atual" : undefined;
+          const ultima = i === estacoes.length - 1;
+          return (
+            <li
+              key={id}
+              data-estado={estado}
+              className={
+                ultima ? "flex items-center" : "flex flex-1 items-center"
+              }
+            >
+              <a
+                href={`#${id}`}
+                aria-current={i === atual ? "location" : undefined}
+                onClick={(event) => {
+                  const alvo = document.getElementById(id);
+                  if (!alvo) return;
+                  event.preventDefault();
+                  irPara.current(alvo);
+                  alvo.focus({ preventScroll: true });
+                }}
+                className="flex min-h-11 min-w-11 items-center justify-center gap-2.5 text-sm whitespace-nowrap text-linho-gasto transition-[color,background-color,border-color] hover:text-linho [[data-estado]_&]:text-linho"
               >
-                <a
-                  href={`#${id}`}
-                  aria-current={i === atual ? "location" : undefined}
-                  onClick={(event) => {
-                    const alvo = document.getElementById(id);
-                    if (!alvo) return;
-                    event.preventDefault();
-                    irPara.current(alvo);
-                    alvo.focus({ preventScroll: true });
-                  }}
-                  className="flex min-h-11 min-w-11 items-center justify-center gap-2.5 text-sm whitespace-nowrap text-linho-gasto transition-colors hover:text-linho [[data-estado]_&]:text-linho"
+                <span className="estacao" aria-hidden="true" />
+                {/* No celular só a estação atual diz o nome: uma navegação só, e legível. */}
+                <span
+                  className={i === atual ? undefined : "max-[900px]:sr-only"}
                 >
-                  <span className="estacao" aria-hidden="true" />
-                  <span className="max-[900px]:sr-only">{label}</span>
-                </a>
-                {!ultima && <span className="trecho" aria-hidden="true" />}
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
-    </>
+                  {label}
+                </span>
+              </a>
+              {!ultima && <span className="trecho" aria-hidden="true" />}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
   );
 }

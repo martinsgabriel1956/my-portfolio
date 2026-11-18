@@ -4,6 +4,7 @@ import { Carrossel } from "./carrossel";
 /** Um projeto como faixa do disco: o número é o mesmo na capa e no painel de projetos. */
 export type Faixa = ExperienceProject & {
   company: string;
+  experienceId: Experience["id"];
   numero: string;
   id: string;
 };
@@ -15,6 +16,7 @@ export function faixasOf(experiences: Experience[]): Faixa[] {
       (exp.projects ?? []).map((project) => ({
         ...project,
         company: exp.company,
+        experienceId: exp.id,
       })),
     )
     .map((project, i) => {
