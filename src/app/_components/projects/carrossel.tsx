@@ -19,13 +19,19 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   const [slides, setSlides] = useState<Slide[]>([{ i: 0, chave: 0 }]);
   const [atual, setAtual] = useState(0);
   const animando = useRef(false);
+  // Clique durante a troca não se perde: o último pedido espera a troca acabar.
+  const pendente = useRef<[number, 1 | -1] | null>(null);
   const chave = useRef(0);
   const palco = useRef<HTMLDivElement>(null);
   const toque = useRef<{ x: number; y: number } | null>(null);
   const total = faixas.length;
 
   const ir = (destino: number, dir: 1 | -1) => {
-    if (animando.current || destino === atual) return;
+    if (animando.current) {
+      pendente.current = [destino, dir];
+      return;
+    }
+    if (destino === atual) return;
     setAtual(destino);
     const nova = { i: destino, chave: ++chave.current, dir };
     const velho = palco.current?.lastElementChild as HTMLElement | null;
@@ -119,6 +125,9 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
             aoChegar={() => {
               setTimeout(() => {
                 animando.current = false;
+                const pedido = pendente.current;
+                pendente.current = null;
+                if (pedido) irRef.current(...pedido);
               }, 100);
             }}
           />

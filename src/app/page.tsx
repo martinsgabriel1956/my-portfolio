@@ -14,6 +14,9 @@ import { getEducation } from "./_components/education/action/get-education";
 import { getExperiences } from "./_components/experience/action";
 import { getSkillCategories } from "./_components/skills/action";
 
+// Gerada no build mesmo lendo o banco sem cache (src/db/index.ts): edições no banco saem no próximo deploy.
+export const dynamic = "force-static";
+
 export default async function Home() {
   const [experiences, categories, education, certifications] =
     await Promise.all([

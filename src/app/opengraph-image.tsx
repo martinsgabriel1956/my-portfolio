@@ -3,6 +3,9 @@ import { ArteColisao } from "./_components/colisao";
 import { getExperiences } from "./_components/experience/action";
 import { faixasOf } from "./_components/projects";
 
+// Gerada no build, como a página (ver src/app/page.tsx).
+export const dynamic = "force-static";
+
 export const alt = "Gabriel Martins, Desenvolvedor Fullstack";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

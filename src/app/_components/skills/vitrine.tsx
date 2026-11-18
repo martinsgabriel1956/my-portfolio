@@ -12,17 +12,17 @@ export function Vitrine({ categories }: { categories: SkillCategory[] }) {
 
   return (
     <div className="grid gap-8 min-[901px]:grid-cols-[minmax(220px,300px)_1fr]">
-      <ul className="flex flex-col max-[900px]:flex-row max-[900px]:flex-wrap max-[900px]:gap-x-4">
+      {/* No celular, uma faixa que desliza de lado: a categoria aberta fica logo abaixo do título, não sob 12 botões. */}
+      <ul className="flex flex-col [scrollbar-width:none] max-[900px]:-mx-5 max-[900px]:flex-row max-[900px]:gap-x-5 max-[900px]:overflow-x-auto max-[900px]:px-5">
         {categories.map((c, i) => (
           <li key={c.id}>
             <button
               type="button"
               aria-controls={`habilidade-${c.id}`}
               aria-pressed={i === atual}
-              onMouseEnter={() => setAtual(i)}
-              onFocus={() => setAtual(i)}
+              // Só o clique escolhe: passar o mouse ou o Tab não trocam a categoria sob o leitor.
               onClick={() => setAtual(i)}
-              className="min-h-11 py-1 text-left text-[clamp(18px,1.6vw,24px)] leading-tight font-light tracking-[-0.02em] lowercase transition-colors hover:text-linho-gasto aria-pressed:text-ferrugem"
+              className="min-h-11 py-1 text-left max-[900px]:whitespace-nowrap text-[clamp(18px,1.6vw,24px)] leading-tight font-light tracking-[-0.02em] lowercase transition-colors hover:text-linho-gasto aria-pressed:text-ferrugem"
             >
               {c.title}
             </button>

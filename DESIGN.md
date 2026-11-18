@@ -43,9 +43,9 @@ typography:
     letterSpacing: "-0.02em"
   item:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(20px, 1.7vw, 26px)"
+    fontSize: "clamp(2rem, 4.6vw, 4.6rem)"
     fontWeight: 300
-    lineHeight: 1.15
+    lineHeight: 1.02
   body-lg:
     fontFamily: "Albert Sans, ui-sans-serif, system-ui, sans-serif"
     fontSize: "18px"
@@ -119,11 +119,11 @@ components:
     textColor: "{colors.linho}"
     padding: "{spacing.painel-desktop}"
     width: "86vw"
-  cartao-habilidade:
+  ladrilho-habilidade:
     backgroundColor: "{colors.grafite}"
     textColor: "{colors.linho}"
     rounded: "{rounded.none}"
-    padding: "20px 22px"
+    padding: "16px 18px"
   trilho:
     backgroundColor: "{colors.tabua}"
     textColor: "{colors.linho-gasto}"
@@ -189,7 +189,7 @@ Paleta de um tom quente só: tábua escura, linho claro e ferrugem como única v
 **Character:** Uma família só, levada aos extremos de peso: 200 nos títulos grandes, 300 nos subtítulos, 500/600 só em rótulos curtos e na marca. Minúsculas nos títulos dão o tom humano sem perder o rigor.
 
 ### Hierarchy
-- **Display** (200, clamp(3.4rem, 7vw, 7rem), 0.92): o título da capa em duas batidas; a primeira linha ("gabriel martins.") sobe para 400. No celular, clamp(2.6rem, 12vw, 3.4rem). Texto simples, sem animação de letras.
+- **Display** (200, clamp(3.4rem, 7vw, 7rem), 0.92): o título da capa em duas batidas, "gabriel martins." / "desenvolvedor fullstack pleno."; a primeira linha sobe para 400. No celular, clamp(2.6rem, 12vw, 3.4rem). Texto simples, sem animação de letras.
 - **Headline** (200, clamp(3.4rem, 7vw, 7rem), 0.95): título de cada painel ("projetos", "experiência", "habilidades", "formação", "contato").
 - **Title-lg** (300, clamp(34px, 4vw, 56px), 1.05): nome da empresa na experiência, em minúsculas.
 - **Title / Title-sm** (300, clamp(26px, 2.4vw, 34px) e clamp(22px, 2vw, 28px)): grupos de formação, domínios de projeto, categorias de habilidade.
@@ -210,7 +210,7 @@ Paleta de um tom quente só: tábua escura, linho claro e ferrugem como única v
 
 **Celular (≤ 900px):** o panorama fica fixo e os painéis se empilham no mesmo lugar; a rolagem da página troca o painel ativo (uma tela inteira de rolagem entre painéis; entra com opacidade 0.5s e escala de 1.1 para 1 em 1s) e rola o conteúdo dele por dentro. No canto inferior direito, o índice do zip: 01–06 em 14px (label), a seção atual com opacidade cheia e um tracinho de 10px que abre (0.3s), e uma barra vertical de 1px que enche com a rolagem; na capa fica em tábua, no resto em linho. Padding 28px 20px 56px. O título do painel que entra sobe de trás de uma máscara (750ms).
 
-**Trilho:** barra fixa de 64px no rodapé, uma estação por seção ligada por trechos; no celular os rótulos somem e os trechos encurtam para caber seis estações em 375px.
+**Trilho:** barra fixa de 64px no rodapé, uma estação por seção ligada por trechos; no celular os rótulos somem e os trechos encurtam para caber seis estações em 375px. No desktop, quando o foco entra num painel (Tab, link de pular), o panorama encosta esse painel na borda, para o trilho dizer a seção certa.
 
 **Ritmo:** linhas de lista com 20px de respiro vertical e borda superior em ferro; colunas a 48px; larguras de leitura limitadas (900–1400px conforme o painel).
 
@@ -237,7 +237,7 @@ Diretos e retos, com ícone de 18px à esquerda.
 
 ### Cards / Containers
 - **Painel:** tábua, 86vw, borda direita ferro, rola por dentro quando o conteúdo passa da altura.
-- **Cartão de habilidade:** grafite, canto reto, padding 20px 22px, título title-sm em minúsculas e lista em body-lg linho gasto separada por " · ".
+- **Vitrine de habilidades:** à esquerda a lista de categorias (botões em minúsculas, a escolhida em ferrugem, `aria-pressed`); à direita o palco da categoria escolhida, com cada habilidade num ladrilho grafite que abre recortado de uma direção, com clarão (o hover grid do zip). Só o clique escolhe a categoria; passar o mouse ou o Tab não trocam. No celular as categorias viram uma faixa que desliza de lado, e o palco fica logo abaixo dela.
 - **Linha de lista (experiência, formação):** borda superior ferro, 20px de respiro, número tabular à esquerda.
 
 ### Navigation
@@ -245,11 +245,11 @@ Diretos e retos, com ícone de 18px à esquerda.
 - **Lista "lado a":** no desktop, lista numerada ("lado a · N projetos", itens em body 16px) no alto à direita da capa, fundo ferrugem; a faixa em foco ganha peso 500 e sublinhado. Vem depois do título no DOM, para o nome ser lido primeiro. No celular some: a lista completa está no painel de projetos.
 
 ### Marca "gm."
-Pílula tábua com "gm." em ferrugem (marca, 600, 26px) no canto superior esquerdo da capa. No favicon, os glifos e o ponto são tábua sobre ferrugem, como a capa da abertura; nos arquivos de marca em `public/brand`, linho sobre tábua com o ponto em ferrugem.
+Pílula tábua com "gm." em ferrugem (marca, 600, 26px) no canto superior esquerdo da capa; não é link (só levaria à própria capa) e fica fora da árvore de acessibilidade, porque o nome está no título. No favicon, os glifos e o ponto são tábua sobre ferrugem, como a capa da abertura; nos arquivos de marca em `public/brand`, linho sobre tábua com o ponto em ferrugem.
 
 ### Arte da Colisão (componente assinatura)
 SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada trajetória sai do centro como curva quadrática; o sinal da curva diz o domínio (ecommerce, admin, saúde curvam para lados diferentes) e uma marca de impacto cruza cada camada. No calorímetro, a célula de energia de cada projeto tem 18 + 5 por tecnologia (até 12), e só deposita fora do setor aberto.
-- **Estado:** passar ou focar uma faixa (desktop) dobra a linha dela (traço 3 + uma linha gêmea a 8 de distância), baixa as outras para 0.3 de opacidade e sublinha a faixa na lista. No canto inferior direito da capa (desktop), o rótulo da trajetória em foco: "trajetória NN · domínio" em label e o nome do projeto em 24px 500, sobre fundo ferrugem. Domínios em palavras: e-commerce, painéis, saúde. No pé da capa, ao lado do botão, "remoto · brasil" em label 500 (no celular numa linha própria acima do botão). O cartão do carrossel diz "empresa · domínio".
+- **Estado:** passar ou focar uma faixa (desktop) dobra a linha dela (traço 3 + uma linha gêmea a 8 de distância), baixa as outras para 0.3 de opacidade e sublinha a faixa na lista. No canto inferior direito da capa (desktop), o rótulo da trajetória em foco: "trajetória NN · domínio" em label e o nome do projeto em 24px 500, sobre fundo ferrugem. Domínios em palavras: e-commerce, painéis, saúde. No pé da capa: o botão "Entre em contato", a ação secundária "currículo (pdf)" (label 500 sublinhado em tábua, com ícone, baixa o PDF) e "remoto · brasil" em label 500. No celular a localização sobe para uma linha própria acima do botão, o currículo desce para outra abaixo, e a arte encolhe para 140vw com o centro a 43% para o calorímetro não encostar no pé nem no índice. O cartão do carrossel diz "empresa · domínio".
 - **Chegada:** cada trajetória se traça do centro uma vez, 0.9s cubic-bezier(0.16, 1, 0.3, 1), a partir de 0.7s com 0.06s entre elas.
 - **Setor aberto:** a trajetória cujo ângulo cai no setor aberto (na direção do título) tem 70% do comprimento, para nunca passar sobre o nome.
 - **Contracapa:** no fim do painel de contato, um quadrado ferrugem com grão mostra a mesma colisão cortada, com "fim do lado a". Só no desktop; no celular some.
@@ -258,7 +258,7 @@ SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada traj
 Cortina tábua fixa sobre a página: a capa "gm." de 140px em ferrugem (marca, 26px) se imprime do meio (0.3s), dois anéis linho gasto se abrem em volta (0.5s, o externo tracejado), e a tábua se fecha no meio e se dissolve (0.55s, ease-in-out, a partir de 0.4s), toda fora antes de 1s, enquanto o título e o pé da capa sobem 16px sem nunca ficar invisíveis. Só CSS, nunca bloqueia cliques; com movimento reduzido não aparece.
 
 ### Projetos
-Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono). Cada cartão é grafite com o número da faixa gigante em ferro no fundo, no lugar de uma imagem. Na troca, o cartão atual gira 30°, encolhe a 25% e sai pela vertical (ease-in-out quint); 0,45s depois o próximo sobe recortado por um polígono que se abre até o cheio (ease-out quint), e o título nasce palavra por palavra de trás de máscaras, seguido do resto. Os tempos são os do zip de referência vezes `RITMO` (0,6, troca em ~1,4s). Navega por anterior/próximo, pela numeração e pelos links da capa (`#faixa-NN`); a roda não troca projeto, porque ela anda o panorama. Deslizar o cartão para o lado também troca. No celular a navegação sai da tela (fica só para leitor de tela) e o contador do cartão dá lugar a um "01 / 08" discreto em linho gasto abaixo dele; a troca é pelo gesto.
+Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono). Cada cartão é grafite com o número da faixa gigante em ferro no fundo, no lugar de uma imagem. Na troca, o cartão atual gira 30°, encolhe a 25% e sai pela vertical (ease-in-out quint); 0,45s depois o próximo sobe recortado por um polígono que se abre até o cheio (ease-out quint), e o título nasce palavra por palavra de trás de máscaras, seguido do resto. Os tempos são os do zip de referência vezes `RITMO` (0,6, troca em ~1,4s). Navega por anterior/próximo, pela numeração e pelos links da capa (`#faixa-NN`); um clique durante a troca não se perde, espera ela acabar e segue; a roda não troca projeto, porque ela anda o panorama. Deslizar o cartão para o lado também troca. No celular a navegação sai da tela (fica só para leitor de tela) e o contador do cartão dá lugar a um "01 / 08" discreto em linho gasto abaixo dele; a troca é pelo gesto.
 
 ## Do's and Don'ts
 

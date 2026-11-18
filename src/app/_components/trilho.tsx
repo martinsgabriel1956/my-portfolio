@@ -210,6 +210,8 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       const origem = event.target as Element;
       if (origem.closest("input, textarea, select, [contenteditable]")) return;
       const vertical = event.key === "ArrowUp" || event.key === "ArrowDown";
+      // ↑/↓ num botão ficam com o botão (e com o leitor de tela).
+      if (vertical && origem.closest("button")) return;
       const painel =
         origem.closest<HTMLElement>(".painel") ??
         paineis[indiceAtual()] ??
@@ -219,10 +221,14 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       andar(direcao * PASSO_MAX);
     };
 
-    // Celular: foco (Tab, link de pular) num painel escondido rola a página até ele.
+    // Foco (Tab, link de pular) num painel: no desktop o panorama encosta o painel na borda, para o
+    // trilho dizer a seção certa; no celular a página rola até ele.
     const foco = (event: FocusEvent) => {
-      if (matchMedia(DESKTOP).matches) return;
       const i = paineis.findIndex((p) => p.contains(event.target as Node));
+      if (matchMedia(DESKTOP).matches) {
+        if (i >= 0) deslizar(paineis[i].offsetLeft);
+        return;
+      }
       if (i >= 0 && i !== ativo && i !== destino) scrollTo({ top: inicios[i] });
     };
 

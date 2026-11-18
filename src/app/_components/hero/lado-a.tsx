@@ -27,7 +27,7 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
           rastros={faixas}
           foco={foco}
           data-escolhendo={escolhendo || undefined}
-          className="colisao absolute top-[52%] left-[66%] w-[min(124vh,86vw)] -translate-x-1/2 -translate-y-1/2 max-[900px]:top-[45%] max-[900px]:left-[70%] max-[900px]:w-[160vw]"
+          className="colisao absolute top-[52%] left-[66%] w-[min(124vh,86vw)] -translate-x-1/2 -translate-y-1/2 max-[900px]:top-[43%] max-[900px]:left-[70%] max-[900px]:w-[140vw]"
         />
       </div>
       {faixas.length > 0 && (

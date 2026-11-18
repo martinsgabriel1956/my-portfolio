@@ -10,7 +10,7 @@ type Status = "idle" | "copied" | "failed";
 const labels: Record<Status, string> = {
   idle: "Copiar email",
   copied: "Email copiado",
-  failed: "Não deu para copiar",
+  failed: "Não copiou: selecione o email",
 };
 
 export function CopyEmailButton() {
