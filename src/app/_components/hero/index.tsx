@@ -1,6 +1,6 @@
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight, BookOpen, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CV_URL } from "@/lib/links";
+import { BLOG_URL, CV_URL } from "@/lib/links";
 import type { Faixa } from "../projects";
 import { dominiosEmPalavras, stackDe } from "../projects/dominio";
 import { LadoA } from "./lado-a";
@@ -47,14 +47,26 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
           </a>
         </Button>
         {/* A ação secundária: quieta, em tábua, para não disputar com o contato. */}
-        <a
-          href={CV_URL}
-          download
-          className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2 max-[900px]:basis-full"
-        >
-          <FileText className="size-4" aria-hidden="true" />
-          Currículo (PDF)
-        </a>
+        <div className="flex flex-wrap gap-x-6 max-[900px]:basis-full">
+          <a
+            href={CV_URL}
+            download
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+          >
+            <FileText className="size-4" aria-hidden="true" />
+            Currículo (PDF)
+          </a>
+          <a
+            href={BLOG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+          >
+            <BookOpen className="size-4" aria-hidden="true" />
+            Blog
+            <span className="sr-only"> (abre em nova aba)</span>
+          </a>
+        </div>
         {/* No celular sobe para uma linha própria: ao lado do botão ela cairia sob o índice do canto. */}
         <p className="text-sm font-medium max-[900px]:order-first max-[900px]:basis-full">
           remoto · brasil

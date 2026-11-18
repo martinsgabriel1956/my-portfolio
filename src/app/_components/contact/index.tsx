@@ -1,6 +1,12 @@
-import { FileText, Github, Linkedin } from "lucide-react";
+import { BookOpen, FileText, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CV_URL, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/links";
+import {
+  BLOG_URL,
+  CV_URL,
+  EMAIL,
+  GITHUB_URL,
+  LINKEDIN_URL,
+} from "@/lib/links";
 import { ArteColisao } from "../colisao";
 import type { Faixa } from "../projects";
 import { CopyEmailButton } from "./copy-email-button";
@@ -8,6 +14,7 @@ import { CopyEmailButton } from "./copy-email-button";
 const links = [
   { href: LINKEDIN_URL, label: "LinkedIn", Icon: Linkedin },
   { href: GITHUB_URL, label: "GitHub", Icon: Github },
+  { href: BLOG_URL, label: "Blog", Icon: BookOpen },
   { href: CV_URL, label: "Currículo (PDF)", Icon: FileText, download: true },
 ];
 
