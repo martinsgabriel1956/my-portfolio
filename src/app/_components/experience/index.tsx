@@ -68,7 +68,8 @@ export function Experience({
                           className="inline-flex min-h-11 items-center gap-2 underline decoration-ferrugem decoration-1 underline-offset-4 hover:decoration-2"
                         >
                           <span className="text-sm text-linho-gasto tabular-nums">
-                            {faixa.numero}
+                            {/* O espaço final não aparece (fim do item flex), mas separa "01 Nome" para o leitor de tela. */}
+                            {faixa.numero}{" "}
                           </span>
                           {faixa.name}
                         </a>

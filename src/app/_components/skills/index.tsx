@@ -30,8 +30,18 @@ export function Skills({
 }) {
   const faixasDe = (habilidade: string) => {
     const ks = chaves(habilidade);
+    // Integrações (Asaas, Mercado Pago…) vivem na descrição, não nas techs: palavra inteira, para "Git" não achar "digital".
+    const nome = habilidade.split("(")[0].trim();
+    const citada = new RegExp(
+      `\\b${nome.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+      "i",
+    );
     return faixas
-      .filter((f) => f.techs.some((t) => ks.includes(chave(t))))
+      .filter(
+        (f) =>
+          f.techs.some((t) => ks.includes(chave(t))) ||
+          citada.test(f.description),
+      )
       .map((f) => f.numero);
   };
   return (
@@ -45,7 +55,7 @@ export function Skills({
         habilidades
       </h2>
       <p className="mt-2 mb-7 text-sm text-linho-gasto">
-        Os números são as faixas em que cada uma foi usada.
+        Os números são os projetos em que cada uma foi usada.
       </p>
       <dl className="grid max-w-[1400px] gap-x-12 min-[640px]:grid-cols-2 min-[1200px]:grid-cols-3">
         {categories.map((c) => (
@@ -62,7 +72,7 @@ export function Skills({
                     </span>
                     {numeros.length > 0 && (
                       <span className="text-sm tabular-nums">
-                        <span className="sr-only">, nas faixas</span>{" "}
+                        <span className="sr-only">, nos projetos</span>{" "}
                         {numeros.join(" ")}
                       </span>
                     )}

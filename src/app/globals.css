@@ -102,6 +102,9 @@
     overflow-y: auto;
     border-right: 1px solid var(--color-ferro);
     padding: 36px 48px 32px;
+    /* Quando o painel rola por dentro (laptop baixo, zoom), a barra é do sistema, não do navegador. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ferro) transparent;
   }
   /* O painel recebe foco ao ser aberto pelo trilho ou pelo link de pular: pelo teclado, a moldura diz onde se chegou. */
   .painel:focus {

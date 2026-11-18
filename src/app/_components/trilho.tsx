@@ -128,7 +128,9 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
         document.body.style.height = altura;
     };
     const empilhar = () => {
-      medirPilha();
+      // Mede ao empilhar; depois, só no resize e no ResizeObserver. Medir a cada scroll lia o layout
+      // logo depois de escrever o scrollTop dos painéis, e o navegador recalculava tudo por evento.
+      if (ativo < 0) medirPilha();
       // Cada painel rola por dentro conforme a página; os anteriores ficam no fim, os próximos no topo.
       paineis.forEach((painel, i) => {
         painel.scrollTop = scrollY - inicios[i];
@@ -357,7 +359,12 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
     // No celular, a altura de um painel muda sem rolagem (troca de projeto, fonte que chega): remede
     // a pilha e mantém o lugar dentro do painel ativo, senão o próximo gesto cai na seção vizinha.
     const observador = new ResizeObserver(() => {
-      if (ativo < 0 || destino >= 0) return;
+      if (ativo < 0) return;
+      // No meio de um pulo, só remede: segurar o lugar no painel de partida cortaria o caminho.
+      if (destino >= 0) {
+        medirPilha();
+        return;
+      }
       const dentro = paineis[ativo].scrollTop;
       medirPilha();
       scrollTo({ top: inicios[ativo] + dentro, behavior: "instant" });
@@ -367,6 +374,7 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       for (const filho of painel.children) observador.observe(filho);
     const redimensionar = () => {
       medirBordas();
+      if (ativo >= 0) medirPilha();
       marcar();
     };
 

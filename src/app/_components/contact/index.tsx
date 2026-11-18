@@ -5,11 +5,14 @@ import { ArteColisao } from "../colisao";
 import type { Faixa } from "../projects";
 import { CopyEmailButton } from "./copy-email-button";
 
+// A decisão: email, LinkedIn e currículo. GitHub e blog ficam numa linha quieta embaixo.
 const links = [
   { href: LINKEDIN_URL, label: "LinkedIn", Icon: Linkedin },
+  { href: CV_URL, label: "Currículo (PDF)", Icon: FileText, download: true },
+];
+const extras = [
   { href: GITHUB_URL, label: "GitHub", Icon: Github },
   { href: BLOG_URL, label: "Blog", Icon: BookOpen },
-  { href: CV_URL, label: "Currículo (PDF)", Icon: FileText, download: true },
 ];
 
 /** Fecha o disco: o contato, e no canto a contracapa com a mesma colisão. */
@@ -57,6 +60,22 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
                   </a>
                 )}
               </Button>
+            </li>
+          ))}
+        </ul>
+        <ul className="mt-5 flex flex-wrap gap-x-6 text-sm text-linho-gasto">
+          {extras.map(({ href, label, Icon }) => (
+            <li key={label}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener"
+                className="inline-flex min-h-11 items-center gap-2 underline decoration-1 underline-offset-4 hover:text-linho hover:decoration-2"
+              >
+                <Icon className="size-4" aria-hidden="true" />
+                {label}
+                <span className="sr-only"> (abre em nova aba)</span>
+              </a>
             </li>
           ))}
         </ul>

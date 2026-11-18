@@ -34,11 +34,22 @@ export function dominiosEmPalavras(faixas: { domain?: ProjectDomain }[]) {
   );
 }
 
+/** "Next.js 15" e "Prisma ORM" contam como "Next.js" e "Prisma": a versão não é outra tecnologia. */
+const semVersao = (tech: string) =>
+  tech.replace(/\s+\d+(\.\d+)*$/, "").replace(/\s+ORM$/, "");
+/** Quem usa Next.js usa React: o projeto conta para os dois. */
+const IMPLICA: Record<string, string[]> = { "Next.js": ["React"] };
+
 /** As tecnologias que mais se repetem nas faixas: a stack, sem dado novo. */
 export function stackDe(faixas: { techs: string[] }[], limite = 6) {
   const vezes = new Map<string, number>();
-  for (const faixa of faixas)
-    for (const tech of faixa.techs) vezes.set(tech, (vezes.get(tech) ?? 0) + 1);
+  for (const faixa of faixas) {
+    // Um conjunto por projeto: "Prisma ORM" e "Prisma" no mesmo projeto contam uma vez.
+    const techs = new Set(faixa.techs.map(semVersao));
+    for (const tech of [...techs])
+      for (const implicada of IMPLICA[tech] ?? []) techs.add(implicada);
+    for (const tech of techs) vezes.set(tech, (vezes.get(tech) ?? 0) + 1);
+  }
   // Map guarda a ordem de chegada, e o sort é estável: no empate vence quem apareceu antes.
   return [...vezes]
     .sort((a, b) => b[1] - a[1])
