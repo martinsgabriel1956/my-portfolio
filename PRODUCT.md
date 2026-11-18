@@ -15,7 +15,7 @@ Recruiter-first: when the two audiences pull in different directions, the hiring
 
 ## Product Purpose
 
-Personal portfolio of Gabriel Martins, Desenvolvedor Fullstack Pleno, in Brazilian Portuguese. Success is a visitor leaving with a clear picture of what he builds and taking one action: email, LinkedIn, or downloading the CV.
+Personal portfolio of Gabriel Martins, Desenvolvedor Fullstack (no seniority level in the headline, so it does not narrow the openings), in Brazilian Portuguese. Success is a visitor leaving with a clear picture of what he builds and taking one action: email, LinkedIn, or downloading the CV.
 
 ## Positioning
 

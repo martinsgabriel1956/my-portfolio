@@ -10,7 +10,7 @@ const albertSans = Albert_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Gabriel Martins | Desenvolvedor Fullstack Pleno",
+    default: "Gabriel Martins | Desenvolvedor Fullstack",
     template: "%s | Gabriel Martins",
   },
   description:
@@ -52,14 +52,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     url: "https://www.martinsgabrieldev.com.br",
-    title: "Gabriel Martins | Desenvolvedor Fullstack Pleno",
+    title: "Gabriel Martins | Desenvolvedor Fullstack",
     description:
       "Portfólio profissional de Gabriel Martins, Desenvolvedor Fullstack especializado em React, Next.js, Node.js, TypeScript e Fastify.",
     siteName: "Gabriel Martins - Portfólio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gabriel Martins | Desenvolvedor Fullstack Pleno",
+    title: "Gabriel Martins | Desenvolvedor Fullstack",
     description:
       "Portfólio profissional de Gabriel Martins, Desenvolvedor Fullstack especializado em React, Next.js, Node.js, TypeScript e Fastify.",
     creator: "@martinsbiel99",

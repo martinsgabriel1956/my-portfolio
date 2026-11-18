@@ -52,8 +52,9 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
                   onMouseEnter={() => escolher(i)}
                   onFocus={() => escolher(i)}
                   onBlur={() => setEscolhendo(false)}
-                  data-foco={i === foco || undefined}
-                  className="grid min-h-6 grid-cols-[1.75rem_1fr] py-0.5 underline-offset-4 data-foco:font-medium data-foco:underline"
+                  // Só marca quando alguém escolhe: sublinhada de saída, a 01 parecia já visitada.
+                  data-foco={(escolhendo && i === foco) || undefined}
+                  className="grid min-h-11 grid-cols-[1.75rem_1fr] items-center underline-offset-4 data-foco:font-medium data-foco:underline [@media(max-height:760px)]:min-h-8"
                 >
                   <span className="tabular-nums">{faixa.numero}</span>
                   <span>
@@ -81,6 +82,12 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
           <span className="block text-2xl leading-tight font-medium tracking-[-0.02em]">
             {emFoco.name}
           </span>
+          {/* O que o nome não diz: com o que foi feito. */}
+          {emFoco.techs.length > 0 && (
+            <span className="mt-1 block text-sm">
+              {emFoco.techs.slice(0, 3).join(" · ")}
+            </span>
+          )}
         </p>
       )}
     </>

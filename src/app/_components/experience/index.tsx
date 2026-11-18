@@ -1,19 +1,7 @@
 import type { Experience as ExperienceRow } from "@/db/schema";
 import { formatMonthYear } from "@/lib/utils";
 import type { Faixa } from "../projects";
-
-/** As tecnologias que mais se repetem nos projetos de um cargo: a stack dele, sem dado novo. */
-function stackDe(faixas: Faixa[], limite = 6) {
-  const contagem = new Map<string, number>();
-  for (const faixa of faixas)
-    for (const tech of faixa.techs)
-      contagem.set(tech, (contagem.get(tech) ?? 0) + 1);
-  // Map guarda a ordem de chegada, e o sort é estável: no empate vence quem apareceu antes.
-  return [...contagem]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, limite)
-    .map(([tech]) => tech);
-}
+import { stackDe } from "../projects/dominio";
 
 /** Cada cargo com a prova embaixo: a stack e as faixas que ele rendeu, ligadas ao painel de projetos. */
 export function Experience({
@@ -30,10 +18,7 @@ export function Experience({
       aria-labelledby="experience-heading"
       className="painel"
     >
-      <h2
-        id="experience-heading"
-        className="mb-7 text-[clamp(3.4rem,7vw,7rem)] leading-[0.95] font-extralight tracking-[-0.04em]"
-      >
+      <h2 id="experience-heading" className="mb-7 text-headline">
         experiência
       </h2>
       <ol className="max-w-[900px]">
@@ -47,9 +32,7 @@ export function Experience({
               className="grid gap-x-4 gap-y-1 border-t py-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-baseline"
             >
               <div>
-                <h3 className="text-[clamp(34px,4vw,56px)] leading-[1.05] font-light tracking-[-0.02em] lowercase">
-                  {exp.company}
-                </h3>
+                <h3 className="text-title-lg lowercase">{exp.company}</h3>
                 <p className="mt-1 text-linho-gasto">{exp.title}</p>
               </div>
               <p className="text-base text-linho-gasto tabular-nums md:order-none">

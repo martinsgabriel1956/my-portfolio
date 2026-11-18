@@ -11,6 +11,8 @@ const REDUZ = "(prefers-reduced-motion: reduce)";
 const LERP = 0.05;
 const VELOCIDADE = 1.75;
 const PASSO_MAX = 150;
+// Depois de um gesto, o panorama assenta no próximo painel na direção dele: nunca para entre duas seções.
+const ASSENTA_MS = 160;
 // Positivo: o título adianta em vez de atrasar; negativo cortaria o título do painel que espia à direita.
 const PARALLAX = 0.1;
 // No celular, quanto da altura da tela se rola entre um painel e outro. Uma tela inteira (o zip) deixava
@@ -86,6 +88,8 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
     };
 
     const empilhar = () => {
+      // O CSS só empilha com este sinal: sem JS, o celular fica numa coluna comum que rola.
+      document.documentElement.dataset.empilha = "";
       const vao = panorama.clientHeight * VAO;
       let fim = 0;
       inicios = paineis.map((painel, i) => {
@@ -107,11 +111,8 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       });
       if (indice === destino) destino = -1;
       if (indice === ativo) return indice;
-      if (ativo < 0) {
+      if (ativo < 0)
         for (const titulo of titulos) titulo?.style.removeProperty("translate");
-        // A capa já vem ativa do servidor, para o celular nunca abrir em branco antes do JS.
-        for (const painel of paineis) painel.removeAttribute("data-ativo");
-      }
       paineis[ativo]?.removeAttribute("data-ativo");
       paineis[indice].setAttribute("data-ativo", "");
       // O título sobe de trás de uma máscara, como o SplitText do zip (inteiro, sem escalonar linhas).
@@ -133,6 +134,7 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       return indice;
     };
     const desempilhar = () => {
+      delete document.documentElement.dataset.empilha;
       document.body.style.height = "";
       paineis[ativo]?.removeAttribute("data-ativo");
       ativo = -1;
@@ -157,8 +159,9 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       });
       setAtual(indiceAtual());
     };
-    const indiceAtual = () => {
-      const ponto = panorama.scrollLeft + innerWidth * 0.3;
+    // A seção atual é a que ocupa o meio da tela: o trilho nunca nomeia um painel quase todo fora.
+    const indiceAtual = (x = panorama.scrollLeft) => {
+      const ponto = x + innerWidth * 0.5;
       let indice = 0;
       paineis.forEach((painel, i) => {
         if (painel.offsetLeft <= ponto) indice = i;
@@ -166,20 +169,55 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       return indice;
     };
 
-    // Um painel que rola por dentro rola primeiro, antes do panorama andar.
-    const painelRola = (painel: HTMLElement | null, paraBaixo: boolean) => {
-      if (!painel || painel.scrollHeight <= painel.clientHeight + 2)
-        return false;
-      return paraBaixo
-        ? painel.scrollTop + painel.clientHeight < painel.scrollHeight - 2
-        : painel.scrollTop > 0;
+    // Um painel (ou o cartão de projeto) que rola por dentro rola primeiro, antes do panorama andar.
+    // Folga de 8px: um transbordo de poucos pixels não pode roubar o primeiro dente da roda.
+    const rola = (el: HTMLElement, paraBaixo: boolean) =>
+      el.scrollHeight > el.clientHeight + 8 &&
+      (paraBaixo
+        ? el.scrollTop + el.clientHeight < el.scrollHeight - 2
+        : el.scrollTop > 0);
+    const painelRola = (origem: Element | null, paraBaixo: boolean) => {
+      for (
+        let el = origem?.closest<HTMLElement>("[data-rola], .painel");
+        el;
+        el = el.parentElement?.closest<HTMLElement>("[data-rola], .painel")
+      )
+        if (rola(el, paraBaixo)) return true;
+      return false;
     };
-    const andar = (delta: number) =>
-      deslizar((quadro ? alvo : panorama.scrollLeft) + delta);
+
+    // Assenta no primeiro painel na direção do gesto, a partir de onde ele parou.
+    // Um toque de poucos pixels (o trackpad treme) volta para o painel de onde saiu.
+    let sentido = 0;
+    let espera = 0;
+    let partida = 0;
+    const assentar = () => {
+      espera = 0;
+      const max = panorama.scrollWidth - panorama.clientWidth;
+      const inicios = paineis.map((p) => Math.min(p.offsetLeft, max));
+      const perto = inicios[indiceAtual(alvo)];
+      const x =
+        Math.abs(alvo - partida) < 40
+          ? perto
+          : sentido > 0
+            ? (inicios.find((i) => i >= alvo - 1) ?? max)
+            : ([...inicios].reverse().find((i) => i <= alvo + 1) ?? 0);
+      deslizar(x);
+    };
+    const andar = (delta: number) => {
+      const de = quadro ? alvo : panorama.scrollLeft;
+      if (!espera) partida = de;
+      deslizar(de + delta);
+      sentido = Math.sign(delta);
+      clearTimeout(espera);
+      espera = window.setTimeout(assentar, ASSENTA_MS);
+    };
 
     // No desktop, a roda vertical anda pelo panorama.
     const roda = (event: WheelEvent) => {
       if (!matchMedia(DESKTOP).matches) return;
+      // Ctrl/⌘ + roda e a pinça do trackpad são zoom do navegador: ficam com ele.
+      if (event.ctrlKey || event.metaKey) return;
       // Gesto lateral (trackpad): o navegador o entregaria ao painel que rola na vertical
       // (o de projetos), que só desceria. Então o panorama anda aqui também.
       if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
@@ -187,15 +225,14 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
         andar(Math.max(Math.min(event.deltaX, PASSO_MAX), -PASSO_MAX));
         return;
       }
-      const painel = (event.target as Element).closest<HTMLElement>(".painel");
-      if (painelRola(painel, event.deltaY > 0)) return;
+      if (painelRola(event.target as Element, event.deltaY > 0)) return;
       event.preventDefault();
       andar(
         Math.max(Math.min(event.deltaY * VELOCIDADE, PASSO_MAX), -PASSO_MAX),
       );
     };
 
-    // As setas andam como um dente da roda; ↑/↓ deixam o painel rolar por dentro primeiro.
+    // As setas pulam de painel em painel; ↑/↓ deixam o painel rolar por dentro primeiro.
     const tecla = (event: KeyboardEvent) => {
       const direcao = SETAS[event.key];
       if (!direcao || !matchMedia(DESKTOP).matches) return;
@@ -206,13 +243,13 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       const vertical = event.key === "ArrowUp" || event.key === "ArrowDown";
       // ↑/↓ num botão ficam com o botão (e com o leitor de tela).
       if (vertical && origem.closest("button")) return;
-      const painel =
-        origem.closest<HTMLElement>(".painel") ??
-        paineis[indiceAtual()] ??
-        null;
-      if (vertical && painelRola(painel, direcao > 0)) return;
+      const dentro = origem.closest(".painel")
+        ? origem
+        : (paineis[indiceAtual()] ?? null);
+      if (vertical && painelRola(dentro, direcao > 0)) return;
       event.preventDefault();
-      andar(direcao * PASSO_MAX);
+      const destino = paineis[indiceAtual(quadro ? alvo : undefined) + direcao];
+      if (destino) deslizar(destino.offsetLeft);
     };
 
     // Foco (Tab, link de pular) num painel: no desktop o panorama encosta o painel na borda, para o
@@ -242,6 +279,7 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       window.removeEventListener("resize", marcar);
       panorama.removeEventListener("wheel", roda);
       cancelAnimationFrame(quadro);
+      clearTimeout(espera);
     };
   }, [estacoes]);
 

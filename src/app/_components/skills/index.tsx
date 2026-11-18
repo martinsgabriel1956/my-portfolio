@@ -1,6 +1,9 @@
 import type { SkillCategory } from "@/db/schema";
-import { Vitrine } from "./vitrine";
 
+/**
+ * Os créditos do verso do disco: cada categoria com as habilidades em linha,
+ * todas à vista. Quem passa o olho lê a stack inteira sem escolher nada.
+ */
 export function Skills({ categories }: { categories: SkillCategory[] }) {
   return (
     <section
@@ -9,13 +12,19 @@ export function Skills({ categories }: { categories: SkillCategory[] }) {
       aria-labelledby="skills-heading"
       className="painel"
     >
-      <h2
-        id="skills-heading"
-        className="mb-7 text-[clamp(3.4rem,7vw,7rem)] leading-[0.95] font-extralight tracking-[-0.04em]"
-      >
+      <h2 id="skills-heading" className="mb-7 text-headline">
         habilidades
       </h2>
-      <Vitrine categories={categories} />
+      <dl className="grid max-w-[1400px] gap-x-12 min-[640px]:grid-cols-2 min-[1200px]:grid-cols-3">
+        {categories.map((c) => (
+          <div key={c.id} className="border-t py-4">
+            <dt className="text-title-sm lowercase">{c.title}</dt>
+            <dd className="mt-1.5 leading-relaxed text-linho-gasto">
+              {c.skills.join(" · ")}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

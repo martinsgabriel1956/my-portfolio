@@ -13,6 +13,28 @@
   --color-linho-aceso: #fff6e2;
   --color-tabua-acesa: #2b221b;
   --color-ferrugem: #d8693f;
+
+  /* A escala do DESIGN.md: um degrau muda num lugar só. */
+  --text-headline: clamp(3.4rem, 7vw, 7rem);
+  --text-headline--line-height: 0.95;
+  --text-headline--letter-spacing: -0.04em;
+  --text-headline--font-weight: 200;
+  --text-item: clamp(2rem, 4.6vw, 4.6rem);
+  --text-item--line-height: 1.02;
+  --text-item--letter-spacing: -0.03em;
+  --text-item--font-weight: 300;
+  --text-title-lg: clamp(34px, 4vw, 56px);
+  --text-title-lg--line-height: 1.05;
+  --text-title-lg--letter-spacing: -0.02em;
+  --text-title-lg--font-weight: 300;
+  --text-title: clamp(26px, 2.4vw, 34px);
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.02em;
+  --text-title--font-weight: 300;
+  --text-title-sm: clamp(22px, 2vw, 28px);
+  --text-title-sm--line-height: 1.25;
+  --text-title-sm--letter-spacing: -0.02em;
+  --text-title-sm--font-weight: 300;
 }
 
 :root {
@@ -81,9 +103,16 @@
     border-right: 1px solid var(--color-ferro);
     padding: 36px 48px 32px;
   }
-  /* O painel recebe foco ao ser aberto pelo trilho; o contorno ficaria em volta da tela inteira. */
+  /* O painel recebe foco ao ser aberto pelo trilho ou pelo link de pular: pelo teclado, a moldura diz onde se chegou. */
   .painel:focus {
     outline: none;
+  }
+  .painel:focus-visible {
+    outline: 2px solid var(--color-ferrugem);
+    outline-offset: -2px;
+  }
+  .capa:focus-visible {
+    outline-color: var(--color-tabua);
   }
   .painel:last-child {
     flex-basis: 100vw;
@@ -101,7 +130,8 @@
     inset: 0;
     background: var(--grao);
     mix-blend-mode: multiply;
-    opacity: 0.22;
+    /* Leve o bastante para o texto de 14px na capa não cair abaixo de 4,5:1 nos pontos escuros. */
+    opacity: 0.16;
     pointer-events: none;
     /* Por cima de tudo que está impresso na capa, inclusive a lista de faixas. */
     z-index: 3;
@@ -128,11 +158,12 @@
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
       animation: tracar 0.9s cubic-bezier(0.16, 1, 0.3, 1)
-        calc(0.7s + var(--n) * 0.06s) forwards;
+        calc(0.45s + var(--n) * 0.06s) forwards;
     }
     /* A dica de deslizar do carrossel: cada seta acena para o seu lado. */
     .deslize svg {
-      animation: acenar 1.6s ease-in-out infinite;
+      /* Três acenos e para: dica, não ruído ao lado do texto (WCAG 2.2.2). */
+      animation: acenar 1.6s ease-in-out 0.6s 3;
     }
   }
   @keyframes acenar {
@@ -140,74 +171,6 @@
       translate: calc(var(--d) * 5px) 0;
     }
   }
-  /*
-   * O hover grid do zip nas habilidades: as categorias se empilham no mesmo
-   * lugar; a atual abre cada habilidade recortada a partir de uma direção, com
-   * clarão e zoom interno. A que sai fecha o recorte e só depois volta ao
-   * ponto de partida (deslocada e clara), pronta para a próxima entrada.
-   */
-  .palco-item {
-    grid-area: 1 / 1;
-    visibility: hidden;
-    pointer-events: none;
-    transition: visibility 0s 0.95s;
-  }
-  .palco-item[data-atual] {
-    z-index: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transition: none;
-  }
-  .palco-titulo {
-    opacity: 0;
-    scale: 0.9;
-    transition:
-      opacity 0.95s var(--quint-out),
-      scale 0s 0.95s;
-  }
-  .ladrilho {
-    --de: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    clip-path: var(--de);
-    translate: var(--dx) var(--dy);
-    filter: brightness(300%);
-    transition:
-      clip-path 0.95s var(--quint-out),
-      translate 0s 0.95s,
-      filter 0s 0.95s;
-  }
-  .ladrilho[data-dir="right"] {
-    --de: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
-  }
-  .ladrilho[data-dir="left"] {
-    --de: polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%);
-  }
-  .ladrilho[data-dir="top"] {
-    --de: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-  }
-  .ladrilho[data-dir="bottom"] {
-    --de: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
-  }
-  .ladrilho > span {
-    scale: 1.5;
-    transform-origin: 0 100%;
-    transition: scale 0.95s var(--quint-out);
-  }
-  [data-atual] .palco-titulo,
-  [data-atual] .ladrilho,
-  [data-atual] .ladrilho > span {
-    opacity: 1;
-    scale: 1;
-    translate: 0 0;
-    filter: none;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    transition:
-      opacity 0.95s var(--quint-out),
-      scale 0.95s var(--quint-out),
-      translate 0.95s var(--quint-out),
-      filter 0.95s var(--quint-out),
-      clip-path 0.95s var(--quint-out);
-  }
-
   .trajetoria {
     transition: opacity 0.3s;
   }
@@ -276,16 +239,16 @@
     background: var(--color-tabua);
     clip-path: inset(0);
     pointer-events: none;
-    /* Ease-in-out: começa e termina devagar, sem bater no fim. Some antes de 1s: o primeiro segundo é dos fatos. */
-    animation: abertura-abrir 0.55s cubic-bezier(0.76, 0, 0.24, 1) 0.4s forwards;
+    /* Ease-in-out: começa e termina devagar, sem bater no fim. Toda fora em 0,6s: o primeiro segundo é dos fatos. */
+    animation: abertura-abrir 0.4s cubic-bezier(0.76, 0, 0.24, 1) 0.2s forwards;
   }
   /* A página chega enquanto a tábua se abre: o título e o pé da capa sobem de leve, um depois do outro, sempre visíveis. */
   .abertura ~ .panorama #inicio h1,
   .abertura ~ .panorama #inicio .pe-da-capa {
-    animation: abertura-chegar 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+    animation: abertura-chegar 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
   }
   .abertura ~ .panorama #inicio .pe-da-capa {
-    animation-delay: 0.5s;
+    animation-delay: 0.28s;
   }
   .abertura-capa {
     position: relative;
@@ -301,8 +264,7 @@
     letter-spacing: -0.03em;
     line-height: 1;
     clip-path: inset(50% 0 50% 0);
-    animation: abertura-imprimir 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s
-      forwards;
+    animation: abertura-imprimir 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .abertura-capa::before,
   .abertura-capa::after {
@@ -316,14 +278,14 @@
     border: 1px solid var(--color-linho-gasto);
     border-radius: 999px;
     opacity: 0;
-    animation: abertura-anel 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
+    animation: abertura-anel 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
   }
   .abertura-capa::after {
     width: 420px;
     height: 420px;
     margin: -210px 0 0 -210px;
     border-style: dashed;
-    animation-delay: 0.2s;
+    animation-delay: 0.1s;
   }
 
   @keyframes abertura-imprimir {
@@ -360,44 +322,69 @@
 }
 
 @media (max-width: 900px) {
-  /*
-   * O slider do zip: a tela fica presa e a rolagem da página troca o painel no
-   * lugar. O Trilho mapeia scrollY para painel ativo + rolagem interna.
-   */
+  /* Sem JS (ou antes dele), uma coluna comum: todo o conteúdo à mão, rolando como qualquer página. */
   .panorama {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+  .painel {
+    height: auto;
+    min-height: calc(100svh - var(--barra));
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-ferro);
+    padding: 28px 20px 56px;
+  }
+  /*
+   * O slider do zip, ligado pelo Trilho (data-empilha): a tela fica presa e a
+   * rolagem da página troca o painel no lugar. O Trilho mapeia scrollY para
+   * painel ativo + rolagem interna.
+   */
+  [data-empilha] .panorama {
     position: fixed;
     inset: 0 0 auto;
-    display: block;
     height: calc(100svh - var(--barra));
     overflow: hidden;
   }
-  .painel {
+  [data-empilha] .painel {
     position: absolute;
     inset: 0;
-    height: auto;
+    min-height: 0;
     overflow: hidden;
-    border-right: 0;
-    padding: 28px 20px 56px;
+    border-bottom: 0;
     background: var(--color-tabua);
     opacity: 0;
     scale: 1.1;
+    /* Escondido de verdade: o leitor de tela não lê um painel que não está na tela. */
+    visibility: hidden;
     pointer-events: none;
     /* O que sai só some depois que o novo já cobriu (0.5s), como as imagens empilhadas do zip. */
     transition:
       opacity 0s 0.5s,
-      scale 0s 0.5s;
+      scale 0s 0.5s,
+      visibility 0s 0.5s;
   }
-  .painel[data-ativo] {
+  [data-empilha] .painel[data-ativo] {
     z-index: 1;
     opacity: 1;
     scale: 1;
+    visibility: visible;
     pointer-events: auto;
     transition:
       opacity 0.5s cubic-bezier(0.33, 1, 0.68, 1),
-      scale 1s cubic-bezier(0.33, 1, 0.68, 1);
+      scale 1s cubic-bezier(0.33, 1, 0.68, 1),
+      visibility 0s;
   }
   .painel.capa {
     background: var(--color-ferrugem);
+  }
+  /* Sem a lista e o rótulo (somem no celular), uma linha dupla na capa não teria o que dizer. */
+  .colisao .gemea {
+    display: none;
+  }
+  .colisao .linha {
+    stroke-width: 1.6;
   }
   /* Seis estações cabem em 375px: os trechos entre elas encurtam. */
   .trecho {

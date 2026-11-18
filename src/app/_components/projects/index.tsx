@@ -33,10 +33,7 @@ export function Projects({ faixas }: { faixas: Faixa[] }) {
       aria-labelledby="projects-heading"
       className="painel flex flex-col"
     >
-      <h2
-        id="projects-heading"
-        className="mb-6 text-[clamp(3.4rem,7vw,7rem)] leading-[0.95] font-extralight tracking-[-0.04em]"
-      >
+      <h2 id="projects-heading" className="mb-6 text-headline">
         projetos
       </h2>
       <Carrossel faixas={faixas} />

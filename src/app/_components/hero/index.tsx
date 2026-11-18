@@ -2,19 +2,18 @@ import { ArrowRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CV_URL } from "@/lib/links";
 import type { Faixa } from "../projects";
-import { legendaDominios } from "../projects/dominio";
+import { dominiosEmPalavras, stackDe } from "../projects/dominio";
 import { LadoA } from "./lado-a";
 
 /** A capa do disco: nome e ofício em tábua sobre ferrugem, com a colisão dos projetos impressa como arte. */
 export function Hero({ faixas }: { faixas: Faixa[] }) {
+  const stack = stackDe(faixas, 4);
   return (
     <section
       id="inicio"
       tabIndex={-1}
       aria-labelledby="hero-heading"
       className="painel capa flex flex-col"
-      // Ativa já no servidor: no celular os painéis só aparecem com data-ativo, e a capa não pode esperar o JS.
-      data-ativo=""
     >
       {/* A marca não é link: na capa ele só levaria à própria capa. O nome já está no título. */}
       <p
@@ -25,12 +24,21 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
       </p>
       <h1
         id="hero-heading"
-        className="relative z-[1] mt-[clamp(20px,6vh,72px)] max-w-[9.5em] self-start text-[clamp(3.4rem,7vw,7rem)] leading-[0.92] font-extralight tracking-[-0.04em] lowercase max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
+        className="relative z-[1] mt-[clamp(20px,6vh,72px)] max-w-[9.5em] self-start text-headline leading-[0.92] lowercase max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
       >
         <span className="font-normal">gabriel martins.</span>
         <br />
-        desenvolvedor fullstack pleno.
+        desenvolvedor fullstack.
       </h1>
+      {/* O primeiro filtro de quem contrata: a stack, tirada dos projetos, e onde ela foi usada. */}
+      {stack.length > 0 && (
+        <p className="relative z-[1] mt-5 max-w-[34ch] self-start text-lg leading-snug font-medium max-[900px]:mt-4 max-[900px]:text-base">
+          {stack.join(" · ")}
+          <span className="block font-normal">
+            em {dominiosEmPalavras(faixas)}.
+          </span>
+        </p>
+      )}
       <div className="pe-da-capa relative z-[1] mt-auto flex flex-wrap items-center gap-x-6 gap-y-4">
         <Button variant="tabua" asChild>
           <a href="#contato">
@@ -50,10 +58,6 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
         {/* No celular sobe para uma linha própria: ao lado do botão ela cairia sob o índice do canto. */}
         <p className="text-sm font-medium max-[900px]:order-first max-[900px]:basis-full">
           remoto · brasil
-          {/* No celular a lista da capa some; a legenda dos domínios vem junto do local. */}
-          <span className="block font-normal tabular-nums min-[901px]:hidden">
-            {legendaDominios(faixas)}
-          </span>
         </p>
       </div>
       {/* Depois do nome no DOM: a lista é posicionada, então a ordem de leitura muda sem mexer no desenho. */}
