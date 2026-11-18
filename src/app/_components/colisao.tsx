@@ -29,8 +29,10 @@ const f = (n: number) => n.toFixed(1);
 
 /** Trajetória de uma faixa saindo do centro; determinística, então servidor e cliente desenham igual. */
 function tracado(i: number, total: number, domain?: ProjectDomain) {
-  const angulo = ((-110 + (i * 360) / total) * Math.PI) / 180;
-  const raio = 300 + (i % 3) * 45;
+  const graus = -110 + (i * 360) / total;
+  const angulo = (graus * Math.PI) / 180;
+  // No setor aberto a trajetória vai na direção do nome: lá ela é mais curta, para nunca passar por cima dele.
+  const raio = (300 + (i % 3) * 45) * (naoAberto(graus) ? 1 : 0.7);
   const [cos, sin] = [Math.cos(angulo), Math.sin(angulo)];
   const k = (domain ? CURVA[domain] : 0.25) * 0.4 * raio;
   const fim: Ponto = [cos * raio, sin * raio];

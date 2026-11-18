@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Faixa } from ".";
+import { DOMINIO } from "./dominio";
 
 const REDUZ = "(prefers-reduced-motion: reduce)";
 // Os eases do zip (GSAP power4 = quint).
@@ -79,7 +80,8 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   }, [faixas]);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4">
+    // No celular o palco para acima do índice do canto, que é fixo e cobriria o cartão.
+    <div className="flex min-h-0 flex-1 flex-col gap-4 max-[900px]:pb-20">
       {faixas.map((f) => (
         <span
           key={f.id}
@@ -231,7 +233,7 @@ function Cartao({
       ref={ref}
       data-chave={slide.chave}
       aria-labelledby={`${faixa.id}-titulo`}
-      className="absolute inset-0 flex flex-col overflow-hidden border bg-grafite p-8 will-change-transform max-[900px]:p-5"
+      className="absolute inset-0 flex flex-col overflow-hidden border bg-grafite p-8 max-[900px]:p-5"
     >
       <span
         aria-hidden="true"
@@ -253,7 +255,10 @@ function Cartao({
         </h3>
         <div className="resto flex max-w-[60ch] flex-col gap-2">
           <p className="text-sm text-linho-gasto">
-            <Mascara>{faixa.company}</Mascara>
+            <Mascara>
+              {faixa.company}
+              {faixa.domain && ` · ${DOMINIO[faixa.domain]}`}
+            </Mascara>
           </p>
           <p className="text-base leading-normal text-linho-gasto max-[900px]:text-sm">
             <Mascara>{faixa.description}</Mascara>

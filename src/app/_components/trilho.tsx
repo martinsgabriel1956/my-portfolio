@@ -107,8 +107,11 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       });
       if (indice === destino) destino = -1;
       if (indice === ativo) return indice;
-      if (ativo < 0)
+      if (ativo < 0) {
         for (const titulo of titulos) titulo?.style.removeProperty("translate");
+        // A capa já vem ativa do servidor, para o celular nunca abrir em branco antes do JS.
+        for (const painel of paineis) painel.removeAttribute("data-ativo");
+      }
       paineis[ativo]?.removeAttribute("data-ativo");
       paineis[indice].setAttribute("data-ativo", "");
       // O título sobe de trás de uma máscara, como o SplitText do zip (inteiro, sem escalonar linhas).
@@ -148,12 +151,14 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       }
       if (ativo >= 0) desempilhar();
       // Parallax: o título se desloca proporcional à distância do painel até a borda esquerda.
+      // Sem medir: a posição na tela é offsetLeft menos a rolagem, então não há leitura de layout entre as escritas.
       const parallax = !matchMedia(REDUZ).matches;
+      const rolagem = panorama.scrollLeft;
       paineis.forEach((painel, i) => {
         const titulo = titulos[i];
         if (!titulo) return;
         titulo.style.translate = parallax
-          ? `${painel.getBoundingClientRect().left * PARALLAX}px 0`
+          ? `${(painel.offsetLeft - rolagem) * PARALLAX}px 0`
           : "";
       });
       setAtual(indiceAtual());

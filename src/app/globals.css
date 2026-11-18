@@ -10,6 +10,8 @@
   --color-ferro: #2e251c;
   --color-linho: #e6dcc6;
   --color-linho-gasto: #ab9f86;
+  --color-linho-aceso: #fff6e2;
+  --color-tabua-acesa: #2b221b;
   --color-ferrugem: #d8693f;
 }
 
@@ -110,6 +112,11 @@
     background: var(--color-ferrugem);
     color: var(--color-tabua);
   }
+  /* Sobre ferrugem, o contorno ferrugem sumiria: na capa o foco é impresso em tábua. */
+  .capa :focus-visible,
+  .contracapa :focus-visible {
+    outline-color: var(--color-tabua);
+  }
 
   /*
    * A colisão: anéis do detector e uma trajetória por projeto. Estado é forma
@@ -121,7 +128,7 @@
       stroke-dasharray: 1;
       stroke-dashoffset: 1;
       animation: tracar 0.9s cubic-bezier(0.16, 1, 0.3, 1)
-        calc(1.5s + var(--n) * 0.08s) forwards;
+        calc(0.7s + var(--n) * 0.06s) forwards;
     }
     /* A dica de deslizar do carrossel: cada seta acena para o seu lado. */
     .deslize > span {
@@ -219,8 +226,11 @@
     height: 14px;
     flex-shrink: 0;
     border-radius: 3px;
-    background: #3a3029;
-    transition: background-color 0.3s;
+    /* Por ler é só o aro (forma, não cor): legível a 7:1, onde o pad apagado ficava em 1,5:1. */
+    border: 1px solid var(--color-linho-gasto);
+    transition:
+      background-color 0.3s,
+      border-color 0.3s;
   }
   .trecho {
     position: relative;
@@ -249,6 +259,7 @@
   }
   [data-estado="atual"] .estacao {
     background: var(--color-ferrugem);
+    border-color: var(--color-ferrugem);
   }
 
   /*
@@ -265,16 +276,16 @@
     background: var(--color-tabua);
     clip-path: inset(0);
     pointer-events: none;
-    /* Ease-in-out: começa e termina devagar, sem bater no fim. */
-    animation: abertura-abrir 1.2s cubic-bezier(0.76, 0, 0.24, 1) 1s forwards;
+    /* Ease-in-out: começa e termina devagar, sem bater no fim. Some antes de 1s: o primeiro segundo é dos fatos. */
+    animation: abertura-abrir 0.55s cubic-bezier(0.76, 0, 0.24, 1) 0.4s forwards;
   }
-  /* A página chega enquanto a tábua se abre: o título e o pé da capa sobem de leve, um depois do outro. */
+  /* A página chega enquanto a tábua se abre: o título e o pé da capa sobem de leve, um depois do outro, sempre visíveis. */
   .abertura ~ .panorama #inicio h1,
   .abertura ~ .panorama #inicio .pe-da-capa {
-    animation: abertura-chegar 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s both;
+    animation: abertura-chegar 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
   }
   .abertura ~ .panorama #inicio .pe-da-capa {
-    animation-delay: 1.4s;
+    animation-delay: 0.5s;
   }
   .abertura-capa {
     position: relative;
@@ -285,12 +296,12 @@
     padding: 14px 16px;
     background: var(--color-ferrugem);
     color: var(--color-tabua);
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
     line-height: 1;
     clip-path: inset(50% 0 50% 0);
-    animation: abertura-imprimir 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s
+    animation: abertura-imprimir 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s
       forwards;
   }
   .abertura-capa::before,
@@ -305,14 +316,14 @@
     border: 1px solid var(--color-linho-gasto);
     border-radius: 999px;
     opacity: 0;
-    animation: abertura-anel 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    animation: abertura-anel 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
   }
   .abertura-capa::after {
     width: 420px;
     height: 420px;
     margin: -210px 0 0 -210px;
     border-style: dashed;
-    animation-delay: 0.52s;
+    animation-delay: 0.2s;
   }
 
   @keyframes abertura-imprimir {
@@ -343,8 +354,7 @@
   }
   @keyframes abertura-chegar {
     from {
-      opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(16px);
     }
   }
 }
@@ -397,7 +407,7 @@
     z-index: 2;
     padding-right: 12px;
     color: var(--color-linho);
-    font-size: 12px;
+    font-size: 14px;
     font-variant-numeric: tabular-nums;
     pointer-events: none;
   }

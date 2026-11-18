@@ -18,11 +18,11 @@ export function Vitrine({ categories }: { categories: SkillCategory[] }) {
             <button
               type="button"
               aria-controls={`habilidade-${c.id}`}
-              aria-current={i === atual || undefined}
+              aria-pressed={i === atual}
               onMouseEnter={() => setAtual(i)}
               onFocus={() => setAtual(i)}
               onClick={() => setAtual(i)}
-              className="min-h-11 py-1 text-left text-[clamp(18px,1.6vw,24px)] leading-tight font-light tracking-[-0.02em] lowercase transition-colors hover:text-linho-gasto aria-current:text-ferrugem"
+              className="min-h-11 py-1 text-left text-[clamp(18px,1.6vw,24px)] leading-tight font-light tracking-[-0.02em] lowercase transition-colors hover:text-linho-gasto aria-pressed:text-ferrugem"
             >
               {c.title}
             </button>

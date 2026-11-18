@@ -11,8 +11,9 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
       tabIndex={-1}
       aria-labelledby="hero-heading"
       className="painel capa flex flex-col"
+      // Ativa já no servidor: no celular os painéis só aparecem com data-ativo, e a capa não pode esperar o JS.
+      data-ativo=""
     >
-      <LadoA faixas={faixas} />
       <a
         href="#inicio"
         className="relative z-[1] self-start rounded-full bg-tabua px-3 pt-0.5 pb-1 text-[26px] leading-none font-semibold tracking-[-0.03em] text-ferrugem"
@@ -35,14 +36,13 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
             Entre em contato
           </a>
         </Button>
-        <p
-          aria-hidden="true"
-          className="flex items-center gap-1.5 text-sm max-[900px]:hidden"
-        >
-          ou role para o lado
-          <ArrowRight className="size-4" />
+        {/* No celular sobe para uma linha própria: ao lado do botão ela cairia sob o índice do canto. */}
+        <p className="text-sm font-medium max-[900px]:order-first max-[900px]:basis-full">
+          remoto · brasil
         </p>
       </div>
+      {/* Depois do nome no DOM: a lista é posicionada, então a ordem de leitura muda sem mexer no desenho. */}
+      <LadoA faixas={faixas} />
     </section>
   );
 }
