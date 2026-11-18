@@ -1,5 +1,6 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CV_URL } from "@/lib/links";
 import type { Faixa } from "../projects";
 import { LadoA } from "./lado-a";
 
@@ -11,22 +12,23 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
       tabIndex={-1}
       aria-labelledby="hero-heading"
       className="painel capa flex flex-col"
+      // Ativa já no servidor: no celular os painéis só aparecem com data-ativo, e a capa não pode esperar o JS.
+      data-ativo=""
     >
-      <LadoA faixas={faixas} />
-      <a
-        href="#inicio"
+      {/* A marca não é link: na capa ele só levaria à própria capa. O nome já está no título. */}
+      <p
+        aria-hidden="true"
         className="relative z-[1] self-start rounded-full bg-tabua px-3 pt-0.5 pb-1 text-[26px] leading-none font-semibold tracking-[-0.03em] text-ferrugem"
-        aria-label="Gabriel Martins, início"
       >
         gm.
-      </a>
+      </p>
       <h1
         id="hero-heading"
         className="relative z-[1] mt-[clamp(20px,6vh,72px)] max-w-[9.5em] self-start text-[clamp(3.4rem,7vw,7rem)] leading-[0.92] font-extralight tracking-[-0.04em] lowercase max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
       >
         <span className="font-normal">gabriel martins.</span>
         <br />
-        desenvolvedor fullstack.
+        desenvolvedor fullstack pleno.
       </h1>
       <div className="pe-da-capa relative z-[1] mt-auto flex flex-wrap items-center gap-x-6 gap-y-4">
         <Button variant="tabua" asChild>
@@ -35,14 +37,22 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
             Entre em contato
           </a>
         </Button>
-        <p
-          aria-hidden="true"
-          className="flex items-center gap-1.5 text-sm max-[900px]:hidden"
+        {/* A ação secundária: quieta, em tábua, para não disputar com o contato. */}
+        <a
+          href={CV_URL}
+          download
+          className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2 max-[900px]:basis-full"
         >
-          ou role para o lado
-          <ArrowRight className="size-4" />
+          <FileText className="size-4" aria-hidden="true" />
+          currículo (pdf)
+        </a>
+        {/* No celular sobe para uma linha própria: ao lado do botão ela cairia sob o índice do canto. */}
+        <p className="text-sm font-medium max-[900px]:order-first max-[900px]:basis-full">
+          remoto · brasil
         </p>
       </div>
+      {/* Depois do nome no DOM: a lista é posicionada, então a ordem de leitura muda sem mexer no desenho. */}
+      <LadoA faixas={faixas} />
     </section>
   );
 }

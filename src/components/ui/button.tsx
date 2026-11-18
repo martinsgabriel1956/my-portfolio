@@ -9,9 +9,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        linho: "bg-linho text-tabua hover:bg-[#fff6e2]",
+        linho: "bg-linho text-tabua hover:bg-linho-aceso",
         fio: "border border-linho-gasto text-linho hover:border-linho",
-        tabua: "bg-tabua text-linho hover:bg-[#2b221b]",
+        tabua: "bg-tabua text-linho hover:bg-tabua-acesa",
       },
     },
     defaultVariants: {

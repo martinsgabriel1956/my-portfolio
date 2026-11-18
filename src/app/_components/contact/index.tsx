@@ -35,7 +35,9 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
           href={`mailto:${EMAIL}`}
           className="mb-6 inline-block text-[clamp(2rem,4.6vw,4.6rem)] leading-[1.05] font-extralight tracking-[-0.035em] [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
         >
-          {EMAIL}
+          {/* Se não couber, quebra antes do @, nunca no meio do nome. */}
+          {EMAIL.split("@")[0]}
+          <wbr />@{EMAIL.split("@")[1]}
         </a>
         <ul className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
           <li>

@@ -23,7 +23,7 @@ OWN-WORLD: Chão tábua #120e0b, capa ferrugem #d8693f chapada com grão de impr
 
 STORY: Em um segundo: quem é, o que faz, onde. Passando o olho pelas faixas, cada projeto acende sua trajetória e diz o domínio; a pessoa entende os três domínios, desliza o panorama e sai com email, LinkedIn ou currículo.
 
-FIRST VIEWPORT: Painel inteiro em ferrugem. "gm." no canto superior esquerdo; título em duas batidas em tábua à esquerda; colisão sangrando pela direita; lista "lado a" com os 8 projetos no alto ao centro; embaixo à esquerda "Rio de Janeiro, RJ · Remoto" e "Entre em contato" em tábua; rótulo da trajetória em foco embaixo à direita. Fora da capa, o trilho fino com uma estação por seção.
+FIRST VIEWPORT: Painel inteiro em ferrugem. "gm." no canto superior esquerdo; título em duas batidas em tábua à esquerda; colisão sangrando pela direita; lista "lado a" com os 8 projetos no alto ao centro; embaixo à esquerda "remoto · brasil" e "Entre em contato" em tábua; rótulo da trajetória em foco embaixo à direita. Fora da capa, o trilho fino com uma estação por seção.
 
 FORM: Mistura pedida pelo dono de Capa do Disco (posters-covers-sleeves-yeye-pop-sleeve) com Evento do Detector (scientific-notation-particle-detector-event-display), variante "Capa impressa"; nenhuma era o sorteio; seed:a6c1b75be1fb9b13. Interação assinatura: passar ou focar uma faixa dobra a linha da trajetória dela e troca o rótulo; na chegada, as trajetórias saem do centro uma vez.
 

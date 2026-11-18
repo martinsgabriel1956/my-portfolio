@@ -3,6 +3,9 @@ import { ArteColisao } from "./_components/colisao";
 import { getExperiences } from "./_components/experience/action";
 import { faixasOf } from "./_components/projects";
 
+// Gerada no build, como a página (ver src/app/page.tsx).
+export const dynamic = "force-static";
+
 export const alt = "Gabriel Martins, Desenvolvedor Fullstack";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -84,9 +87,7 @@ export default async function OpengraphImage() {
       >
         desenvolvedor fullstack.
       </div>
-      <div style={{ marginTop: 28, fontSize: 30 }}>
-        Rio de Janeiro, RJ · Remoto
-      </div>
+      <div style={{ marginTop: 28, fontSize: 30 }}>Remoto · Brasil</div>
     </div>,
     {
       ...size,

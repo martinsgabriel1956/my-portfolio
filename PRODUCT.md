@@ -29,7 +29,7 @@ Fullstack work concentrated in a few concrete domains: e-commerce (precious-meta
 
 ## Capabilities and Constraints
 
-- Location/modality to show: Rio de Janeiro, RJ · Remoto.
+- Location/modality to show: Remoto · Brasil (no city; the owner chose not to publish it).
 - Contact channels: email `martinsgabrieldev@gmail.com`, LinkedIn `linkedin.com/in/martins-gab`, GitHub `github.com/martinsgabriel1956`. The phone number is deliberately not published.
 - CV: PDF served at `/curriculo-gabriel-martins.pdf` (file provided by the owner in `public/`).
 - Experience projects carry name, description, techs and an optional `domain` (`ecommerce` | `admin` | `health`) that groups the proof under the three domains the hero promises; set via `drizzle/set_project_domains_manual.sql`. There are no project links or images in the data yet.

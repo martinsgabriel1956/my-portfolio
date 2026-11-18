@@ -107,8 +107,11 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       });
       if (indice === destino) destino = -1;
       if (indice === ativo) return indice;
-      if (ativo < 0)
+      if (ativo < 0) {
         for (const titulo of titulos) titulo?.style.removeProperty("translate");
+        // A capa já vem ativa do servidor, para o celular nunca abrir em branco antes do JS.
+        for (const painel of paineis) painel.removeAttribute("data-ativo");
+      }
       paineis[ativo]?.removeAttribute("data-ativo");
       paineis[indice].setAttribute("data-ativo", "");
       // O título sobe de trás de uma máscara, como o SplitText do zip (inteiro, sem escalonar linhas).
@@ -148,12 +151,14 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       }
       if (ativo >= 0) desempilhar();
       // Parallax: o título se desloca proporcional à distância do painel até a borda esquerda.
+      // Sem medir: a posição na tela é offsetLeft menos a rolagem, então não há leitura de layout entre as escritas.
       const parallax = !matchMedia(REDUZ).matches;
+      const rolagem = panorama.scrollLeft;
       paineis.forEach((painel, i) => {
         const titulo = titulos[i];
         if (!titulo) return;
         titulo.style.translate = parallax
-          ? `${painel.getBoundingClientRect().left * PARALLAX}px 0`
+          ? `${(painel.offsetLeft - rolagem) * PARALLAX}px 0`
           : "";
       });
       setAtual(indiceAtual());
@@ -205,6 +210,8 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       const origem = event.target as Element;
       if (origem.closest("input, textarea, select, [contenteditable]")) return;
       const vertical = event.key === "ArrowUp" || event.key === "ArrowDown";
+      // ↑/↓ num botão ficam com o botão (e com o leitor de tela).
+      if (vertical && origem.closest("button")) return;
       const painel =
         origem.closest<HTMLElement>(".painel") ??
         paineis[indiceAtual()] ??
@@ -214,10 +221,14 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       andar(direcao * PASSO_MAX);
     };
 
-    // Celular: foco (Tab, link de pular) num painel escondido rola a página até ele.
+    // Foco (Tab, link de pular) num painel: no desktop o panorama encosta o painel na borda, para o
+    // trilho dizer a seção certa; no celular a página rola até ele.
     const foco = (event: FocusEvent) => {
-      if (matchMedia(DESKTOP).matches) return;
       const i = paineis.findIndex((p) => p.contains(event.target as Node));
+      if (matchMedia(DESKTOP).matches) {
+        if (i >= 0) deslizar(paineis[i].offsetLeft);
+        return;
+      }
       if (i >= 0 && i !== ativo && i !== destino) scrollTo({ top: inicios[i] });
     };
 
