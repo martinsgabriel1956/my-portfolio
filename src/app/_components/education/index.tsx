@@ -16,18 +16,13 @@ export function Education({
       aria-labelledby="education-heading"
       className="painel"
     >
-      <h2
-        id="education-heading"
-        className="mb-7 text-[clamp(3.4rem,7vw,7rem)] leading-[0.95] font-extralight tracking-[-0.04em]"
-      >
+      <h2 id="education-heading" className="mb-7 text-headline">
         formação
       </h2>
       <div className="grid max-w-[1100px] gap-x-12 gap-y-10 lg:grid-cols-2">
         {education.length > 0 && (
           <div>
-            <h3 className="text-[clamp(26px,2.4vw,34px)] leading-tight font-light tracking-[-0.02em] lowercase">
-              Acadêmica
-            </h3>
+            <h3 className="text-title lowercase">Acadêmica</h3>
             <ul className="mt-3">
               {education.map((item) => (
                 <li key={item.id} className="border-t py-4">
@@ -50,9 +45,7 @@ export function Education({
         )}
         {certifications.length > 0 && (
           <div>
-            <h3 className="text-[clamp(26px,2.4vw,34px)] leading-tight font-light tracking-[-0.02em] lowercase">
-              Cursos
-            </h3>
+            <h3 className="text-title lowercase">Cursos</h3>
             <ul className="mt-3">
               {certifications.map((certification) => (
                 <li key={certification.id} className="border-t py-4">

@@ -27,9 +27,12 @@ const naoAberto = (graus: number) => {
 
 const f = (n: number) => n.toFixed(1);
 
+/** Para onde a trajetória de uma faixa aponta (graus, 0 = direita, sentido horário). */
+export const grausDe = (i: number, total: number) => -110 + (i * 360) / total;
+
 /** Trajetória de uma faixa saindo do centro; determinística, então servidor e cliente desenham igual. */
 function tracado(i: number, total: number, domain?: ProjectDomain) {
-  const graus = -110 + (i * 360) / total;
+  const graus = grausDe(i, total);
   const angulo = (graus * Math.PI) / 180;
   // No setor aberto a trajetória vai na direção do nome: lá ela é mais curta, para nunca passar por cima dele.
   const raio = (300 + (i % 3) * 45) * (naoAberto(graus) ? 1 : 0.5);
@@ -138,7 +141,14 @@ export function ArteColisao({
               pathLength={1}
               strokeWidth={i === foco ? 3 : 1.6}
             />
-            {i === foco && <path d={d} transform={gemea} strokeWidth={1.6} />}
+            {i === foco && (
+              <path
+                className="gemea"
+                d={d}
+                transform={gemea}
+                strokeWidth={1.6}
+              />
+            )}
             <path d={impactos} strokeWidth={2} />
             {deposita && (
               <path

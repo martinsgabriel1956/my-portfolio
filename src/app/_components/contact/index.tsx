@@ -20,10 +20,7 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
       aria-labelledby="contact-heading"
       className="painel flex flex-col"
     >
-      <h2
-        id="contact-heading"
-        className="mb-7 text-[clamp(3.4rem,7vw,7rem)] leading-[0.95] font-extralight tracking-[-0.04em]"
-      >
+      <h2 id="contact-heading" className="mb-7 text-headline">
         contato
       </h2>
       <p className="mb-5 max-w-[46ch] text-lg text-linho-gasto">
@@ -33,7 +30,7 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
       <address className="relative z-10 not-italic">
         <a
           href={`mailto:${EMAIL}`}
-          className="mb-6 inline-block text-[clamp(2rem,4.6vw,4.6rem)] leading-[1.05] font-extralight tracking-[-0.035em] [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
+          className="mb-6 inline-block text-item leading-[1.05] font-extralight tracking-[-0.035em] [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
         >
           {/* Se não couber, quebra antes do @, nunca no meio do nome. */}
           {EMAIL.split("@")[0]}

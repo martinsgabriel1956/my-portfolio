@@ -88,11 +88,11 @@ export default async function Home() {
       >
         Pular para {pulo.label}
       </a>
-      {/* O trilho vem antes no DOM (é fixo no rodapé): quem navega por teclado chega às seções logo. */}
-      <Trilho estacoes={estacoes} />
       <main id="panorama" className="panorama" aria-label="Portfólio">
         {paineis.map((p) => p.node)}
       </main>
+      {/* O trilho vem depois no DOM (é fixo no rodapé): no Tab, o contato da capa chega antes das seis estações. */}
+      <Trilho estacoes={estacoes} />
     </>
   );
 }

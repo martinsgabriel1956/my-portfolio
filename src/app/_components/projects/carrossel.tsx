@@ -2,6 +2,7 @@
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { ArteColisao, grausDe } from "../colisao";
 import type { Faixa } from ".";
 import { DOMINIO } from "./dominio";
 
@@ -124,7 +125,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           <Cartao
             key={s.chave}
             slide={s}
-            faixa={faixas[s.i]}
+            faixas={faixas}
             total={total}
             aoChegar={() => {
               setTimeout(() => {
@@ -211,15 +212,16 @@ function Mascara({ children }: { children: React.ReactNode }) {
 
 function Cartao({
   slide,
-  faixa,
+  faixas,
   total,
   aoChegar,
 }: {
   slide: Slide;
-  faixa: Faixa;
+  faixas: Faixa[];
   total: number;
   aoChegar: () => void;
 }) {
+  const faixa = faixas[slide.i];
   const ref = useRef<HTMLElement>(null);
   // biome-ignore lint/correctness/useExhaustiveDependencies: entra uma vez, ao montar
   useEffect(() => {
@@ -261,8 +263,10 @@ function Cartao({
     <article
       ref={ref}
       data-chave={slide.chave}
+      // Rola por dentro quando o conteúdo passa da altura (laptop baixo, zoom): cortar escondia a stack.
+      data-rola=""
       aria-labelledby={`${faixa.id}-titulo`}
-      className="absolute inset-0 flex flex-col overflow-hidden border bg-grafite p-8 max-[900px]:p-5"
+      className="absolute inset-0 flex flex-col overflow-x-hidden overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--color-ferro)_transparent] border bg-grafite p-8 max-[900px]:p-5 [@media(max-height:800px)]:p-6"
     >
       <span
         aria-hidden="true"
@@ -270,11 +274,25 @@ function Cartao({
       >
         {faixa.numero}
       </span>
-      <div className="relative mt-auto flex flex-col items-center gap-4 px-[10%] pb-16 text-center max-[900px]:px-0 max-[900px]:pb-6">
-        <h3
-          id={`${faixa.id}-titulo`}
-          className="titulo text-[clamp(2rem,4.6vw,4.6rem)] leading-[1.02] font-light tracking-[-0.03em]"
-        >
+      {/*
+        A contracapa repete a frente: a mesma colisão, com o centro no canto do
+        cartão e girada para a trajetória deste projeto (a de linha dupla) entrar
+        na diagonal.
+      */}
+      {/* A moldura recorta a arte: solta, ela faria o cartão rolar por dentro sem ter conteúdo a mais. */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <ArteColisao
+          rastros={faixas}
+          foco={slide.i}
+          className="absolute top-0 left-0 w-[max(600px,100%)] max-w-[1200px] text-linho-gasto opacity-45"
+          style={{
+            translate: "-50% -50%",
+            rotate: `${45 - grausDe(slide.i, total)}deg`,
+          }}
+        />
+      </div>
+      <div className="relative mt-auto flex flex-col items-center gap-4 px-[10%] pb-16 text-center max-[900px]:px-0 max-[900px]:pb-6 [@media(max-height:800px)]:pb-6">
+        <h3 id={`${faixa.id}-titulo`} className="titulo text-item">
           {faixa.name.split(" ").map((palavra, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: a posição é a identidade da palavra no título
             <span key={i}>
@@ -282,14 +300,15 @@ function Cartao({
             </span>
           ))}
         </h3>
-        <div className="resto flex max-w-[60ch] flex-col gap-2">
+        <div className="resto flex max-w-[52ch] flex-col gap-2">
           <p className="text-sm text-linho-gasto">
             <Mascara>
               {faixa.company}
               {faixa.domain && ` · ${DOMINIO[faixa.domain]}`}
             </Mascara>
           </p>
-          <p className="text-base leading-normal text-linho-gasto max-[900px]:text-sm">
+          {/* A descrição é a prova (não há imagem nem link): em linho, não no tom de metadado. */}
+          <p className="text-base leading-normal text-pretty max-[900px]:text-sm">
             <Mascara>{faixa.description}</Mascara>
           </p>
         </div>
@@ -300,7 +319,8 @@ function Cartao({
             <p className="mb-2 text-linho">
               <Mascara>tecnologias</Mascara>
             </p>
-            <ul className="flex flex-col max-[900px]:flex-row max-[900px]:flex-wrap max-[900px]:gap-x-2">
+            {/* Em linha, separadas como na experiência: uma por linha não cabia em laptop baixo. */}
+            <ul className="flex flex-wrap gap-x-2 [&>li:not(:last-child)]:after:content-['·'] [&>li:not(:last-child)]:after:ml-2">
               {faixa.techs.map((tech) => (
                 <li key={tech}>
                   <Mascara>{tech}</Mascara>
