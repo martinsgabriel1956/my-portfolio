@@ -82,12 +82,18 @@ export default async function Home() {
       <div className="abertura" aria-hidden="true">
         <div className="abertura-capa">gm.</div>
       </div>
-      <a
-        href={`#${pulo.id}`}
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-linho focus:px-4 focus:py-3 focus:font-semibold focus:text-tabua"
-      >
-        Pular para {pulo.label}
-      </a>
+      {/* Dois pulos: para a prova e para a ação. Contato é sempre o último painel. */}
+      {[pulo, estacoes[estacoes.length - 1]]
+        .filter((p, i, todos) => p && todos.indexOf(p) === i)
+        .map((p) => (
+          <a
+            key={p.id}
+            href={`#${p.id}`}
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-linho focus:px-4 focus:py-3 focus:font-semibold focus:text-tabua"
+          >
+            Pular para {p.label}
+          </a>
+        ))}
       <main id="panorama" className="panorama" aria-label="Portfólio">
         {paineis.map((p) => p.node)}
       </main>

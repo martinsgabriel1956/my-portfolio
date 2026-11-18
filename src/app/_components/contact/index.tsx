@@ -30,7 +30,7 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
       <h2 id="contact-heading" className="mb-7 text-headline">
         contato
       </h2>
-      <p className="mb-5 max-w-[46ch] text-lg text-linho-gasto">
+      <p className="mb-5 max-w-[46ch] text-lg text-pretty text-linho-gasto">
         Aberto a novas oportunidades como desenvolvedor fullstack e a projetos
         freelance. O caminho mais rápido é o email.
       </p>

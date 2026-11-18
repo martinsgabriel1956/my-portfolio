@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export type Estacao = { id: string; label: string };
 
@@ -37,7 +37,6 @@ function comportamento(): ScrollBehavior {
  */
 export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
   const [atual, setAtual] = useState(0);
-  const irPara = useRef<(painel: HTMLElement) => void>(() => {});
 
   useEffect(() => {
     const panorama = document.getElementById("panorama");
@@ -78,19 +77,24 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
     let ativo = -1;
     // Painel para onde o trilho está rolando suave; o foco nele não pode cortar o caminho.
     let destino = -1;
-    irPara.current = (painel) => {
+    // Leva ao painel e o foca. No celular o painel só fica focável (visível) ao chegar: empilhar foca nele.
+    const irPara = (painel: HTMLElement) => {
       const i = paineis.indexOf(painel);
+      if (i < 0) return;
       if (matchMedia(DESKTOP).matches) deslizar(painel.offsetLeft);
-      else if (i >= 0) {
+      else if (i !== ativo) {
         destino = i;
         scrollTo({ top: inicios[i], behavior: comportamento() });
+        return;
       }
+      painel.focus({ preventScroll: true });
     };
 
-    const empilhar = () => {
+    let vao = 0;
+    const medirPilha = () => {
       // O CSS só empilha com este sinal: sem JS, o celular fica numa coluna comum que rola.
       document.documentElement.dataset.empilha = "";
-      const vao = panorama.clientHeight * VAO;
+      vao = panorama.clientHeight * VAO;
       let fim = 0;
       inicios = paineis.map((painel, i) => {
         if (i) fim += vao;
@@ -101,6 +105,9 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       const altura = `${fim + innerHeight}px`;
       if (document.body.style.height !== altura)
         document.body.style.height = altura;
+    };
+    const empilhar = () => {
+      medirPilha();
       // Cada painel rola por dentro conforme a página; os anteriores ficam no fim, os próximos no topo.
       paineis.forEach((painel, i) => {
         painel.scrollTop = scrollY - inicios[i];
@@ -109,7 +116,6 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       inicios.forEach((inicio, i) => {
         if (inicio - vao / 2 <= scrollY) indice = i;
       });
-      if (indice === destino) destino = -1;
       if (indice === ativo) return indice;
       if (ativo < 0)
         for (const titulo of titulos) titulo?.style.removeProperty("translate");
@@ -131,6 +137,10 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
         );
       }
       ativo = indice;
+      if (indice === destino) {
+        destino = -1;
+        paineis[indice].focus({ preventScroll: true });
+      }
       return indice;
     };
     const desempilhar = () => {
@@ -147,24 +157,28 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       }
       if (ativo >= 0) desempilhar();
       // Parallax: o título se desloca proporcional à distância do painel até a borda esquerda.
-      // Sem medir: a posição na tela é offsetLeft menos a rolagem, então não há leitura de layout entre as escritas.
+      // A posição na tela é a borda guardada menos a rolagem: nenhuma leitura de layout entre as escritas.
       const parallax = !matchMedia(REDUZ).matches;
       const rolagem = panorama.scrollLeft;
-      paineis.forEach((painel, i) => {
-        const titulo = titulos[i];
+      titulos.forEach((titulo, i) => {
         if (!titulo) return;
         titulo.style.translate = parallax
-          ? `${(painel.offsetLeft - rolagem) * PARALLAX}px 0`
+          ? `${(bordas[i] - rolagem) * PARALLAX}px 0`
           : "";
       });
       setAtual(indiceAtual());
+    };
+    // Onde cada painel começa no panorama: medido no resize, não a cada quadro de rolagem.
+    let bordas: number[] = [];
+    const medirBordas = () => {
+      bordas = paineis.map((painel) => painel.offsetLeft);
     };
     // A seção atual é a que ocupa o meio da tela: o trilho nunca nomeia um painel quase todo fora.
     const indiceAtual = (x = panorama.scrollLeft) => {
       const ponto = x + innerWidth * 0.5;
       let indice = 0;
-      paineis.forEach((painel, i) => {
-        if (painel.offsetLeft <= ponto) indice = i;
+      bordas.forEach((borda, i) => {
+        if (borda <= ponto) indice = i;
       });
       return indice;
     };
@@ -239,7 +253,13 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
         return;
       const origem = event.target as Element;
-      if (origem.closest("input, textarea, select, [contenteditable]")) return;
+      // Campos e grupos com setas próprias (a lista da capa, a numeração do carrossel) ficam com elas.
+      if (
+        origem.closest(
+          "input, textarea, select, [contenteditable], [data-setas]",
+        )
+      )
+        return;
       const vertical = event.key === "ArrowUp" || event.key === "ArrowDown";
       // ↑/↓ num botão ficam com o botão (e com o leitor de tela).
       if (vertical && origem.closest("button")) return;
@@ -263,20 +283,71 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       if (i >= 0 && i !== ativo && i !== destino) scrollTo({ top: inicios[i] });
     };
 
+    // Toda âncora para dentro de um painel (estações, CTA da capa, link de pular, #faixa-NN) passa por aqui:
+    // no celular o painel de destino está escondido, e o pulo nativo não o alcança.
+    const ancora = (event: MouseEvent) => {
+      if (event.button || event.metaKey || event.ctrlKey || event.shiftKey)
+        return;
+      const link = (event.target as Element).closest?.<HTMLAnchorElement>(
+        'a[href^="#"]',
+      );
+      const painel = link
+        ? document.getElementById(link.hash.slice(1))?.closest(".painel")
+        : null;
+      if (!link || !(painel instanceof HTMLElement)) return;
+      event.preventDefault();
+      // Como a âncora nativa: uma entrada no histórico, para o Voltar voltar à seção de antes.
+      if (location.hash !== link.hash) history.pushState(null, "", link.hash);
+      irPara(painel);
+    };
+    // Voltar/avançar: leva ao painel do hash (sem hash, a capa).
+    const painelDoHash = () =>
+      location.hash
+        ? document.getElementById(location.hash.slice(1))?.closest(".painel")
+        : paineis[0];
+    const voltar = () => {
+      const painel = painelDoHash();
+      if (painel instanceof HTMLElement) irPara(painel);
+    };
+
+    // No celular, a altura de um painel muda sem rolagem (troca de projeto, fonte que chega): remede
+    // a pilha e mantém o lugar dentro do painel ativo, senão o próximo gesto cai na seção vizinha.
+    const observador = new ResizeObserver(() => {
+      if (ativo < 0 || destino >= 0) return;
+      const dentro = paineis[ativo].scrollTop;
+      medirPilha();
+      scrollTo({ top: inicios[ativo] + dentro, behavior: "instant" });
+      marcar();
+    });
+    for (const painel of paineis)
+      for (const filho of painel.children) observador.observe(filho);
+    const redimensionar = () => {
+      medirBordas();
+      marcar();
+    };
+
+    medirBordas();
     marcar();
+    // Abrir já com #contato ou #faixa-NN: no celular o pulo nativo não achou o painel escondido.
+    if (location.hash) voltar();
+    document.addEventListener("click", ancora);
+    window.addEventListener("popstate", voltar);
     panorama.addEventListener("focusin", foco);
     panorama.addEventListener("scroll", marcar, { passive: true });
     window.addEventListener("scroll", marcar, { passive: true });
-    window.addEventListener("resize", marcar);
+    window.addEventListener("resize", redimensionar);
     panorama.addEventListener("wheel", roda, { passive: false });
     window.addEventListener("keydown", tecla);
     return () => {
       window.removeEventListener("keydown", tecla);
+      document.removeEventListener("click", ancora);
+      window.removeEventListener("popstate", voltar);
+      observador.disconnect();
       panorama.removeEventListener("focusin", foco);
       desempilhar();
       panorama.removeEventListener("scroll", marcar);
       window.removeEventListener("scroll", marcar);
-      window.removeEventListener("resize", marcar);
+      window.removeEventListener("resize", redimensionar);
       panorama.removeEventListener("wheel", roda);
       cancelAnimationFrame(quadro);
       clearTimeout(espera);
@@ -303,19 +374,17 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
               <a
                 href={`#${id}`}
                 aria-current={i === atual ? "location" : undefined}
-                onClick={(event) => {
-                  const alvo = document.getElementById(id);
-                  if (!alvo) return;
-                  event.preventDefault();
-                  irPara.current(alvo);
-                  alvo.focus({ preventScroll: true });
-                }}
-                className="flex min-h-11 min-w-11 items-center justify-center gap-2.5 text-sm whitespace-nowrap text-linho-gasto transition-[color,background-color,border-color] hover:text-linho [[data-estado]_&]:text-linho"
+                // Alvo em px: com o texto ampliado, seis estações ainda cabem na barra do celular.
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center gap-2.5 text-sm whitespace-nowrap text-linho-gasto transition-[color,background-color,border-color] hover:text-linho [[data-estado]_&]:text-linho"
               >
                 <span className="estacao" aria-hidden="true" />
                 {/* No celular só a estação atual diz o nome: uma navegação só, e legível. */}
                 <span
-                  className={i === atual ? undefined : "max-[900px]:sr-only"}
+                  className={
+                    i === atual
+                      ? "max-[900px]:min-w-0 max-[900px]:truncate"
+                      : "max-[900px]:sr-only"
+                  }
                 >
                   {label}
                 </span>

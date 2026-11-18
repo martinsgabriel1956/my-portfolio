@@ -70,7 +70,6 @@ typography:
     letterSpacing: "-0.03em"
 rounded:
   none: "0px"
-  estacao: "3px"
   pilula: "999px"
 spacing:
   barra: "64px"
@@ -127,8 +126,9 @@ components:
   estacao:
     backgroundColor: "transparent"
     borderColor: "{colors.linho-gasto}"
-    rounded: "{rounded.estacao}"
-    size: "14px"
+    rounded: "{rounded.none}"
+    size: "10px"
+    rotate: "45deg"
   estacao-lida:
     backgroundColor: "{colors.linho-gasto}"
   estacao-atual:
@@ -189,7 +189,7 @@ Paleta de um tom quente só: tábua escura, linho claro e ferrugem como única v
 - **Title-lg** (300, clamp(34px, 4vw, 56px), 1.05): nome da empresa na experiência, em minúsculas.
 - **Title / Title-sm** (300, clamp(26px, 2.4vw, 34px) e clamp(22px, 2vw, 28px)): grupos de formação, domínios de projeto, categorias de habilidade.
 - **Item** (300, clamp(2rem, 4.6vw, 4.6rem), 1.02): nome do projeto no cartão do carrossel.
-- **Rótulo da faixa** (500, 24px): nome do projeto em foco no canto da capa, abaixo de "trajetória NN · domínio".
+- **Rótulo da faixa** (500, 24px): nome do projeto em foco no canto da capa, abaixo de "projeto NN · domínio".
 - **Body / Body-lg** (400, 16px / 18px): descrições e texto de contato, até 46ch.
 - **Label** (400–500, 14px, tabular): números de faixa, datas, tecnologias, trilho, "lado a · N faixas".
 - **Marca** (600, 26px, -0.03em): "gm." na pílula.
@@ -207,20 +207,20 @@ Headline, item, title-lg, title e title-sm são tokens do `@theme` (`text-headli
 
 **Celular (≤ 900px):** sem JS (ou antes dele), uma coluna comum de painéis que rola como qualquer página. Com JS, o Trilho marca `data-empilha` no `html` e o panorama fica fixo, com os painéis empilhados no mesmo lugar; os que não estão ativos ficam `visibility: hidden` (fora do leitor de tela); a rolagem da página troca o painel ativo (um terço da tela de rolagem entre painéis, `VAO` 0.35, para a rolagem nunca parecer travada; entra com opacidade 0.5s e escala de 1.1 para 1 em 1s) e rola o conteúdo dele por dentro. Padding 28px 20px 56px. O título do painel que entra sobe de trás de uma máscara (750ms).
 
-**Trilho:** barra fixa de 64px no rodapé, uma estação por seção ligada por trechos; no celular só a estação atual mostra o rótulo (uma navegação só; o índice numérico do zip saiu) e os trechos encurtam para caber. No desktop, quando o foco entra num painel (Tab, link de pular), o panorama encosta esse painel na borda, para o trilho dizer a seção certa. O trilho vem depois do `main` no DOM: no Tab, "Entre em contato" chega logo depois do link de pular. Um painel focado pelo teclado ganha moldura de 2px ferrugem por dentro (tábua na capa).
+**Trilho:** barra fixa de 64px no rodapé, uma estação por seção ligada por trechos; no celular só a estação atual mostra o rótulo (uma navegação só; o índice numérico do zip saiu) e os trechos encurtam para caber. Toda âncora para dentro de um painel (estações, "Entre em contato", os dois links de pular, para projetos e para contato, `#faixa-NN`, e abrir a página já com o hash) passa pelo Trilho: no desktop o panorama encosta o painel na borda e o foca; no celular a página rola até ele e o foco entra quando ele fica visível (o pulo nativo não alcança um painel `visibility: hidden`). Cada âncora empilha uma entrada no histórico, e Voltar/Avançar levam ao painel do hash (sem hash, a capa). No celular, quando a altura de um painel muda sem rolagem (troca de projeto, fonte), o Trilho remede a pilha e mantém o lugar dentro do painel ativo. No desktop, quando o foco entra num painel (Tab), o panorama encosta esse painel na borda, para o trilho dizer a seção certa. O trilho vem depois do `main` no DOM: no Tab, "Entre em contato" chega logo depois do link de pular. Um painel focado pelo teclado ganha moldura de 2px ferrugem por dentro (tábua na capa).
 
 **Ritmo:** linhas de lista com 20px de respiro vertical e borda superior em ferro; colunas a 48px; larguras de leitura limitadas (900–1400px conforme o painel).
 
 ## Elevation & Depth
 
-Plano. Não há sombras. Profundidade vem da sobreposição de superfícies chapadas (a lista "lado a" tem fundo ferrugem para que as linhas da arte parem nela, como o verso impresso de um disco), do degrau tonal grafite sobre tábua e do grão de impressão (ruído SVG em multiply a 0.16, leve o bastante para o texto de 14px na capa manter 4,5:1) sobre a capa e a contracapa.
+Plano. Não há sombras. Profundidade vem da sobreposição de superfícies chapadas (a lista "lado a", o título, a linha da stack, "Currículo (PDF)" e "remoto · brasil" têm fundo ferrugem, a classe `tinta`, para que as linhas da arte parem neles, como o verso impresso de um disco; no título e na stack o fundo é do bloco, não das linhas, para não cobrir as pernas das letras), do degrau tonal grafite sobre tábua e do grão de impressão (ruído SVG em multiply a 0.12; no pior pixel o texto de 14px fica perto de 4,4:1) sobre a capa e a contracapa.
 
 ### Named Rules
 **The Chapado Rule.** Nada flutua. Superfícies são planas e se separam por cor chapada, borda ferro de 1px ou degrau tonal; sombra não faz parte do sistema.
 
 ## Shapes
 
-Cantos retos (0px) em botões, cartões, painéis. Duas exceções com papel fixo: a pílula (999px) só na marca "gm.", e o raio de 3px na estação do trilho, que lê como um pad. Os círculos pertencem à arte do detector: camadas a 80, 170 e 275 (esta tracejada 5/9), calorímetro segmentado em 32 células a 430, com o setor aberto de 135° a 295° voltado para o título para que o anel nunca cruze o nome. Traços finos (1.2–1.6) para camadas e trajetórias, traço grosso (8) para células de energia.
+Cantos retos (0px) em botões, cartões, painéis. Uma exceção com papel fixo: a pílula (999px) só na marca "gm.". A estação do trilho é um losango de cantos retos. Os círculos pertencem à arte do detector: camadas a 80, 170 e 275 (esta tracejada 5/9), calorímetro segmentado em 32 células a 430, com o setor aberto de 135° a 295° voltado para o título para que o anel nunca cruze o nome. Traços finos (1.2–1.6) para camadas e trajetórias, traço grosso (8) para células de energia.
 
 ## Components
 
@@ -239,15 +239,15 @@ Diretos e retos, com ícone de 18px à esquerda.
 - **Cargo na experiência:** empresa (title-lg), cargo e datas; embaixo a prova: a stack do cargo (as até 6 tecnologias mais repetidas nos projetos dele, label linho gasto separada por " · ") e as faixas do cargo como links (`NN Nome`, sublinhado ferrugem) que abrem o projeto no carrossel.
 
 ### Navigation
-- **Trilho:** barra tábua de 64px no rodapé com borda superior ferro. Estação 14px, raio 3px: por ler só no aro linho gasto (1px) com trecho tracejado linho gasto (4px/5px); lida em linho gasto com trecho cheio em linho (preenchimento de 0.6s); atual em ferrugem. Alvo mínimo 44px. Rótulos em label linho gasto, linho ao passar ou quando lido/atual.
-- **Lista "lado a":** no desktop, lista numerada ("lado a · N projetos", com a legenda da arte embaixo, "2 e-commerce · 5 painéis admin · 1 saúde" em label tabular, e itens em body 16px com alvo de 44px, 32px em telas com menos de 760px de altura) no alto à direita da capa, fundo ferrugem; a faixa escolhida (hover ou foco) ganha peso 500 e sublinhado. Em repouso nenhuma fica sublinhada. Vem depois do título no DOM, para o nome ser lido primeiro. No celular some: a lista completa está no painel de projetos.
+- **Trilho:** barra tábua de 64px no rodapé com borda superior ferro. Estação em losango de 10px (um quadrado girado 45°, a marca de impacto da arte; o quadrado de aro fino lia como checkbox): por ler só no aro linho gasto (1px) com trecho tracejado linho gasto (4px/5px); lida em linho gasto com trecho cheio em linho (preenchimento de 0.6s); atual em ferrugem. Alvo mínimo 44px, em px para caber com o texto ampliado; no celular o rótulo da atual corta com reticências. Rótulos em label linho gasto, linho ao passar ou quando lido/atual.
+- **Lista "lado a":** no desktop, lista numerada ("lado a · N projetos", com a legenda da arte embaixo, "2 e-commerce · 5 painéis admin · 1 saúde" em label tabular, e itens em body 16px com alvo de 44px, 32px só em telas com menos de 620px de altura) no alto à direita da capa, fundo ferrugem; a faixa escolhida (hover ou foco) ganha peso 500 e sublinhado. Em repouso nenhuma fica sublinhada. A legenda só quebra entre domínios (espaço inseparável dentro de cada par). No teclado é uma parada só: ↑/↓, Home e End andam pelas faixas, e o título ganha "· use as setas" enquanto o foco está nela. Vem depois do título no DOM, para o nome ser lido primeiro. No celular some: a lista completa está no painel de projetos.
 
 ### Marca "gm."
 Pílula tábua com "gm." em ferrugem (marca, 600, 26px) no canto superior esquerdo da capa; não é link (só levaria à própria capa) e fica fora da árvore de acessibilidade, porque o nome está no título. No favicon, os glifos e o ponto são tábua sobre ferrugem, como a capa da abertura; nos arquivos de marca em `public/brand`, linho sobre tábua com o ponto em ferrugem.
 
 ### Arte da Colisão (componente assinatura)
 SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada trajetória sai do centro como curva quadrática; o sinal da curva diz o domínio (ecommerce, admin, saúde curvam para lados diferentes) e uma marca de impacto cruza cada camada. No calorímetro, a célula de energia de cada projeto tem 18 + 5 por tecnologia (até 12), e só deposita fora do setor aberto.
-- **Estado:** passar ou focar uma faixa (desktop) dobra a linha dela (traço 3 + uma linha gêmea a 8 de distância), baixa as outras para 0.3 de opacidade e sublinha a faixa na lista. No canto inferior direito da capa (desktop), o rótulo da trajetória em foco: "trajetória NN · domínio" em label, o nome do projeto em 24px 500 e as 3 primeiras tecnologias em label, sobre fundo ferrugem. Domínios em palavras: e-commerce, painéis admin, saúde. No celular, sem lista nem rótulo, a capa não dobra nenhuma linha. No pé da capa: o botão "Entre em contato", a ação secundária "Currículo (PDF)" (label 500 sublinhado em tábua, com ícone, baixa o PDF) e "remoto · brasil" em label 500. No celular a localização sobe para uma linha própria acima do botão (a lista "lado a" some ali; a linha da stack sob o título já diz os domínios), o currículo desce para outra linha abaixo, e a arte encolhe para 140vw com o centro a 43% para o calorímetro não encostar no pé. No desktop o centro da arte fica a 70% da largura do painel. O cartão do carrossel diz "empresa · domínio".
+- **Estado:** passar ou focar uma faixa (desktop) dobra a linha dela (traço 3 + uma linha gêmea a 8 de distância), baixa as outras para 0.3 de opacidade e sublinha a faixa na lista. Em repouso nenhuma linha é dupla e não há rótulo. No canto inferior direito da capa (desktop), o rótulo da faixa escolhida: "projeto NN · domínio" em label (a metáfora fica no desenho, não no texto), o nome do projeto em 24px 500 e as 3 primeiras tecnologias em label, sobre fundo ferrugem. Domínios em palavras: e-commerce, painéis admin, saúde. No celular, sem lista nem rótulo, a capa não dobra nenhuma linha. No pé da capa: o botão "Entre em contato", a ação secundária "Currículo (PDF)" (label 500 sublinhado em tábua, com ícone, baixa o PDF) e "remoto · brasil" em label 500. No celular a localização sobe para uma linha própria acima do botão (a lista "lado a" some ali; a linha da stack sob o título já diz os domínios), o currículo desce para outra linha abaixo, e a arte encolhe para 140vw com o centro a 43% para o calorímetro não encostar no pé. No desktop o centro da arte fica a 70% da largura do painel. O cartão do carrossel diz "empresa · domínio".
 - **Chegada:** cada trajetória se traça do centro uma vez, 0.9s cubic-bezier(0.16, 1, 0.3, 1), a partir de 0.45s com 0.06s entre elas.
 - **Setor aberto:** a trajetória cujo ângulo cai no setor aberto (na direção do título) tem metade do comprimento, para nunca passar sobre o nome (medido de 1024 a 1920px de largura e no celular).
 - **Contracapa:** no fim do painel de contato, um quadrado ferrugem com grão mostra a mesma colisão cortada, com "fim do lado a". Só no desktop; no celular some.
@@ -256,7 +256,7 @@ SVG gerado a partir das faixas, na cor do texto (tábua sobre a capa). Cada traj
 Cortina tábua fixa sobre a página: a capa "gm." de 140px em ferrugem (marca, 26px) se imprime do meio (0.2s), dois anéis linho gasto se abrem em volta (0.4s, o externo tracejado), e a tábua se fecha no meio e se dissolve (0.4s, ease-in-out, a partir de 0.2s), toda fora em 0.6s, enquanto o título e o pé da capa sobem 16px sem nunca ficar invisíveis. Só CSS, nunca bloqueia cliques; com movimento reduzido não aparece.
 
 ### Projetos
-Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono). Cada cartão é grafite com o número da faixa gigante em ferro no fundo, no lugar de uma imagem, e no canto superior esquerdo a mesma colisão da capa (linho gasto a 0.45), com o centro no canto e girada para a trajetória do projeto, de linha dupla, entrar na diagonal: o verso repete a frente. O cartão rola por dentro quando o conteúdo passa da altura (laptop baixo, zoom), nunca corta. A descrição vem em linho, as tecnologias em linha separadas por " · ". Na troca, o cartão atual gira 30°, encolhe a 25% e sai pela vertical (ease-in-out quint); 0,45s depois o próximo sobe recortado por um polígono que se abre até o cheio (ease-out quint), e o título nasce palavra por palavra de trás de máscaras, seguido do resto. Os tempos são os do zip de referência vezes `RITMO` (0,6, troca em ~1,4s). Navega por anterior/próximo, pela numeração e pelos links da capa (`#faixa-NN`); um clique durante a troca não se perde, espera ela acabar e segue; a roda não troca projeto, porque ela anda o panorama. Deslizar o cartão para o lado também troca. Cada número tem o nome acessível "01 Nome do projeto", começando pelo que se vê. Cliques rápidos contam a partir do último pedido. No celular a navegação some (não recebe foco) e o contador vira a linha "← deslize · 01 / 08 →", cujas setas (ícones que acenam três vezes e param) são os botões de anterior/próximo; deslizar o cartão também troca.
+Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiências, sem agrupar por domínio (decisão do dono). Cada cartão é grafite com o número da faixa gigante em ferro no fundo, no lugar de uma imagem, e no canto superior esquerdo a mesma colisão da capa (linho gasto a 0.45), com o centro no canto e girada para a trajetória do projeto, de linha dupla, entrar na diagonal: o verso repete a frente. No desktop o cartão rola por dentro quando o conteúdo passa da altura (zoom), nunca corta; no celular ele fica no fluxo com a altura do conteúdo (os cartões da troca dividem a mesma célula de grade) e quem rola é a página. A descrição vem em body-lg linho (body no celular), as tecnologias em linha separadas por " · ". Na troca, o cartão atual gira 30°, encolhe a 25% e sai pela vertical (ease-in-out quint); 0,45s depois o próximo sobe recortado por um polígono que se abre até o cheio (ease-out quint), e o título nasce palavra por palavra de trás de máscaras, seguido do resto. Os tempos são os do zip de referência vezes `RITMO` (0,3, troca em ~0,7s). Navega por anterior/próximo, pela numeração (só números, o atual em ferrugem, e logo depois deles o nome inteiro do atual em linho, num lugar fixo para os números nunca andarem; no teclado a numeração é uma parada só, ←/→, Home e End trocam o projeto; não há contador "01 / 08" no cartão) e pelos links da capa e da experiência (`#faixa-NN`); um clique durante a troca não se perde, espera ela acabar e segue; a roda não troca projeto, porque ela anda o panorama. Deslizar o cartão para o lado também troca. Cada número tem o nome acessível "01 Nome do projeto", começando pelo que se vê. Cliques rápidos contam a partir do último pedido. No celular a navegação some (não recebe foco) e o contador vira a linha "← deslize · 01 / 08 →", cujas setas (ícones que acenam três vezes e param) são os botões de anterior/próximo; deslizar o cartão também troca.
 
 ## Do's and Don'ts
 
@@ -266,7 +266,7 @@ Um carrossel, um projeto por vez, numerado (01, 02…) na ordem das experiência
 - **Do** derivar a geometria da arte de dados reais (domínio para a curva, contagem de tecnologias para a energia).
 - **Do** manter o setor aberto do calorímetro (135°–295°) voltado para o título em toda composição que use a colisão, inclusive a imagem de compartilhamento.
 - **Do** usar Albert Sans 200–300 em minúsculas nos títulos e dígitos tabulares em todo número alinhado.
-- **Do** respeitar `prefers-reduced-motion`: sem abertura, sem traçado, troca de projeto instantânea, rolagem instantânea.
+- **Do** respeitar `prefers-reduced-motion`: sem abertura, sem traçado, troca de projeto instantânea, rolagem instantânea, painel do celular trocando no lugar (sem o zoom de 1.1 nem o esmaecer).
 
 ### Don't:
 - **Don't** introduzir uma segunda cor viva, nem tema claro.
