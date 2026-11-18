@@ -2,6 +2,7 @@ import { ArrowRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CV_URL } from "@/lib/links";
 import type { Faixa } from "../projects";
+import { legendaDominios } from "../projects/dominio";
 import { LadoA } from "./lado-a";
 
 /** A capa do disco: nome e ofício em tábua sobre ferrugem, com a colisão dos projetos impressa como arte. */
@@ -44,11 +45,15 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
           className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2 max-[900px]:basis-full"
         >
           <FileText className="size-4" aria-hidden="true" />
-          currículo (pdf)
+          Currículo (PDF)
         </a>
         {/* No celular sobe para uma linha própria: ao lado do botão ela cairia sob o índice do canto. */}
         <p className="text-sm font-medium max-[900px]:order-first max-[900px]:basis-full">
           remoto · brasil
+          {/* No celular a lista da capa some; a legenda dos domínios vem junto do local. */}
+          <span className="block font-normal tabular-nums min-[901px]:hidden">
+            {legendaDominios(faixas)}
+          </span>
         </p>
       </div>
       {/* Depois do nome no DOM: a lista é posicionada, então a ordem de leitura muda sem mexer no desenho. */}

@@ -17,13 +17,15 @@ export function CopyEmailButton() {
   const [status, setStatus] = useState<Status>("idle");
 
   async function copy() {
+    let copiou = true;
     try {
       await navigator.clipboard.writeText(EMAIL);
-      setStatus("copied");
     } catch {
-      setStatus("failed");
+      copiou = false;
     }
-    setTimeout(() => setStatus("idle"), 2500);
+    setStatus(copiou ? "copied" : "failed");
+    // A falha pede uma ação (selecionar o email): fica mais tempo que a confirmação.
+    setTimeout(() => setStatus("idle"), copiou ? 2500 : 8000);
   }
 
   return (
