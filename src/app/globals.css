@@ -130,11 +130,17 @@
     inset: 0;
     background: var(--grao);
     mix-blend-mode: multiply;
-    /* Leve o bastante para o texto de 14px na capa não cair abaixo de 4,5:1 nos pontos escuros. */
-    opacity: 0.16;
+    /* Leve o bastante para o texto de 14px na capa passar de 4,5:1 até no ponto mais escuro do grão. */
+    opacity: 0.1;
     pointer-events: none;
     /* Por cima de tudo que está impresso na capa, inclusive a lista de faixas. */
     z-index: 3;
+  }
+  /* Texto impresso por cima da arte: as trajetórias param nele, como na lista "lado a". */
+  .capa .tinta {
+    background: var(--color-ferrugem);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
   .contracapa {
     position: absolute;
@@ -183,12 +189,16 @@
     }
   }
 
-  /* O trilho: uma estação por seção, como um pad. Por ler é apagado e tracejado; lido acende; atual é ferrugem. */
+  /*
+   * O trilho: uma estação por seção, um losango como a marca de impacto da arte (um quadrado
+   * de aro fino lia como checkbox). Por ler é só o aro e o trecho tracejado; lido acende; atual é ferrugem.
+   */
   .estacao {
-    width: 14px;
-    height: 14px;
+    width: 10px;
+    height: 10px;
+    margin: 2px;
     flex-shrink: 0;
-    border-radius: 3px;
+    rotate: 45deg;
     /* Por ler é só o aro (forma, não cor): legível a 7:1, onde o pad apagado ficava em 1,5:1. */
     border: 1px solid var(--color-linho-gasto);
     transition:
@@ -386,9 +396,9 @@
   .colisao .linha {
     stroke-width: 1.6;
   }
-  /* Seis estações cabem em 375px: os trechos entre elas encurtam. */
+  /* Seis estações cabem em 375px: os trechos entre elas encurtam. À esquerda, um respiro para o rótulo da atual não grudar no tracejado. */
   .trecho {
-    margin: 0 2px;
+    margin: 0 2px 0 8px;
   }
   body {
     padding-bottom: var(--barra);
@@ -404,6 +414,12 @@
     animation-iteration-count: 1;
     transition-duration: 0.01ms;
     scroll-behavior: auto;
+  }
+  /* O painel empilhado do celular troca no lugar, sem o zoom de 1.1 nem o esmaecer (vence o seletor de três partes). */
+  [data-empilha] .painel,
+  [data-empilha] .painel[data-ativo] {
+    scale: 1;
+    transition: none;
   }
   /* Sem movimento, a abertura não tem o que dizer: a página aparece direto. */
   .abertura {

@@ -19,9 +19,12 @@ function contagem(faixas: { domain?: ProjectDomain }[]) {
 
 /** A legenda impressa da arte: "2 e-commerce · 5 painéis admin · 1 saúde". */
 export function legendaDominios(faixas: { domain?: ProjectDomain }[]) {
-  return contagem(faixas)
-    .map(([nome, n]) => `${n} ${nome}`)
-    .join(" · ");
+  return (
+    contagem(faixas)
+      // Espaço inseparável dentro de cada par: a linha só quebra entre domínios, nunca em "1" / "saúde".
+      .map(([nome, n]) => `${n} ${nome}`.replaceAll(" ", "\u00a0"))
+      .join(" · ")
+  );
 }
 
 /** Os domínios como frase: "e-commerce, painéis admin e saúde". */

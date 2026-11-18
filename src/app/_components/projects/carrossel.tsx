@@ -11,7 +11,8 @@ const REDUZ = "(prefers-reduced-motion: reduce)";
 const QUINT_IN_OUT = "cubic-bezier(0.86, 0, 0.07, 1)";
 const QUINT_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
 // Escala de todos os tempos: 1 = o ritmo do zip (troca em ~2,3s); menor = mais rápido.
-const RITMO = 0.6;
+// 0,3: a troca acaba em ~0,7s, para quem passa pelos oito projetos não esperar a cada um.
+const RITMO = 0.3;
 const CHEIO = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
 
 type Slide = { i: number; chave: number; dir?: 1 | -1 };
@@ -20,6 +21,8 @@ type Slide = { i: number; chave: number; dir?: 1 | -1 };
 export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   const [slides, setSlides] = useState<Slide[]>([{ i: 0, chave: 0 }]);
   const [atual, setAtual] = useState(0);
+  // O número sob o mouse ou o foco: o lugar do nome mostra quem ele é antes do clique.
+  const [espia, setEspia] = useState<number | null>(null);
   const animando = useRef(false);
   // Clique durante a troca não se perde: o último pedido espera a troca acabar.
   const pendente = useRef<[number, 1 | -1] | null>(null);
@@ -62,7 +65,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
     ir((base + dir + total) % total, dir);
   };
 
-  // Os links da capa (#faixa-NN) escolhem o projeto; o navegador rola até o painel.
+  // Os links da capa e da experiência (#faixa-NN) escolhem o projeto; quem leva ao painel é o Trilho.
   const irRef = useRef(ir);
   useEffect(() => {
     irRef.current = ir;
@@ -75,24 +78,21 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
     };
     const clique = (event: MouseEvent) => {
       const link = (event.target as Element).closest?.('a[href^="#faixa-"]');
-      if (!link || !escolher(link.getAttribute("href") ?? "")) return;
-      // O pulo nativo alinha pelo mais perto e deixa o painel anterior espiando; aqui o painel encosta na borda.
-      event.preventDefault();
-      const painel = document.getElementById("projetos");
-      painel?.scrollIntoView({
-        inline: "start",
-        block: "nearest",
-        behavior: matchMedia(REDUZ).matches ? "auto" : "smooth",
-      });
-      painel?.focus({ preventScroll: true });
+      if (link) escolher(link.getAttribute("href") ?? "");
     };
+    // Voltar/avançar para um #faixa-NN reabre aquele projeto.
+    const voltar = () => escolher(location.hash);
     escolher(location.hash);
     document.addEventListener("click", clique);
-    return () => document.removeEventListener("click", clique);
+    window.addEventListener("popstate", voltar);
+    return () => {
+      document.removeEventListener("click", clique);
+      window.removeEventListener("popstate", voltar);
+    };
   }, [faixas]);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 max-[900px]:flex-[1_0_auto]">
       {faixas.map((f) => (
         <span
           key={f.id}
@@ -119,7 +119,8 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(t.clientY - ini.y))
             passo(dx < 0 ? 1 : -1);
         }}
-        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden"
+        // No celular os cartões dividem a mesma célula da grade: a troca sobrepõe, e a altura é a do maior.
+        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden max-[900px]:grid max-[900px]:flex-[1_0_auto]"
       >
         {slides.map((s) => (
           <Cartao
@@ -172,22 +173,51 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           <ArrowLeft className="size-4" aria-hidden="true" />
           anterior
         </button>
-        <ol className="flex flex-1 flex-wrap justify-center gap-1">
-          {faixas.map((f, i) => (
-            <li key={f.id}>
-              <button
-                type="button"
-                // O nome começa pelo número visível, para quem navega por voz dizer "01".
-                aria-label={`${f.numero} ${f.name}`}
-                aria-current={i === atual || undefined}
-                onClick={() => ir(i, i > atual ? 1 : -1)}
-                className="min-h-11 min-w-11 text-sm text-linho-gasto tabular-nums transition-[color,background-color,border-color] hover:text-linho aria-current:text-ferrugem"
-              >
-                {f.numero}
-              </button>
-            </li>
-          ))}
-        </ol>
+        <div className="flex min-w-0 flex-1 items-center gap-4">
+          {/* Uma parada só no Tab: as setas andam pela numeração (e trocam o projeto), como abas. */}
+          <ol
+            data-setas=""
+            className="flex flex-wrap gap-1"
+            onKeyDown={(event) => {
+              const delta = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+              const fim = { Home: 0, End: total - 1 }[event.key];
+              if (delta === undefined && fim === undefined) return;
+              event.preventDefault();
+              const base = pendente.current?.[0] ?? atual;
+              const destino = fim ?? (base + (delta ?? 0) + total) % total;
+              ir(destino, destino > base ? 1 : -1);
+              event.currentTarget.querySelectorAll("button")[destino]?.focus();
+            }}
+          >
+            {faixas.map((f, i) => (
+              <li key={f.id}>
+                <button
+                  type="button"
+                  // O nome começa pelo número visível, para quem navega por voz dizer "01".
+                  aria-label={`${f.numero} ${f.name}`}
+                  title={f.name}
+                  aria-current={i === atual || undefined}
+                  tabIndex={i === atual ? 0 : -1}
+                  onClick={() => ir(i, i > atual ? 1 : -1)}
+                  onMouseEnter={() => setEspia(i)}
+                  onMouseLeave={() => setEspia(null)}
+                  onFocus={() => setEspia(i)}
+                  onBlur={() => setEspia(null)}
+                  className="min-h-11 min-w-11 text-sm text-linho-gasto tabular-nums transition-[color,background-color,border-color] hover:text-linho aria-current:text-ferrugem"
+                >
+                  {f.numero}
+                </button>
+              </li>
+            ))}
+          </ol>
+          {/* O nome do atual (ou do número sob o mouse, em linho gasto), inteiro, depois da numeração: os números nunca saem do lugar. */}
+          <p
+            aria-hidden="true"
+            className={`min-w-0 truncate text-sm ${espia === null || espia === atual ? "text-linho" : "text-linho-gasto"}`}
+          >
+            {faixas[espia ?? atual].name}
+          </p>
+        </div>
         <button
           type="button"
           onClick={() => passo(1)}
@@ -265,10 +295,11 @@ function Cartao({
     <article
       ref={ref}
       data-chave={slide.chave}
-      // Rola por dentro quando o conteúdo passa da altura (laptop baixo, zoom): cortar escondia a stack.
+      // Desktop: rola por dentro quando o conteúdo passa da altura (laptop baixo, zoom): cortar escondia a stack.
+      // Celular: no fluxo, com a altura do conteúdo; quem rola é a página (o painel), nunca uma fresta.
       data-rola=""
       aria-labelledby={`${faixa.id}-titulo`}
-      className="absolute inset-0 flex flex-col overflow-x-hidden overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--color-ferro)_transparent] border bg-grafite p-8 max-[900px]:p-5 [@media(max-height:800px)]:p-6"
+      className="absolute inset-0 flex flex-col overflow-x-hidden overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--color-ferro)_transparent] border bg-grafite p-8 max-[900px]:relative max-[900px]:inset-auto max-[900px]:[grid-area:1/1] max-[900px]:overflow-clip max-[900px]:p-5 [@media(max-height:800px)]:p-6"
     >
       <span
         aria-hidden="true"
@@ -310,7 +341,7 @@ function Cartao({
             </Mascara>
           </p>
           {/* A descrição é a prova (não há imagem nem link): em linho, não no tom de metadado. */}
-          <p className="text-base leading-normal text-pretty max-[900px]:text-sm">
+          <p className="text-lg leading-snug text-pretty max-[900px]:text-base max-[900px]:leading-normal">
             <Mascara>{faixa.description}</Mascara>
           </p>
         </div>
@@ -331,11 +362,6 @@ function Cartao({
             </ul>
           </div>
         )}
-        <p className="ml-auto flex shrink-0 gap-2 tabular-nums max-[900px]:hidden">
-          <Mascara>{faixa.numero}</Mascara>
-          <Mascara>/</Mascara>
-          <Mascara>{String(total).padStart(2, "0")}</Mascara>
-        </p>
       </div>
     </article>
   );

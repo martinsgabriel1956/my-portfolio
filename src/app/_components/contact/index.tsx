@@ -1,12 +1,6 @@
 import { BookOpen, FileText, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  BLOG_URL,
-  CV_URL,
-  EMAIL,
-  GITHUB_URL,
-  LINKEDIN_URL,
-} from "@/lib/links";
+import { BLOG_URL, CV_URL, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/links";
 import { ArteColisao } from "../colisao";
 import type { Faixa } from "../projects";
 import { CopyEmailButton } from "./copy-email-button";
@@ -30,14 +24,14 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
       <h2 id="contact-heading" className="mb-7 text-headline">
         contato
       </h2>
-      <p className="mb-5 max-w-[46ch] text-lg text-linho-gasto">
+      <p className="mb-5 max-w-[46ch] text-lg text-pretty text-linho-gasto">
         Aberto a novas oportunidades como desenvolvedor fullstack e a projetos
         freelance. O caminho mais rápido é o email.
       </p>
       <address className="relative z-10 not-italic">
         <a
           href={`mailto:${EMAIL}`}
-          className="mb-6 inline-block text-item leading-[1.05] font-extralight tracking-[-0.035em] [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
+          className="mb-6 inline-block min-h-11 text-item leading-[1.05] font-extralight tracking-[-0.035em] [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
         >
           {/* Se não couber, quebra antes do @, nunca no meio do nome. */}
           {EMAIL.split("@")[0]}
@@ -56,7 +50,7 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
                     {label}
                   </a>
                 ) : (
-                  <a href={href} target="_blank" rel="noopener noreferrer">
+                  <a href={href} target="_blank" rel="noopener">
                     <Icon aria-hidden="true" />
                     {label}
                     <span className="sr-only"> (abre em nova aba)</span>
