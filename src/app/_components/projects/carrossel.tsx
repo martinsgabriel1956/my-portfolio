@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArteColisao, grausDe } from "../colisao";
 import type { Faixa } from ".";
 import { DOMINIO } from "./dominio";
@@ -223,8 +223,10 @@ function Cartao({
 }) {
   const faixa = faixas[slide.i];
   const ref = useRef<HTMLElement>(null);
+  // Layout effect: a entrada começa antes da primeira pintura. Com useEffect o cartão novo aparecia
+  // inteiro por um quadro (até ~90ms na primeira troca, com o JS ainda frio) e só depois sumia para entrar.
   // biome-ignore lint/correctness/useExhaustiveDependencies: entra uma vez, ao montar
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current;
     if (!el || !slide.dir) return;
     el.animate(
