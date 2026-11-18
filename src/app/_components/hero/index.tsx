@@ -1,12 +1,20 @@
 import { ArrowRight, BookOpen, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { Experience } from "@/db/schema";
 import { BLOG_URL, CV_URL } from "@/lib/links";
+import { formatMonthYear } from "@/lib/utils";
 import type { Faixa } from "../projects";
 import { dominiosEmPalavras, stackDe } from "../projects/dominio";
 import { LadoA } from "./lado-a";
 
 /** A capa do disco: nome e ofício em tábua sobre ferrugem, com a colisão dos projetos impressa como arte. */
-export function Hero({ faixas }: { faixas: Faixa[] }) {
+export function Hero({
+  faixas,
+  atual,
+}: {
+  faixas: Faixa[];
+  atual?: Experience;
+}) {
   const stack = stackDe(faixas, 4);
   return (
     <section
@@ -43,6 +51,18 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
           <span className="tinta block w-fit">{stack.join(" · ")}</span>
           <span className="tinta block w-fit font-normal">
             em {dominiosEmPalavras(faixas)}.
+          </span>
+        </p>
+      )}
+      {/* A segunda pergunta de quem contrata: onde está agora. Só a data do cargo, sem conta de anos. */}
+      {atual && (
+        <p className="relative z-[1] mt-2 self-start text-lg leading-snug max-[900px]:text-base">
+          <span className="tinta block w-fit lowercase">
+            hoje na {atual.company}, desde{" "}
+            <time dateTime={atual.startDate.toISOString()}>
+              {formatMonthYear(atual.startDate)}
+            </time>
+            .
           </span>
         </p>
       )}

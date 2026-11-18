@@ -19,8 +19,13 @@ type Slide = { i: number; chave: number; dir?: 1 | -1 };
 
 /** O carrossel do zip: a faixa atual gira e encolhe para fora, a próxima sobe recortada e o texto nasce de trás de máscaras. */
 export function Carrossel({ faixas }: { faixas: Faixa[] }) {
-  const [slides, setSlides] = useState<Slide[]>([{ i: 0, chave: 0 }]);
-  const [atual, setAtual] = useState(0);
+  // Abre no primeiro e-commerce, o domínio que a capa promete primeiro; a numeração não muda.
+  const inicio = Math.max(
+    faixas.findIndex((f) => f.domain === "ecommerce"),
+    0,
+  );
+  const [slides, setSlides] = useState<Slide[]>([{ i: inicio, chave: 0 }]);
+  const [atual, setAtual] = useState(inicio);
   // O número sob o mouse ou o foco: o lugar do nome mostra quem ele é antes do clique.
   const [espia, setEspia] = useState<number | null>(null);
   const animando = useRef(false);

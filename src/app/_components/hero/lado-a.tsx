@@ -82,7 +82,7 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
                   data-foco={(escolhendo && i === foco) || undefined}
                   className="grid min-h-11 grid-cols-[1.75rem_1fr] items-center underline-offset-4 data-foco:font-medium data-foco:underline [@media(max-height:620px)]:min-h-8"
                 >
-                  <span className="tabular-nums">{faixa.numero}</span>
+                  <span className="tabular-nums">{faixa.numero} </span>
                   <span>
                     {faixa.name}
                     {faixa.domain && (
