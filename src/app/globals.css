@@ -130,8 +130,8 @@
     inset: 0;
     background: var(--grao);
     mix-blend-mode: multiply;
-    /* Leve o bastante para o texto de 14px na capa ficar perto de 4,5:1 até no ponto mais escuro do grão. */
-    opacity: 0.12;
+    /* Leve o bastante para o texto de 14px na capa passar de 4,5:1 até no ponto mais escuro do grão. */
+    opacity: 0.1;
     pointer-events: none;
     /* Por cima de tudo que está impresso na capa, inclusive a lista de faixas. */
     z-index: 3;
@@ -396,9 +396,9 @@
   .colisao .linha {
     stroke-width: 1.6;
   }
-  /* Seis estações cabem em 375px: os trechos entre elas encurtam. */
+  /* Seis estações cabem em 375px: os trechos entre elas encurtam. À esquerda, um respiro para o rótulo da atual não grudar no tracejado. */
   .trecho {
-    margin: 0 2px;
+    margin: 0 2px 0 8px;
   }
   body {
     padding-bottom: var(--barra);

@@ -53,7 +53,9 @@ export default async function Home() {
     categories.length > 0 && {
       id: "habilidades",
       label: "habilidades",
-      node: <Skills key="habilidades" categories={categories} />,
+      node: (
+        <Skills key="habilidades" categories={categories} faixas={faixas} />
+      ),
     },
     (education.length > 0 || certifications.length > 0) && {
       id: "formacao",

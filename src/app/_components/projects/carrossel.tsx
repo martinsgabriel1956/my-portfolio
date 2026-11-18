@@ -21,6 +21,8 @@ type Slide = { i: number; chave: number; dir?: 1 | -1 };
 export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   const [slides, setSlides] = useState<Slide[]>([{ i: 0, chave: 0 }]);
   const [atual, setAtual] = useState(0);
+  // O número sob o mouse ou o foco: o lugar do nome mostra quem ele é antes do clique.
+  const [espia, setEspia] = useState<number | null>(null);
   const animando = useRef(false);
   // Clique durante a troca não se perde: o último pedido espera a troca acabar.
   const pendente = useRef<[number, 1 | -1] | null>(null);
@@ -197,6 +199,10 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
                   aria-current={i === atual || undefined}
                   tabIndex={i === atual ? 0 : -1}
                   onClick={() => ir(i, i > atual ? 1 : -1)}
+                  onMouseEnter={() => setEspia(i)}
+                  onMouseLeave={() => setEspia(null)}
+                  onFocus={() => setEspia(i)}
+                  onBlur={() => setEspia(null)}
                   className="min-h-11 min-w-11 text-sm text-linho-gasto tabular-nums transition-[color,background-color,border-color] hover:text-linho aria-current:text-ferrugem"
                 >
                   {f.numero}
@@ -204,9 +210,12 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
               </li>
             ))}
           </ol>
-          {/* O nome do atual, inteiro, depois da numeração: os números nunca saem do lugar. */}
-          <p aria-hidden="true" className="min-w-0 truncate text-sm text-linho">
-            {faixas[atual].name}
+          {/* O nome do atual (ou do número sob o mouse, em linho gasto), inteiro, depois da numeração: os números nunca saem do lugar. */}
+          <p
+            aria-hidden="true"
+            className={`min-w-0 truncate text-sm ${espia === null || espia === atual ? "text-linho" : "text-linho-gasto"}`}
+          >
+            {faixas[espia ?? atual].name}
           </p>
         </div>
         <button

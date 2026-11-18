@@ -18,6 +18,17 @@ const PARALLAX = 0.1;
 // No celular, quanto da altura da tela se rola entre um painel e outro. Uma tela inteira (o zip) deixava
 // 84% da rolagem parada; um terço ainda empilha os painéis sem a sensação de travado.
 const VAO = 0.35;
+// No celular, cada painel (menos a capa) segura a rolagem por pelo menos meia tela: um flick a partir da
+// capa para nos projetos em vez de passar direto por eles.
+const PERMANENCIA = 0.5;
+// O que o Tab alcança dentro de um painel (o roving tabindex fica de fora: só o item ativo tem tabindex 0).
+const TABULAVEIS =
+  "a[href], button:not([disabled]), input, select, textarea, [tabindex]";
+const tabulaveis = (painel: HTMLElement) =>
+  [...painel.querySelectorAll<HTMLElement>(TABULAVEIS)].filter(
+    (el) =>
+      el.tabIndex >= 0 && el.getClientRects().length && !el.closest("[inert]"),
+  );
 const POWER3_OUT = "cubic-bezier(0.215, 0.61, 0.355, 1)";
 const SETAS: Record<string, number> = {
   ArrowRight: 1,
@@ -77,17 +88,24 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
     let ativo = -1;
     // Painel para onde o trilho está rolando suave; o foco nele não pode cortar o caminho.
     let destino = -1;
+    // Shift+Tab chega ao painel anterior pelo fim dele, não pelo topo.
+    let focarNoFim = false;
+    const focar = (painel: HTMLElement) =>
+      ((focarNoFim && tabulaveis(painel).at(-1)) || painel).focus({
+        preventScroll: true,
+      });
     // Leva ao painel e o foca. No celular o painel só fica focável (visível) ao chegar: empilhar foca nele.
-    const irPara = (painel: HTMLElement) => {
+    const irPara = (painel: HTMLElement, noFim = false) => {
       const i = paineis.indexOf(painel);
       if (i < 0) return;
+      focarNoFim = noFim;
       if (matchMedia(DESKTOP).matches) deslizar(painel.offsetLeft);
       else if (i !== ativo) {
         destino = i;
         scrollTo({ top: inicios[i], behavior: comportamento() });
         return;
       }
-      painel.focus({ preventScroll: true });
+      focar(painel);
     };
 
     let vao = 0;
@@ -99,7 +117,10 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       inicios = paineis.map((painel, i) => {
         if (i) fim += vao;
         const inicio = fim;
-        fim += painel.scrollHeight - painel.clientHeight;
+        const rolagem = painel.scrollHeight - painel.clientHeight;
+        fim += i
+          ? Math.max(rolagem, panorama.clientHeight * PERMANENCIA)
+          : rolagem;
         return inicio;
       });
       const altura = `${fim + innerHeight}px`;
@@ -139,7 +160,7 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       ativo = indice;
       if (indice === destino) {
         destino = -1;
-        paineis[indice].focus({ preventScroll: true });
+        focar(paineis[indice]);
       }
       return indice;
     };
@@ -268,8 +289,31 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
         : (paineis[indiceAtual()] ?? null);
       if (vertical && painelRola(dentro, direcao > 0)) return;
       event.preventDefault();
-      const destino = paineis[indiceAtual(quadro ? alvo : undefined) + direcao];
-      if (destino) deslizar(destino.offsetLeft);
+      const proximo = paineis[indiceAtual(quadro ? alvo : undefined) + direcao];
+      // O foco vai junto: senão o próximo Tab, dentro do painel de antes, puxaria a vista de volta.
+      if (proximo) irPara(proximo);
+    };
+
+    // No celular os painéis fora da tela ficam escondidos (e fora do Tab). No fim de um painel, o Tab
+    // leva ao próximo; no começo, Shift+Tab leva ao fim do anterior.
+    const tab = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || ativo < 0) return;
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      const painel = paineis[ativo];
+      const vizinho = paineis[ativo + (event.shiftKey ? -1 : 1)];
+      const aqui = document.activeElement;
+      if (!vizinho || !aqui || !painel.contains(aqui)) return;
+      const dentro = tabulaveis(painel);
+      const naBorda = event.shiftKey
+        ? aqui === painel || aqui === dentro[0]
+        : aqui === (dentro.at(-1) ?? painel);
+      if (!naBorda) return;
+      event.preventDefault();
+      irPara(vizinho, event.shiftKey);
+    };
+    // Quem rola por conta própria no meio de um pulo assume o controle: o pulo não foca nada depois.
+    const assumir = () => {
+      destino = -1;
     };
 
     // Foco (Tab, link de pular) num painel: no desktop o panorama encosta o painel na borda, para o
@@ -338,8 +382,14 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
     window.addEventListener("resize", redimensionar);
     panorama.addEventListener("wheel", roda, { passive: false });
     window.addEventListener("keydown", tecla);
+    window.addEventListener("keydown", tab);
+    window.addEventListener("touchstart", assumir, { passive: true });
+    window.addEventListener("wheel", assumir, { passive: true });
     return () => {
       window.removeEventListener("keydown", tecla);
+      window.removeEventListener("keydown", tab);
+      window.removeEventListener("touchstart", assumir);
+      window.removeEventListener("wheel", assumir);
       document.removeEventListener("click", ancora);
       window.removeEventListener("popstate", voltar);
       observador.disconnect();

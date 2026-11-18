@@ -34,11 +34,16 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
   return (
     <>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/*
+          Composta, não mascarada: centro, tamanho e giro medidos de 1024 a 1920 para nenhuma trajetória
+          passar mais de ~16% sob a lista, o rótulo ou o texto (antes, até 100%). O giro leva o setor
+          aberto junto, ainda voltado para o título.
+        */}
         <ArteColisao
           rastros={faixas}
           foco={emFoco ? foco : undefined}
           data-escolhendo={escolhendo || undefined}
-          className="colisao absolute top-[52%] left-[70%] w-[min(124vh,86vw)] -translate-x-1/2 -translate-y-1/2 max-[900px]:top-[43%] max-[900px]:left-[70%] max-[900px]:w-[140vw]"
+          className="colisao absolute top-[58%] left-[52%] w-[min(112vh,77vw)] -translate-x-1/2 -translate-y-1/2 rotate-[35deg] max-[900px]:top-[43%] max-[900px]:left-[70%] max-[900px]:w-[140vw] max-[900px]:rotate-0"
         />
       </div>
       {faixas.length > 0 && (

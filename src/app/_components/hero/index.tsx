@@ -25,19 +25,23 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
       <h1
         id="hero-heading"
         // wrap-anywhere: com o texto ampliado a 200%, "desenvolvedor" quebra em vez de sair da tela.
-        // tinta: o texto é impresso por cima da arte; as trajetórias param nele, nunca o cruzam. No bloco,
-        // não nas linhas: o fundo de uma linha cobriria a perna do "g" da linha de cima.
-        className="tinta relative z-[1] mt-[clamp(20px,6vh,72px)] max-w-[9.5em] self-start text-headline leading-[0.92] lowercase wrap-anywhere max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
+        className="relative z-[1] mt-[clamp(20px,6vh,72px)] self-start text-headline leading-[0.92] lowercase wrap-anywhere max-[900px]:mt-6 max-[900px]:text-[clamp(2.6rem,12vw,3.4rem)]"
       >
-        <span className="font-normal">gabriel martins.</span>
-        <br />
-        desenvolvedor fullstack.
+        {/*
+          tinta: o texto é impresso por cima da arte; as trajetórias param nele, nunca o cruzam. Uma caixa
+          por linha, do tamanho da linha: a caixa do título inteiro apagava a arte ao lado de "fullstack.".
+          Em blocos, não em linhas soltas: o fundo de bloco é pintado antes de todo o texto, então a
+          linha de baixo não cobre a perna do "g" de cima.
+        */}
+        <span className="tinta block w-fit font-normal">gabriel martins.</span>
+        <span className="tinta block w-fit">desenvolvedor</span>
+        <span className="tinta block w-fit">fullstack.</span>
       </h1>
       {/* O primeiro filtro de quem contrata: a stack, tirada dos projetos, e onde ela foi usada. */}
       {stack.length > 0 && (
-        <p className="tinta relative z-[1] mt-5 max-w-[34ch] self-start text-lg leading-snug font-medium max-[900px]:mt-4 max-[900px]:text-base">
-          {stack.join(" · ")}
-          <span className="block font-normal">
+        <p className="relative z-[1] mt-5 max-w-[34ch] self-start text-lg leading-snug font-medium max-[900px]:mt-4 max-[900px]:text-base">
+          <span className="tinta block w-fit">{stack.join(" · ")}</span>
+          <span className="tinta block w-fit font-normal">
             em {dominiosEmPalavras(faixas)}.
           </span>
         </p>
@@ -62,7 +66,7 @@ export function Hero({ faixas }: { faixas: Faixa[] }) {
           <a
             href={BLOG_URL}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
             className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
           >
             <BookOpen className="size-4" aria-hidden="true" />
