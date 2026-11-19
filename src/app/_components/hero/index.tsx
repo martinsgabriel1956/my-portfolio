@@ -79,17 +79,19 @@ export function Hero({
         <div className="flex flex-wrap gap-x-6 max-[900px]:basis-full">
           <a
             href={CV_URL}
-            download
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+            target="_blank"
+            rel="noopener"
+            className="inline-flex min-h-11 items-center gap-2 text-base font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
           >
             <FileText className="size-4" aria-hidden="true" />
             <span className="tinta">Currículo (PDF)</span>
+            <span className="sr-only"> (abre em nova aba)</span>
           </a>
           <a
             href={LINKEDIN_URL}
             target="_blank"
             rel="noopener"
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+            className="inline-flex min-h-11 items-center gap-2 text-base font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
           >
             <Linkedin className="size-4" aria-hidden="true" />
             <span className="tinta">LinkedIn</span>

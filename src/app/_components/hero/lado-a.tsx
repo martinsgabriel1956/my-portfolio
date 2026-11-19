@@ -50,8 +50,10 @@ export function LadoA({ faixas }: { faixas: Faixa[] }) {
         <nav
           aria-labelledby="lado-a"
           data-setas=""
+          // Com o texto ampliado a lista rola por dentro (e a roda rola ela antes do panorama), em vez de cobrir o pé da capa.
+          data-rola=""
           // O fundo chapado faz as linhas impressas pararem na lista, como no verso de um disco.
-          className="absolute top-6 right-8 z-[2] w-[min(330px,26vw)] bg-ferrugem px-4 py-3 max-[900px]:hidden"
+          className="absolute top-6 right-8 z-[2] max-h-[calc(100%-9rem)] w-[min(330px,26vw)] overflow-y-auto bg-ferrugem px-4 py-3 [scrollbar-width:thin] max-[900px]:hidden"
         >
           <p id="lado-a" className="text-sm font-medium">
             lado a · {faixas.length} projetos

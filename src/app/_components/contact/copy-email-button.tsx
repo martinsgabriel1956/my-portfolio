@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { EMAIL } from "@/lib/links";
 
@@ -15,6 +15,9 @@ const labels: Record<Status, string> = {
 
 export function CopyEmailButton() {
   const [status, setStatus] = useState<Status>("idle");
+  // Um timer só: um segundo clique não pode ser apagado pelo timer do primeiro.
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   async function copy() {
     let copiou = true;
@@ -25,7 +28,8 @@ export function CopyEmailButton() {
     }
     setStatus(copiou ? "copied" : "failed");
     // A falha pede uma ação (selecionar o email): fica mais tempo que a confirmação.
-    setTimeout(() => setStatus("idle"), copiou ? 2500 : 8000);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setStatus("idle"), copiou ? 2500 : 8000);
   }
 
   return (

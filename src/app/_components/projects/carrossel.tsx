@@ -7,9 +7,9 @@ import type { Faixa } from ".";
 import { DOMINIO } from "./dominio";
 
 const REDUZ = "(prefers-reduced-motion: reduce)";
-// Os eases do zip (GSAP power4 = quint).
-const QUINT_IN_OUT = "cubic-bezier(0.86, 0, 0.07, 1)";
-const QUINT_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
+// Os eases do zip (GSAP power4 = quint), lidos dos tokens do globals.css: a WAAPI não aceita var().
+const ease = (nome: string) =>
+  getComputedStyle(document.documentElement).getPropertyValue(nome);
 // Escala de todos os tempos: 1 = o ritmo do zip (troca em ~2,3s); menor = mais rápido.
 // 0,3: a troca acaba em ~0,7s, para quem passa pelos oito projetos não esperar a cada um.
 const RITMO = 0.3;
@@ -22,8 +22,6 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   // Abre no 01: começar no meio fazia parecer que 01 e 02 tinham ficado para trás.
   const [slides, setSlides] = useState<Slide[]>([{ i: 0, chave: 0 }]);
   const [atual, setAtual] = useState(0);
-  // O número sob o mouse ou o foco: o lugar do nome mostra quem ele é antes do clique.
-  const [espia, setEspia] = useState<number | null>(null);
   const animando = useRef(false);
   // Clique durante a troca não se perde: o último pedido espera a troca acabar.
   const pendente = useRef<[number, 1 | -1] | null>(null);
@@ -31,7 +29,6 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   const palco = useRef<HTMLDivElement>(null);
   const toque = useRef<{ x: number; y: number } | null>(null);
   const total = faixas.length;
-  const mostrado = faixas[espia ?? atual];
 
   const ir = (destino: number, dir: 1 | -1) => {
     if (animando.current) {
@@ -57,7 +54,11 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           opacity: 0,
         },
       ],
-      { duration: 2000 * RITMO, easing: QUINT_IN_OUT, fill: "forwards" },
+      {
+        duration: 2000 * RITMO,
+        easing: ease("--ease-quint-in-out"),
+        fill: "forwards",
+      },
     ).onfinish = () => setSlides((s) => s.filter((x) => x.chave !== saindo));
     setTimeout(() => setSlides((s) => [...s, nova]), 750 * RITMO);
   };
@@ -94,7 +95,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   }, [faixas]);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 max-[900px]:flex-[1_0_auto]">
+    <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_minmax(16rem,24rem)] grid-rows-[minmax(0,1fr)] gap-8 max-[900px]:flex max-[900px]:flex-[1_0_auto] max-[900px]:flex-col max-[900px]:gap-4">
       {faixas.map((f) => (
         <span
           key={f.id}
@@ -105,174 +106,155 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
       <p className="sr-only" aria-live="polite">
         Projeto {atual + 1} de {total}: {faixas[atual].name}
       </p>
-      <div
-        ref={palco}
-        // Deslizar para o lado troca o projeto; o gesto vertical continua rolando a página.
-        onTouchStart={(e) => {
-          const t = e.touches[0];
-          toque.current = { x: t.clientX, y: t.clientY };
-        }}
-        onTouchEnd={(e) => {
-          const ini = toque.current;
-          toque.current = null;
-          if (!ini) return;
-          const t = e.changedTouches[0];
-          const dx = t.clientX - ini.x;
-          if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(t.clientY - ini.y))
-            passo(dx < 0 ? 1 : -1);
-        }}
-        // No celular os cartões dividem a mesma célula da grade: a troca sobrepõe, e a altura é a do maior.
-        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden max-[900px]:grid max-[900px]:flex-[1_0_auto] max-[900px]:grid-cols-[minmax(0,1fr)]"
-      >
-        {slides.map((s) => (
-          <Cartao
-            key={s.chave}
-            slide={s}
-            faixas={faixas}
-            total={total}
-            aoChegar={() => {
-              setTimeout(() => {
-                animando.current = false;
-                const pedido = pendente.current;
-                pendente.current = null;
-                if (pedido) irRef.current(...pedido);
-              }, 100);
-            }}
-          />
-        ))}
-      </div>
-      {/* No celular, as setas que acenam são os próprios botões; deslizar o cartão também troca. */}
-      <div className="deslize flex items-center justify-center gap-1 text-sm text-linho-gasto tabular-nums min-[901px]:hidden">
-        <button
-          type="button"
-          aria-label="Projeto anterior"
-          onClick={() => passo(-1)}
-          className="flex size-11 items-center justify-center text-ferrugem"
+      <div className="flex min-h-0 flex-col gap-4 max-[900px]:flex-[1_0_auto]">
+        <div
+          ref={palco}
+          // Deslizar para o lado troca o projeto; o gesto vertical continua rolando a página.
+          onTouchStart={(e) => {
+            const t = e.touches[0];
+            toque.current = { x: t.clientX, y: t.clientY };
+          }}
+          onTouchEnd={(e) => {
+            const ini = toque.current;
+            toque.current = null;
+            if (!ini) return;
+            const t = e.changedTouches[0];
+            const dx = t.clientX - ini.x;
+            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(t.clientY - ini.y))
+              passo(dx < 0 ? 1 : -1);
+          }}
+          // No celular os cartões dividem a mesma célula da grade: a troca sobrepõe, e a altura é a do maior.
+          className="relative min-h-0 flex-1 touch-pan-y overflow-hidden max-[900px]:grid max-[900px]:flex-[1_0_auto] max-[900px]:grid-cols-[minmax(0,1fr)]"
         >
-          <ArrowLeft className="size-4 [--d:-1]" aria-hidden="true" />
-        </button>
-        <p aria-hidden="true">
-          deslize · {faixas[atual].numero} / {String(total).padStart(2, "0")}
-        </p>
-        <button
-          type="button"
-          aria-label="Próximo projeto"
-          onClick={() => passo(1)}
-          className="flex size-11 items-center justify-center text-ferrugem"
-        >
-          <ArrowRight className="size-4 [--d:1]" aria-hidden="true" />
-        </button>
+          {slides.map((s) => (
+            <Cartao
+              key={s.chave}
+              slide={s}
+              faixas={faixas}
+              total={total}
+              aoChegar={() => {
+                setTimeout(() => {
+                  animando.current = false;
+                  const pedido = pendente.current;
+                  pendente.current = null;
+                  if (pedido) irRef.current(...pedido);
+                }, 100);
+              }}
+            />
+          ))}
+        </div>
+        {/* No celular, as setas que acenam são os próprios botões; deslizar o cartão também troca. */}
+        <div className="deslize flex items-center justify-center gap-1 text-sm text-linho-gasto tabular-nums min-[901px]:hidden">
+          <button
+            type="button"
+            aria-label="Projeto anterior"
+            onClick={() => passo(-1)}
+            className="flex size-11 items-center justify-center text-ferrugem"
+          >
+            <ArrowLeft className="size-4 [--d:-1]" aria-hidden="true" />
+          </button>
+          <p aria-hidden="true">
+            deslize · {faixas[atual].numero} / {String(total).padStart(2, "0")}
+          </p>
+          <button
+            type="button"
+            aria-label="Próximo projeto"
+            onClick={() => passo(1)}
+            className="flex size-11 items-center justify-center text-ferrugem"
+          >
+            <ArrowRight className="size-4 [--d:1]" aria-hidden="true" />
+          </button>
+        </div>
+        {/* No celular o índice com os nomes vem aberto sob as setas: a prova não fica atrás de um clique. */}
+        <details open className="group text-sm min-[901px]:hidden">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-center gap-1.5 text-linho-gasto [&::-webkit-details-marker]:hidden">
+            todos os projetos
+            <ChevronDown
+              className="size-4 transition-transform group-open:rotate-180"
+              aria-hidden="true"
+            />
+          </summary>
+          <ol className="border-t">
+            {faixas.map((f, i) => (
+              <li key={f.id}>
+                <button
+                  type="button"
+                  aria-current={i === atual || undefined}
+                  onClick={() => {
+                    ir(i, i > atual ? 1 : -1);
+                    // O cartão troca acima do índice: leva a vista até ele.
+                    palco.current?.scrollIntoView({ block: "nearest" });
+                  }}
+                  className="grid min-h-11 w-full grid-cols-[1.75rem_1fr] items-center text-left text-linho-gasto aria-current:text-ferrugem"
+                >
+                  <span className="tabular-nums">{f.numero}</span>
+                  <span>
+                    {f.name}
+                    {f.domain && (
+                      <span className="text-linho-gasto">
+                        {" "}
+                        · {DOMINIO[f.domain]}
+                      </span>
+                    )}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </details>
       </div>
-      {/* No celular não há numeração à vista: o índice com os nomes fica recolhido sob as setas. */}
-      <details className="group text-sm min-[901px]:hidden">
-        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-center gap-1.5 text-linho-gasto [&::-webkit-details-marker]:hidden">
-          todos os projetos
-          <ChevronDown
-            className="size-4 transition-transform group-open:rotate-180"
-            aria-hidden="true"
-          />
-        </summary>
-        <ol className="border-t">
+      {/*
+        Desktop: as oito faixas à vista, como a contracapa de um disco: número, nome, domínio e uma linha
+        da descrição. Quem tem menos de um minuto escaneia a lista; o cartão ao lado é o detalhe da escolhida.
+      */}
+      <nav aria-label="Projetos" className="max-[900px]:hidden">
+        {/* Uma parada só no Tab: as setas andam pela lista (e trocam o projeto), como abas. */}
+        <ol
+          data-setas=""
+          data-rola=""
+          className="max-h-full overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--color-ferro)_transparent]"
+          onKeyDown={(event) => {
+            const delta = {
+              ArrowDown: 1,
+              ArrowRight: 1,
+              ArrowUp: -1,
+              ArrowLeft: -1,
+            }[event.key];
+            const fim = { Home: 0, End: total - 1 }[event.key];
+            if (delta === undefined && fim === undefined) return;
+            event.preventDefault();
+            const base = pendente.current?.[0] ?? atual;
+            const destino = fim ?? (base + (delta ?? 0) + total) % total;
+            ir(destino, destino > base ? 1 : -1);
+            event.currentTarget.querySelectorAll("button")[destino]?.focus();
+          }}
+        >
           {faixas.map((f, i) => (
-            <li key={f.id}>
+            <li key={f.id} className="border-t last:border-b">
               <button
                 type="button"
                 aria-current={i === atual || undefined}
-                onClick={(event) => {
-                  ir(i, i > atual ? 1 : -1);
-                  // O cartão troca acima do índice: leva a vista até ele.
-                  palco.current?.scrollIntoView({ block: "nearest" });
-                  // Fecha com o foco no resumo: fechado com o foco dentro, ele caía no body.
-                  const indice = event.currentTarget.closest("details");
-                  indice
-                    ?.querySelector("summary")
-                    ?.focus({ preventScroll: true });
-                  indice?.removeAttribute("open");
-                }}
-                className="grid min-h-11 w-full grid-cols-[1.75rem_1fr] items-center text-left text-linho-gasto aria-current:text-ferrugem"
+                tabIndex={i === atual ? 0 : -1}
+                onClick={() => ir(i, i > atual ? 1 : -1)}
+                className="group grid w-full grid-cols-[1.75rem_minmax(0,1fr)] gap-y-0.5 py-2.5 text-left text-sm text-linho-gasto transition-[color] hover:text-linho"
               >
-                <span className="tabular-nums">{f.numero}</span>
-                <span>
+                <span className="tabular-nums group-aria-current:text-ferrugem">
+                  {f.numero}
+                </span>
+                <span className="text-base text-linho underline-offset-4 group-aria-current:font-medium group-aria-current:underline">
                   {f.name}
                   {f.domain && (
-                    <span className="text-linho-gasto">
+                    <span className="text-sm font-normal text-linho-gasto">
                       {" "}
                       · {DOMINIO[f.domain]}
                     </span>
                   )}
                 </span>
+                <span className="col-start-2 truncate">{f.description}</span>
               </button>
             </li>
           ))}
         </ol>
-      </details>
-      <nav
-        aria-label="Projetos"
-        className="flex flex-wrap items-center gap-x-6 gap-y-2 max-[900px]:hidden"
-      >
-        <button
-          type="button"
-          onClick={() => passo(-1)}
-          className="inline-flex min-h-11 items-center gap-1.5 text-sm text-linho-gasto transition-[color,background-color,border-color] hover:text-linho"
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          anterior
-        </button>
-        <div className="flex min-w-0 flex-1 items-center gap-4">
-          {/* Uma parada só no Tab: as setas andam pela numeração (e trocam o projeto), como abas. */}
-          <ol
-            data-setas=""
-            className="flex flex-wrap gap-1"
-            onKeyDown={(event) => {
-              const delta = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
-              const fim = { Home: 0, End: total - 1 }[event.key];
-              if (delta === undefined && fim === undefined) return;
-              event.preventDefault();
-              const base = pendente.current?.[0] ?? atual;
-              const destino = fim ?? (base + (delta ?? 0) + total) % total;
-              ir(destino, destino > base ? 1 : -1);
-              event.currentTarget.querySelectorAll("button")[destino]?.focus();
-            }}
-          >
-            {faixas.map((f, i) => (
-              <li key={f.id}>
-                <button
-                  type="button"
-                  // O nome começa pelo número visível, para quem navega por voz dizer "01".
-                  aria-label={`${f.numero} ${f.name}${f.domain ? `, ${DOMINIO[f.domain]}` : ""}`}
-                  title={f.name}
-                  aria-current={i === atual || undefined}
-                  tabIndex={i === atual ? 0 : -1}
-                  onClick={() => ir(i, i > atual ? 1 : -1)}
-                  onMouseEnter={() => setEspia(i)}
-                  onMouseLeave={() => setEspia(null)}
-                  onFocus={() => setEspia(i)}
-                  onBlur={() => setEspia(null)}
-                  className="min-h-11 min-w-11 text-sm text-linho-gasto tabular-nums transition-[color,background-color,border-color] hover:text-linho aria-current:text-ferrugem"
-                >
-                  {f.numero}
-                </button>
-              </li>
-            ))}
-          </ol>
-          {/* O nome do atual (ou do número sob o mouse, em linho gasto), inteiro, depois da numeração: os números nunca saem do lugar. */}
-          <p
-            aria-hidden="true"
-            className={`min-w-0 truncate text-sm ${espia === null || espia === atual ? "text-linho" : "text-linho-gasto"}`}
-          >
-            {mostrado.name}
-            {/* O domínio ao lado do nome: quem procura "os e-commerces" acha passando pelos números. */}
-            {mostrado.domain && ` · ${DOMINIO[mostrado.domain]}`}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => passo(1)}
-          className="inline-flex min-h-11 items-center gap-1.5 text-sm text-linho-gasto transition-[color,background-color,border-color] hover:text-linho"
-        >
-          próximo
-          <ArrowRight className="size-4" aria-hidden="true" />
-        </button>
       </nav>
     </div>
   );
@@ -317,7 +299,7 @@ function Cartao({
         },
         { transform: "none", clipPath: CHEIO },
       ],
-      { duration: 1500 * RITMO, easing: QUINT_OUT },
+      { duration: 1500 * RITMO, easing: ease("--ease-quint-out") },
     ).onfinish = aoChegar;
     // Palavras do título a partir de 0,75s, uma a cada 0,1s; o resto entra junto, 0,25s antes delas terminarem (tempos do zip, × RITMO).
     const palavras = el.querySelectorAll(".titulo .subir");
@@ -326,7 +308,7 @@ function Cartao({
       alvo.animate([{ transform: "translateY(100%)" }, { transform: "none" }], {
         duration: 1000 * RITMO,
         delay: atraso * RITMO,
-        easing: QUINT_OUT,
+        easing: ease("--ease-quint-out"),
         fill: "backwards",
       });
     palavras.forEach((p, i) => {

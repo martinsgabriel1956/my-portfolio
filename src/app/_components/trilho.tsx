@@ -11,7 +11,8 @@ const REDUZ = "(prefers-reduced-motion: reduce)";
 // 0,12 responde ao gesto em poucos quadros: a 0,05 a roda parecia arrastar o panorama atrás dela.
 const LERP = 0.12;
 const VELOCIDADE = 1.75;
-const PASSO_MAX = 150;
+// 350: um dente de roda anda ~1/3 de painel; a 150 eram ~41 dentes da capa ao contato.
+const PASSO_MAX = 350;
 // Positivo: o título adianta em vez de atrasar; negativo cortaria o título do painel que espia à direita.
 const PARALLAX = 0.1;
 const SETAS: Record<string, number> = {

@@ -7,7 +7,7 @@ import { CopyEmailButton } from "./copy-email-button";
 
 // A decisão: email, currículo e LinkedIn, na mesma ordem da capa. GitHub e blog ficam numa linha quieta embaixo.
 const links = [
-  { href: CV_URL, label: "Currículo (PDF)", Icon: FileText, download: true },
+  { href: CV_URL, label: "Currículo (PDF)", Icon: FileText },
   { href: LINKEDIN_URL, label: "LinkedIn", Icon: Linkedin },
 ];
 const extras = [
@@ -31,10 +31,11 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
         Aberto a novas oportunidades como desenvolvedor fullstack e a projetos
         freelance. O caminho mais rápido é o email.
       </p>
-      <address className="relative z-10 not-italic">
+      {/* Desktop: a coluna para antes da contracapa, para o texto ampliado não correr por cima dela. */}
+      <address className="relative z-10 not-italic min-[901px]:mr-[calc(min(28vw,400px)+48px)]">
         <a
           href={`mailto:${EMAIL}`}
-          className="mb-6 inline-block min-h-11 text-item leading-[1.05] font-extralight tracking-[-0.035em] [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
+          className="mb-6 inline-block min-h-11 text-item [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
         >
           {/* Se não couber, quebra antes do @, nunca no meio do nome. */}
           {EMAIL.split("@")[0]}
@@ -44,21 +45,15 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
           <li>
             <CopyEmailButton />
           </li>
-          {links.map(({ href, label, Icon, download }) => (
+          {links.map(({ href, label, Icon }) => (
             <li key={label}>
+              {/* O PDF abre numa aba: no celular, o download jogava no gerenciador de arquivos. */}
               <Button variant="fio" className="w-full sm:w-auto" asChild>
-                {download ? (
-                  <a href={href} download>
-                    <Icon aria-hidden="true" />
-                    {label}
-                  </a>
-                ) : (
-                  <a href={href} target="_blank" rel="noopener">
-                    <Icon aria-hidden="true" />
-                    {label}
-                    <span className="sr-only"> (abre em nova aba)</span>
-                  </a>
-                )}
+                <a href={href} target="_blank" rel="noopener">
+                  <Icon aria-hidden="true" />
+                  {label}
+                  <span className="sr-only"> (abre em nova aba)</span>
+                </a>
               </Button>
             </li>
           ))}

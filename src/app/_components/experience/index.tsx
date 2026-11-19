@@ -32,7 +32,8 @@ export function Experience({
               className="grid gap-x-4 gap-y-1 border-t py-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-baseline"
             >
               <div>
-                <h3 className="text-title-lg lowercase">{exp.company}</h3>
+                {/* Sem lowercase, como na capa: em minúsculas o nome da empresa lia como palavra comum. */}
+                <h3 className="text-title-lg">{exp.company}</h3>
                 <p className="mt-1 text-linho-gasto">{exp.title}</p>
               </div>
               <p className="text-base text-linho-gasto tabular-nums md:order-none">
