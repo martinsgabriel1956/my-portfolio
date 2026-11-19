@@ -35,6 +35,11 @@
   --text-title-sm--line-height: 1.25;
   --text-title-sm--letter-spacing: -0.02em;
   --text-title-sm--font-weight: 300;
+  /* O "gm.": na capa e na abertura, o mesmo tamanho. */
+  --text-marca: 26px;
+  --text-marca--line-height: 1;
+  --text-marca--letter-spacing: -0.03em;
+  --text-marca--font-weight: 600;
 }
 
 :root {
@@ -78,6 +83,12 @@
   h2,
   h3 {
     text-wrap: balance;
+    /* Com o texto a 200% no celular, "experiência" não cabe numa linha: quebra em vez de vazar. */
+    overflow-wrap: break-word;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
@@ -272,10 +283,10 @@
     padding: 14px 16px;
     background: var(--color-ferrugem);
     color: var(--color-tabua);
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1;
+    font-size: var(--text-marca);
+    font-weight: var(--text-marca--font-weight);
+    letter-spacing: var(--text-marca--letter-spacing);
+    line-height: var(--text-marca--line-height);
     clip-path: inset(50% 0 50% 0);
     animation: abertura-imprimir 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
@@ -335,7 +346,7 @@
 }
 
 @media (max-width: 900px) {
-  /* Sem JS (ou antes dele), uma coluna comum: todo o conteúdo à mão, rolando como qualquer página. */
+  /* Uma coluna comum: todo o conteúdo à mão, rolando como qualquer página (busca, leitor de tela, flick). */
   .panorama {
     display: block;
     height: auto;
@@ -349,49 +360,6 @@
     border-bottom: 1px solid var(--color-ferro);
     padding: 28px 20px 56px;
   }
-  /*
-   * O slider do zip, ligado pelo Trilho (data-empilha): a tela fica presa e a
-   * rolagem da página troca o painel no lugar. O Trilho mapeia scrollY para
-   * painel ativo + rolagem interna.
-   */
-  [data-empilha] .panorama {
-    position: fixed;
-    inset: 0 0 auto;
-    height: calc(100svh - var(--barra));
-    overflow: hidden;
-  }
-  [data-empilha] .painel {
-    position: absolute;
-    inset: 0;
-    min-height: 0;
-    overflow: hidden;
-    border-bottom: 0;
-    background: var(--color-tabua);
-    opacity: 0;
-    scale: 1.1;
-    /* Escondido de verdade: o leitor de tela não lê um painel que não está na tela. */
-    visibility: hidden;
-    pointer-events: none;
-    /* O que sai só some depois que o novo já cobriu (0.5s), como as imagens empilhadas do zip. */
-    transition:
-      opacity 0s 0.5s,
-      scale 0s 0.5s,
-      visibility 0s 0.5s;
-  }
-  [data-empilha] .painel[data-ativo] {
-    z-index: 1;
-    opacity: 1;
-    scale: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transition:
-      opacity 0.5s cubic-bezier(0.33, 1, 0.68, 1),
-      scale 1s cubic-bezier(0.33, 1, 0.68, 1),
-      visibility 0s;
-  }
-  .painel.capa {
-    background: var(--color-ferrugem);
-  }
   /* Sem a lista e o rótulo (somem no celular), uma linha dupla na capa não teria o que dizer. */
   .colisao .gemea {
     display: none;
@@ -399,12 +367,23 @@
   .colisao .linha {
     stroke-width: 1.6;
   }
-  /* Seis estações cabem em 375px: os trechos entre elas encurtam. À esquerda, um respiro para o rótulo da atual não grudar no tracejado. */
+  /* Seis estações e o rótulo inteiro da atual cabem em 375px: os trechos encurtam primeiro. À esquerda, um respiro para o rótulo não grudar no tracejado. */
   .trecho {
-    margin: 0 2px 0 8px;
+    margin: 0 2px 0 4px;
+  }
+  /* O trilho fixo não pode cobrir o que recebe foco nem o alvo de uma âncora (WCAG 2.4.11). */
+  html {
+    scroll-padding-bottom: var(--barra);
   }
   body {
     padding-bottom: var(--barra);
+  }
+}
+
+/* Abaixo de 360px os rótulos somem e os trechos viram quase só o tracejado: seis alvos de 44px cabem em 320px. */
+@media (max-width: 359px) {
+  .trecho {
+    margin: 0 2px;
   }
 }
 
@@ -417,12 +396,6 @@
     animation-iteration-count: 1;
     transition-duration: 0.01ms;
     scroll-behavior: auto;
-  }
-  /* O painel empilhado do celular troca no lugar, sem o zoom de 1.1 nem o esmaecer (vence o seletor de três partes). */
-  [data-empilha] .painel,
-  [data-empilha] .painel[data-ativo] {
-    scale: 1;
-    transition: none;
   }
   /* Sem movimento, a abertura não tem o que dizer: a página aparece direto. */
   .abertura {

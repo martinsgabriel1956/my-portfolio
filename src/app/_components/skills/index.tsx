@@ -1,5 +1,6 @@
 import type { SkillCategory } from "@/db/schema";
 import type { Faixa } from "../projects";
+import { techsDe } from "../projects/dominio";
 
 /** Nome de tecnologia comparável entre habilidades e projetos: sem versão, "ORM", pontuação nem caixa. */
 const chave = (nome: string) => {
@@ -20,6 +21,8 @@ const chaves = (habilidade: string) => {
  * Os créditos do verso do disco: cada categoria com as habilidades em linha,
  * todas à vista. A habilidade usada num projeto acende em linho e leva os
  * números das faixas, os mesmos da capa e do carrossel: a prova ao lado do nome.
+ * Texto, não link: 59 links pequenos e colados falhavam o alvo de toque e o Tab,
+ * e a experiência já liga cada projeto.
  */
 export function Skills({
   categories,
@@ -36,13 +39,11 @@ export function Skills({
       `\\b${nome.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
       "i",
     );
-    return faixas
-      .filter(
-        (f) =>
-          f.techs.some((t) => ks.includes(chave(t))) ||
-          citada.test(f.description),
-      )
-      .map((f) => f.numero);
+    return faixas.filter(
+      (f) =>
+        [...techsDe(f)].some((t) => ks.includes(chave(t))) ||
+        citada.test(f.description),
+    );
   };
   return (
     <section
@@ -63,17 +64,17 @@ export function Skills({
             <dt className="text-title-sm lowercase">{c.title}</dt>
             <dd className="mt-1.5 leading-relaxed text-linho-gasto">
               {c.skills.map((habilidade, i) => {
-                const numeros = faixasDe(habilidade);
+                const provas = faixasDe(habilidade);
                 return (
                   <span key={habilidade}>
                     {i > 0 && " · "}
-                    <span className={numeros.length ? "text-linho" : undefined}>
+                    <span className={provas.length ? "text-linho" : undefined}>
                       {habilidade}
                     </span>
-                    {numeros.length > 0 && (
+                    {provas.length > 0 && (
                       <span className="text-sm tabular-nums">
                         <span className="sr-only">, nos projetos</span>{" "}
-                        {numeros.join(" ")}
+                        {provas.map((f) => f.numero).join(" ")}
                       </span>
                     )}
                   </span>

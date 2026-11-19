@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArteColisao, grausDe } from "../colisao";
 import type { Faixa } from ".";
@@ -19,13 +19,9 @@ type Slide = { i: number; chave: number; dir?: 1 | -1 };
 
 /** O carrossel do zip: a faixa atual gira e encolhe para fora, a próxima sobe recortada e o texto nasce de trás de máscaras. */
 export function Carrossel({ faixas }: { faixas: Faixa[] }) {
-  // Abre no primeiro e-commerce, o domínio que a capa promete primeiro; a numeração não muda.
-  const inicio = Math.max(
-    faixas.findIndex((f) => f.domain === "ecommerce"),
-    0,
-  );
-  const [slides, setSlides] = useState<Slide[]>([{ i: inicio, chave: 0 }]);
-  const [atual, setAtual] = useState(inicio);
+  // Abre no 01: começar no meio fazia parecer que 01 e 02 tinham ficado para trás.
+  const [slides, setSlides] = useState<Slide[]>([{ i: 0, chave: 0 }]);
+  const [atual, setAtual] = useState(0);
   // O número sob o mouse ou o foco: o lugar do nome mostra quem ele é antes do clique.
   const [espia, setEspia] = useState<number | null>(null);
   const animando = useRef(false);
@@ -35,6 +31,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   const palco = useRef<HTMLDivElement>(null);
   const toque = useRef<{ x: number; y: number } | null>(null);
   const total = faixas.length;
+  const mostrado = faixas[espia ?? atual];
 
   const ir = (destino: number, dir: 1 | -1) => {
     if (animando.current) {
@@ -110,7 +107,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
       </p>
       <div
         ref={palco}
-        // Deslizar para o lado troca o projeto; o gesto vertical continua rolando a página (no celular, ela troca o painel).
+        // Deslizar para o lado troca o projeto; o gesto vertical continua rolando a página.
         onTouchStart={(e) => {
           const t = e.touches[0];
           toque.current = { x: t.clientX, y: t.clientY };
@@ -125,7 +122,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
             passo(dx < 0 ? 1 : -1);
         }}
         // No celular os cartões dividem a mesma célula da grade: a troca sobrepõe, e a altura é a do maior.
-        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden max-[900px]:grid max-[900px]:flex-[1_0_auto]"
+        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden max-[900px]:grid max-[900px]:flex-[1_0_auto] max-[900px]:grid-cols-[minmax(0,1fr)]"
       >
         {slides.map((s) => (
           <Cartao
@@ -166,6 +163,49 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
           <ArrowRight className="size-4 [--d:1]" aria-hidden="true" />
         </button>
       </div>
+      {/* No celular não há numeração à vista: o índice com os nomes fica recolhido sob as setas. */}
+      <details className="group text-sm min-[901px]:hidden">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-center gap-1.5 text-linho-gasto [&::-webkit-details-marker]:hidden">
+          todos os projetos
+          <ChevronDown
+            className="size-4 transition-transform group-open:rotate-180"
+            aria-hidden="true"
+          />
+        </summary>
+        <ol className="border-t">
+          {faixas.map((f, i) => (
+            <li key={f.id}>
+              <button
+                type="button"
+                aria-current={i === atual || undefined}
+                onClick={(event) => {
+                  ir(i, i > atual ? 1 : -1);
+                  // O cartão troca acima do índice: leva a vista até ele.
+                  palco.current?.scrollIntoView({ block: "nearest" });
+                  // Fecha com o foco no resumo: fechado com o foco dentro, ele caía no body.
+                  const indice = event.currentTarget.closest("details");
+                  indice
+                    ?.querySelector("summary")
+                    ?.focus({ preventScroll: true });
+                  indice?.removeAttribute("open");
+                }}
+                className="grid min-h-11 w-full grid-cols-[1.75rem_1fr] items-center text-left text-linho-gasto aria-current:text-ferrugem"
+              >
+                <span className="tabular-nums">{f.numero}</span>
+                <span>
+                  {f.name}
+                  {f.domain && (
+                    <span className="text-linho-gasto">
+                      {" "}
+                      · {DOMINIO[f.domain]}
+                    </span>
+                  )}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </details>
       <nav
         aria-label="Projetos"
         className="flex flex-wrap items-center gap-x-6 gap-y-2 max-[900px]:hidden"
@@ -199,7 +239,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
                 <button
                   type="button"
                   // O nome começa pelo número visível, para quem navega por voz dizer "01".
-                  aria-label={`${f.numero} ${f.name}`}
+                  aria-label={`${f.numero} ${f.name}${f.domain ? `, ${DOMINIO[f.domain]}` : ""}`}
                   title={f.name}
                   aria-current={i === atual || undefined}
                   tabIndex={i === atual ? 0 : -1}
@@ -220,7 +260,9 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
             aria-hidden="true"
             className={`min-w-0 truncate text-sm ${espia === null || espia === atual ? "text-linho" : "text-linho-gasto"}`}
           >
-            {faixas[espia ?? atual].name}
+            {mostrado.name}
+            {/* O domínio ao lado do nome: quem procura "os e-commerces" acha passando pelos números. */}
+            {mostrado.domain && ` · ${DOMINIO[mostrado.domain]}`}
           </p>
         </div>
         <button
@@ -329,8 +371,13 @@ function Cartao({
           }}
         />
       </div>
-      <div className="relative mt-auto flex flex-col items-center gap-4 px-[10%] pb-16 text-center max-[900px]:px-0 max-[900px]:pb-6 [@media(max-height:800px)]:pb-6">
-        <h3 id={`${faixa.id}-titulo`} className="titulo text-item">
+      {/* À esquerda: a descrição é texto corrido de até três linhas, e centrada ela perdia a margem de leitura. */}
+      <div className="relative mt-auto flex flex-col gap-4 pr-[10%] pb-16 max-[900px]:pr-0 max-[900px]:pb-6 [@media(max-height:800px)]:pb-6">
+        <h3
+          id={`${faixa.id}-titulo`}
+          // wrap-anywhere: com o texto a 200% em 320px, o nome longo esticava o cartão para fora do palco.
+          className="titulo text-item wrap-anywhere"
+        >
           {faixa.name.split(" ").map((palavra, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: a posição é a identidade da palavra no título
             <span key={i}>
