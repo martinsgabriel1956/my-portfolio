@@ -19,7 +19,7 @@ export function Education({
       <h2 id="education-heading" className="mb-7 text-headline">
         formação
       </h2>
-      <div className="grid max-w-[1100px] gap-x-12 gap-y-10 lg:grid-cols-2">
+      <div className="grid max-w-[1100px] grid-cols-[minmax(0,1fr)] gap-x-12 gap-y-10 lg:grid-cols-2">
         {education.length > 0 && (
           <div>
             <h3 className="text-title lowercase">Acadêmica</h3>

@@ -57,7 +57,8 @@ export function Hero({
       {/* A segunda pergunta de quem contrata: onde está agora. Só a data do cargo, sem conta de anos. */}
       {atual && (
         <p className="relative z-[1] mt-2 self-start text-lg leading-snug max-[900px]:text-base">
-          <span className="tinta block w-fit lowercase">
+          {/* Sem lowercase: em minúsculas o nome da empresa lia como palavra comum. */}
+          <span className="tinta block w-fit">
             hoje: {atual.company}, desde{" "}
             <time dateTime={atual.startDate.toISOString()}>
               {formatMonthYear(atual.startDate)}
@@ -67,7 +68,8 @@ export function Hero({
         </p>
       )}
       <div className="pe-da-capa relative z-[1] mt-auto flex flex-wrap items-center gap-x-6 gap-y-4">
-        <Button variant="tabua" asChild>
+        {/* Com o texto a 200% em 320px o rótulo quebra e o botão encolhe, em vez de alargar a página. */}
+        <Button variant="tabua" className="shrink whitespace-normal" asChild>
           <a href="#contato">
             <ArrowRight aria-hidden="true" />
             Entre em contato

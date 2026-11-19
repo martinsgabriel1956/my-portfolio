@@ -206,8 +206,10 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
       if (location.hash !== link.hash) history.pushState(null, "", link.hash);
       irPara(painel);
     };
-    // Voltar/avançar: leva ao painel do hash (sem hash, a capa).
+    // Voltar/avançar: leva ao painel do hash (sem hash, a capa). No celular quem volta é o navegador:
+    // ele restaura a rolagem, e focar o painel do hash deixaria o foco longe do que está na tela.
     const voltar = () => {
+      if (!desktop()) return;
       const painel = location.hash
         ? document.getElementById(location.hash.slice(1))?.closest(".painel")
         : paineis[0];
@@ -246,7 +248,7 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
   return (
     <nav
       aria-label="Seções"
-      className="fixed inset-x-0 bottom-0 z-10 flex h-[var(--barra)] items-center border-t bg-tabua px-6 max-[900px]:px-3 max-[359px]:px-1"
+      className="fixed inset-x-0 bottom-0 z-10 flex h-[var(--barra)] items-center border-t bg-tabua px-6 max-[900px]:px-2 max-[359px]:px-1"
     >
       <ol className="flex min-w-0 flex-1 items-center">
         {estacoes.map(({ id, label }, i) => {
@@ -256,17 +258,18 @@ export function Trilho({ estacoes }: { estacoes: Estacao[] }) {
             <li
               key={id}
               data-estado={estado}
+              // A atual parte do tamanho do rótulo e é a única que encolhe (trunca); as outras dividem
+              // a sobra a partir de zero, mas nunca ficam menores que o alvo de 44px e o respiro do trecho.
               className={
-                ultima
-                  ? "flex min-w-0 items-center"
-                  : "flex min-w-0 flex-1 items-center"
+                i === atual
+                  ? `flex min-w-0 items-center ${ultima ? "flex-[0_1_auto]" : "flex-auto"}`
+                  : `flex items-center ${ultima ? "flex-none" : "flex-1"}`
               }
             >
               <a
                 href={`#${id}`}
                 aria-current={i === atual ? "location" : undefined}
-                // Alvo em px: com o texto ampliado, seis estações ainda cabem na barra do celular. min-w-0 no
-                // item: sem ele o rótulo da atual não encolhe e empurra "contato" para fora em 320px.
+                // Alvo em px: com o texto ampliado, seis estações ainda cabem na barra do celular.
                 className="flex min-h-[44px] min-w-[44px] shrink-0 [[data-estado=atual]_&]:shrink items-center justify-center gap-2.5 text-sm whitespace-nowrap text-linho-gasto transition-[color,background-color,border-color] hover:text-linho [[data-estado]_&]:text-linho"
               >
                 <span className="estacao" aria-hidden="true" />

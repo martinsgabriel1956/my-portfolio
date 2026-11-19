@@ -29,7 +29,8 @@ export function CopyEmailButton() {
   }
 
   return (
-    <Button className="w-full sm:w-auto" onClick={copy}>
+    // Secundário: a ação principal do contato é o próprio email, grande e sublinhado (mailto).
+    <Button variant="fio" className="w-full sm:w-auto" onClick={copy}>
       {status === "copied" ? (
         <Check aria-hidden="true" />
       ) : (

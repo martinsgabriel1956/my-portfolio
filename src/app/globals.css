@@ -367,9 +367,13 @@
   .colisao .linha {
     stroke-width: 1.6;
   }
-  /* Seis estações cabem em 375px: os trechos entre elas encurtam. À esquerda, um respiro para o rótulo da atual não grudar no tracejado. */
+  /* Seis estações e o rótulo inteiro da atual cabem em 375px: os trechos encurtam primeiro. À esquerda, um respiro para o rótulo não grudar no tracejado. */
   .trecho {
-    margin: 0 2px 0 8px;
+    margin: 0 2px 0 4px;
+  }
+  /* O trilho fixo não pode cobrir o que recebe foco nem o alvo de uma âncora (WCAG 2.4.11). */
+  html {
+    scroll-padding-bottom: var(--barra);
   }
   body {
     padding-bottom: var(--barra);

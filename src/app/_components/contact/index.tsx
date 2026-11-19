@@ -5,10 +5,10 @@ import { ArteColisao } from "../colisao";
 import type { Faixa } from "../projects";
 import { CopyEmailButton } from "./copy-email-button";
 
-// A decisão: email, LinkedIn e currículo. GitHub e blog ficam numa linha quieta embaixo.
+// A decisão: email, currículo e LinkedIn, na mesma ordem da capa. GitHub e blog ficam numa linha quieta embaixo.
 const links = [
-  { href: LINKEDIN_URL, label: "LinkedIn", Icon: Linkedin },
   { href: CV_URL, label: "Currículo (PDF)", Icon: FileText, download: true },
+  { href: LINKEDIN_URL, label: "LinkedIn", Icon: Linkedin },
 ];
 const extras = [
   { href: GITHUB_URL, label: "GitHub", Icon: Github },
@@ -85,7 +85,9 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
         © Gabriel Martins.
       </p>
       <div
-        className="contracapa right-12 bottom-0 aspect-square w-[min(28vw,400px)] max-[900px]:hidden"
+        // No celular a contracapa vira uma faixa no pé do painel: a página fecha como o disco, não no "©".
+        // Margens em px, iguais ao padding do painel: em rem, com o texto ampliado, ela vazava pela direita.
+        className="contracapa right-12 bottom-0 aspect-square w-[min(28vw,400px)] max-[900px]:relative max-[900px]:right-auto max-[900px]:-mx-[20px] max-[900px]:-mb-[56px] max-[900px]:mt-8 max-[900px]:aspect-auto max-[900px]:h-36 max-[900px]:w-auto"
         aria-hidden="true"
       >
         <ArteColisao

@@ -31,6 +31,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
   const palco = useRef<HTMLDivElement>(null);
   const toque = useRef<{ x: number; y: number } | null>(null);
   const total = faixas.length;
+  const mostrado = faixas[espia ?? atual];
 
   const ir = (destino: number, dir: 1 | -1) => {
     if (animando.current) {
@@ -121,7 +122,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
             passo(dx < 0 ? 1 : -1);
         }}
         // No celular os cartões dividem a mesma célula da grade: a troca sobrepõe, e a altura é a do maior.
-        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden max-[900px]:grid max-[900px]:flex-[1_0_auto]"
+        className="relative min-h-0 flex-1 touch-pan-y overflow-hidden max-[900px]:grid max-[900px]:flex-[1_0_auto] max-[900px]:grid-cols-[minmax(0,1fr)]"
       >
         {slides.map((s) => (
           <Cartao
@@ -181,14 +182,25 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
                   ir(i, i > atual ? 1 : -1);
                   // O cartão troca acima do índice: leva a vista até ele.
                   palco.current?.scrollIntoView({ block: "nearest" });
-                  event.currentTarget
-                    .closest("details")
-                    ?.removeAttribute("open");
+                  // Fecha com o foco no resumo: fechado com o foco dentro, ele caía no body.
+                  const indice = event.currentTarget.closest("details");
+                  indice
+                    ?.querySelector("summary")
+                    ?.focus({ preventScroll: true });
+                  indice?.removeAttribute("open");
                 }}
                 className="grid min-h-11 w-full grid-cols-[1.75rem_1fr] items-center text-left text-linho-gasto aria-current:text-ferrugem"
               >
                 <span className="tabular-nums">{f.numero}</span>
-                {f.name}
+                <span>
+                  {f.name}
+                  {f.domain && (
+                    <span className="text-linho-gasto">
+                      {" "}
+                      · {DOMINIO[f.domain]}
+                    </span>
+                  )}
+                </span>
               </button>
             </li>
           ))}
@@ -227,7 +239,7 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
                 <button
                   type="button"
                   // O nome começa pelo número visível, para quem navega por voz dizer "01".
-                  aria-label={`${f.numero} ${f.name}`}
+                  aria-label={`${f.numero} ${f.name}${f.domain ? `, ${DOMINIO[f.domain]}` : ""}`}
                   title={f.name}
                   aria-current={i === atual || undefined}
                   tabIndex={i === atual ? 0 : -1}
@@ -248,7 +260,9 @@ export function Carrossel({ faixas }: { faixas: Faixa[] }) {
             aria-hidden="true"
             className={`min-w-0 truncate text-sm ${espia === null || espia === atual ? "text-linho" : "text-linho-gasto"}`}
           >
-            {faixas[espia ?? atual].name}
+            {mostrado.name}
+            {/* O domínio ao lado do nome: quem procura "os e-commerces" acha passando pelos números. */}
+            {mostrado.domain && ` · ${DOMINIO[mostrado.domain]}`}
           </p>
         </div>
         <button
@@ -359,7 +373,11 @@ function Cartao({
       </div>
       {/* À esquerda: a descrição é texto corrido de até três linhas, e centrada ela perdia a margem de leitura. */}
       <div className="relative mt-auto flex flex-col gap-4 pr-[10%] pb-16 max-[900px]:pr-0 max-[900px]:pb-6 [@media(max-height:800px)]:pb-6">
-        <h3 id={`${faixa.id}-titulo`} className="titulo text-item">
+        <h3
+          id={`${faixa.id}-titulo`}
+          // wrap-anywhere: com o texto a 200% em 320px, o nome longo esticava o cartão para fora do palco.
+          className="titulo text-item wrap-anywhere"
+        >
           {faixa.name.split(" ").map((palavra, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: a posição é a identidade da palavra no título
             <span key={i}>

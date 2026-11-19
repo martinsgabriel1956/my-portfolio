@@ -1,5 +1,6 @@
 import type { SkillCategory } from "@/db/schema";
 import type { Faixa } from "../projects";
+import { techsDe } from "../projects/dominio";
 
 /** Nome de tecnologia comparável entre habilidades e projetos: sem versão, "ORM", pontuação nem caixa. */
 const chave = (nome: string) => {
@@ -20,7 +21,8 @@ const chaves = (habilidade: string) => {
  * Os créditos do verso do disco: cada categoria com as habilidades em linha,
  * todas à vista. A habilidade usada num projeto acende em linho e leva os
  * números das faixas, os mesmos da capa e do carrossel: a prova ao lado do nome.
- * Cada número abre aquele projeto, como os links da experiência.
+ * Texto, não link: 59 links pequenos e colados falhavam o alvo de toque e o Tab,
+ * e a experiência já liga cada projeto.
  */
 export function Skills({
   categories,
@@ -39,7 +41,7 @@ export function Skills({
     );
     return faixas.filter(
       (f) =>
-        f.techs.some((t) => ks.includes(chave(t))) ||
+        [...techsDe(f)].some((t) => ks.includes(chave(t))) ||
         citada.test(f.description),
     );
   };
@@ -54,8 +56,7 @@ export function Skills({
         habilidades
       </h2>
       <p className="mt-2 mb-7 text-sm text-linho-gasto">
-        Os números são os projetos em que cada uma foi usada: cada um abre o
-        projeto.
+        Os números são os projetos em que cada uma foi usada.
       </p>
       <dl className="grid max-w-[1400px] gap-x-12 min-[640px]:grid-cols-2 min-[1200px]:grid-cols-3">
         {categories.map((c) => (
@@ -72,20 +73,8 @@ export function Skills({
                     </span>
                     {provas.length > 0 && (
                       <span className="text-sm tabular-nums">
-                        <span className="sr-only">, nos projetos</span>
-                        {provas.map((f) => (
-                          <span key={f.id}>
-                            {" "}
-                            {/* py: o alvo cresce na vertical sem mexer na altura da linha. */}
-                            <a
-                              href={`#${f.id}`}
-                              aria-label={`${f.numero} ${f.name}`}
-                              className="py-2.5 underline decoration-ferrugem decoration-1 underline-offset-4 hover:text-linho hover:decoration-2"
-                            >
-                              {f.numero}
-                            </a>
-                          </span>
-                        ))}
+                        <span className="sr-only">, nos projetos</span>{" "}
+                        {provas.map((f) => f.numero).join(" ")}
                       </span>
                     )}
                   </span>
