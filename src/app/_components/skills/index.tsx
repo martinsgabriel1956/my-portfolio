@@ -19,8 +19,8 @@ const chaves = (habilidade: string) => {
 
 /**
  * Os créditos do verso do disco: cada categoria com as habilidades em linha,
- * todas à vista. A habilidade usada num projeto acende em linho e leva em
- * quantos projetos aparece: a prova ao lado do nome, sem decorar números de faixa.
+ * todas à vista. A habilidade usada num projeto acende em linho; sem contagem
+ * ao lado, que poluía a leitura.
  * Texto, não link: 59 links pequenos e colados falhavam o alvo de toque e o Tab,
  * e a experiência já liga cada projeto.
  */
@@ -56,7 +56,7 @@ export function Skills({
         habilidades
       </h2>
       <p className="mt-2 mb-7 text-sm text-linho-gasto">
-        Em linho, as usadas nos projetos; o número diz em quantos.
+        Em destaque, as usadas nos projetos.
       </p>
       <dl className="grid max-w-[1400px] gap-x-12 min-[640px]:grid-cols-2 min-[1200px]:grid-cols-3">
         {categories.map((c) => (
@@ -64,21 +64,13 @@ export function Skills({
             <dt className="text-title-sm lowercase">{c.title}</dt>
             <dd className="mt-1.5 leading-relaxed text-linho-gasto">
               {c.skills.map((habilidade, i) => {
-                const provas = faixasDe(habilidade);
+                const usada = faixasDe(habilidade).length > 0;
                 return (
                   <span key={habilidade}>
                     {i > 0 && " · "}
-                    <span className={provas.length ? "text-linho" : undefined}>
+                    <span className={usada ? "text-linho" : undefined}>
                       {habilidade}
                     </span>
-                    {provas.length > 0 && (
-                      <span className="text-sm tabular-nums">
-                        <span className="sr-only">, em</span> {provas.length}
-                        <span className="sr-only">
-                          {provas.length > 1 ? " projetos" : " projeto"}
-                        </span>
-                      </span>
-                    )}
                   </span>
                 );
               })}

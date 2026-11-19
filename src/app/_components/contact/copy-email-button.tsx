@@ -2,7 +2,6 @@
 
 import { Check, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { EMAIL } from "@/lib/links";
 
 type Status = "idle" | "copied" | "failed";
@@ -33,14 +32,22 @@ export function CopyEmailButton() {
   }
 
   return (
-    // Secundário: a ação principal do contato é o próprio email, grande e sublinhado (mailto).
-    <Button variant="fio" className="w-full sm:w-auto" onClick={copy}>
-      {status === "copied" ? (
-        <Check aria-hidden="true" />
-      ) : (
-        <Copy aria-hidden="true" />
-      )}
-      <span aria-live="polite">{labels[status]}</span>
-    </Button>
+    // Discreto, ao lado do email: a ação principal é o próprio email (mailto).
+    <span className="inline-flex items-center gap-1.5 text-sm text-linho-gasto">
+      <button
+        type="button"
+        onClick={copy}
+        aria-label="Copiar email"
+        title="Copiar email"
+        className="inline-flex size-11 items-center justify-center transition-colors hover:text-linho [&_svg]:size-[18px]"
+      >
+        {status === "copied" ? (
+          <Check aria-hidden="true" />
+        ) : (
+          <Copy aria-hidden="true" />
+        )}
+      </button>
+      <span aria-live="polite">{status === "idle" ? "" : labels[status]}</span>
+    </span>
   );
 }

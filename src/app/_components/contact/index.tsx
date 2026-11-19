@@ -33,18 +33,18 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
       </p>
       {/* Desktop: a coluna para antes da contracapa, para o texto ampliado não correr por cima dela. */}
       <address className="relative z-10 not-italic min-[901px]:mr-[calc(min(28vw,400px)+48px)]">
-        <a
-          href={`mailto:${EMAIL}`}
-          className="mb-6 inline-block min-h-11 text-item [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
-        >
-          {/* Se não couber, quebra antes do @, nunca no meio do nome. */}
-          {EMAIL.split("@")[0]}
-          <wbr />@{EMAIL.split("@")[1]}
-        </a>
+        <div className="mb-6 flex flex-wrap items-center gap-x-2">
+          <a
+            href={`mailto:${EMAIL}`}
+            className="inline-block min-h-11 text-item [overflow-wrap:anywhere] underline decoration-ferrugem decoration-2 underline-offset-[0.14em]"
+          >
+            {/* Se não couber, quebra antes do @, nunca no meio do nome. */}
+            {EMAIL.split("@")[0]}
+            <wbr />@{EMAIL.split("@")[1]}
+          </a>
+          <CopyEmailButton />
+        </div>
         <ul className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
-          <li>
-            <CopyEmailButton />
-          </li>
           {links.map(({ href, label, Icon }) => (
             <li key={label}>
               {/* O PDF abre numa aba: no celular, o download jogava no gerenciador de arquivos. */}
