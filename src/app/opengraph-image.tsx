@@ -87,7 +87,7 @@ export default async function OpengraphImage() {
       >
         desenvolvedor fullstack.
       </div>
-      <div style={{ marginTop: 28, fontSize: 30 }}>Remoto · Brasil</div>
+      <div style={{ marginTop: 28, fontSize: 30 }}>remoto · brasil</div>
     </div>,
     {
       ...size,

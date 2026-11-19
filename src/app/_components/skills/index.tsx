@@ -19,8 +19,8 @@ const chaves = (habilidade: string) => {
 
 /**
  * Os créditos do verso do disco: cada categoria com as habilidades em linha,
- * todas à vista. A habilidade usada num projeto acende em linho e leva os
- * números das faixas, os mesmos da capa e do carrossel: a prova ao lado do nome.
+ * todas à vista. A habilidade usada num projeto acende em linho e leva em
+ * quantos projetos aparece: a prova ao lado do nome, sem decorar números de faixa.
  * Texto, não link: 59 links pequenos e colados falhavam o alvo de toque e o Tab,
  * e a experiência já liga cada projeto.
  */
@@ -56,7 +56,7 @@ export function Skills({
         habilidades
       </h2>
       <p className="mt-2 mb-7 text-sm text-linho-gasto">
-        Os números são os projetos em que cada uma foi usada.
+        Em linho, as usadas nos projetos; o número diz em quantos.
       </p>
       <dl className="grid max-w-[1400px] gap-x-12 min-[640px]:grid-cols-2 min-[1200px]:grid-cols-3">
         {categories.map((c) => (
@@ -73,8 +73,10 @@ export function Skills({
                     </span>
                     {provas.length > 0 && (
                       <span className="text-sm tabular-nums">
-                        <span className="sr-only">, nos projetos</span>{" "}
-                        {provas.map((f) => f.numero).join(" ")}
+                        <span className="sr-only">, em</span> {provas.length}
+                        <span className="sr-only">
+                          {provas.length > 1 ? " projetos" : " projeto"}
+                        </span>
                       </span>
                     )}
                   </span>

@@ -26,14 +26,13 @@ export default async function Home() {
       getCertifications(),
     ]);
   const faixas = faixasOf(experiences);
-  const atual = experiences.find((exp) => exp.isCurrent || !exp.endDate);
 
   // Só entram no panorama (e no trilho) os painéis que têm conteúdo.
   const paineis = [
     {
       id: "inicio",
       label: "início",
-      node: <Hero key="inicio" faixas={faixas} atual={atual} />,
+      node: <Hero key="inicio" faixas={faixas} />,
     },
     faixas.length > 0 && {
       id: "projetos",

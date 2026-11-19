@@ -26,9 +26,7 @@ export function Education({
             <ul className="mt-3">
               {education.map((item) => (
                 <li key={item.id} className="border-t py-4">
-                  <p className="text-xl leading-snug font-light">
-                    {item.title}
-                  </p>
+                  <p className="text-title-sm">{item.title}</p>
                   <p className="mt-1 text-sm text-linho-gasto">
                     {item.institution} ·{" "}
                     <span className="tabular-nums">
@@ -54,7 +52,7 @@ export function Education({
                       href={certification.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex min-h-11 items-baseline gap-1 text-xl leading-snug font-light underline decoration-ferrugem decoration-1 underline-offset-4 hover:decoration-2"
+                      className="inline-flex min-h-11 items-baseline gap-1 text-title-sm underline decoration-ferrugem decoration-1 underline-offset-4 hover:decoration-2"
                     >
                       {certification.title}
                       <ArrowUpRight
@@ -66,9 +64,7 @@ export function Education({
                       </span>
                     </a>
                   ) : (
-                    <p className="text-xl leading-snug font-light">
-                      {certification.title}
-                    </p>
+                    <p className="text-title-sm">{certification.title}</p>
                   )}
                   <p className="mt-1 text-sm text-linho-gasto">
                     {/* "FrontPush · FrontPush": a escola que é o próprio título não se repete. */}

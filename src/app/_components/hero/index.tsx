@@ -1,20 +1,12 @@
 import { ArrowRight, FileText, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Experience } from "@/db/schema";
 import { CV_URL, LINKEDIN_URL } from "@/lib/links";
-import { formatMonthYear } from "@/lib/utils";
 import type { Faixa } from "../projects";
-import { dominiosEmPalavras, stackDe } from "../projects/dominio";
+import { stackDe } from "../projects/dominio";
 import { LadoA } from "./lado-a";
 
 /** A capa do disco: nome e ofício em tábua sobre ferrugem, com a colisão dos projetos impressa como arte. */
-export function Hero({
-  faixas,
-  atual,
-}: {
-  faixas: Faixa[];
-  atual?: Experience;
-}) {
+export function Hero({ faixas }: { faixas: Faixa[] }) {
   const stack = stackDe(faixas, 4);
   return (
     <section
@@ -45,26 +37,13 @@ export function Hero({
         <span className="tinta block w-fit">desenvolvedor</span>
         <span className="tinta block w-fit">fullstack.</span>
       </h1>
-      {/* O primeiro filtro de quem contrata: a stack, tirada dos projetos, e onde ela foi usada. */}
+      {/*
+        O primeiro filtro de quem contrata: a stack, tirada dos projetos. Os domínios não entram aqui:
+        sob a stack liam como limite ("só faço isso"); eles ficam nos projetos, como histórico.
+      */}
       {stack.length > 0 && (
         <p className="relative z-[1] mt-5 max-w-[34ch] self-start text-lg leading-snug font-medium max-[900px]:mt-4 max-[900px]:text-base">
           <span className="tinta block w-fit">{stack.join(" · ")}</span>
-          <span className="tinta block w-fit font-normal">
-            em {dominiosEmPalavras(faixas)}.
-          </span>
-        </p>
-      )}
-      {/* A segunda pergunta de quem contrata: onde está agora. Só a data do cargo, sem conta de anos. */}
-      {atual && (
-        <p className="relative z-[1] mt-2 self-start text-lg leading-snug max-[900px]:text-base">
-          {/* Sem lowercase: em minúsculas o nome da empresa lia como palavra comum. */}
-          <span className="tinta block w-fit">
-            hoje: {atual.company}, desde{" "}
-            <time dateTime={atual.startDate.toISOString()}>
-              {formatMonthYear(atual.startDate)}
-            </time>
-            .
-          </span>
         </p>
       )}
       <div className="pe-da-capa relative z-[1] mt-auto flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -79,17 +58,19 @@ export function Hero({
         <div className="flex flex-wrap gap-x-6 max-[900px]:basis-full">
           <a
             href={CV_URL}
-            download
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+            target="_blank"
+            rel="noopener"
+            className="inline-flex min-h-11 items-center gap-2 text-base font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
           >
             <FileText className="size-4" aria-hidden="true" />
             <span className="tinta">Currículo (PDF)</span>
+            <span className="sr-only"> (abre em nova aba)</span>
           </a>
           <a
             href={LINKEDIN_URL}
             target="_blank"
             rel="noopener"
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
+            className="inline-flex min-h-11 items-center gap-2 text-base font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
           >
             <Linkedin className="size-4" aria-hidden="true" />
             <span className="tinta">LinkedIn</span>

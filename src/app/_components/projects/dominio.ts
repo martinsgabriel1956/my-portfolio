@@ -27,13 +27,6 @@ export function legendaDominios(faixas: { domain?: ProjectDomain }[]) {
   );
 }
 
-/** Os domínios como frase: "e-commerce, painéis admin e saúde". */
-export function dominiosEmPalavras(faixas: { domain?: ProjectDomain }[]) {
-  return new Intl.ListFormat("pt-BR").format(
-    contagem(faixas).map(([nome]) => nome),
-  );
-}
-
 /** "Next.js 15" e "Prisma ORM" contam como "Next.js" e "Prisma": a versão não é outra tecnologia. */
 const semVersao = (tech: string) =>
   tech.replace(/\s+\d+(\.\d+)*$/, "").replace(/\s+ORM$/, "");
