@@ -81,7 +81,8 @@ export function Contact({ faixas }: { faixas: Faixa[] }) {
         </ul>
       </address>
       <p className="relative z-10 mt-auto pt-10 text-sm text-linho-gasto">
-        © {new Date().getFullYear()} Gabriel Martins.
+        {/* Sem ano: a página é gerada no build, e o ano congelaria até o próximo deploy. */}
+        © Gabriel Martins.
       </p>
       <div
         className="contracapa right-12 bottom-0 aspect-square w-[min(28vw,400px)] max-[900px]:hidden"

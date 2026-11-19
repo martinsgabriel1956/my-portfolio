@@ -54,7 +54,7 @@ export function Education({
                       href={certification.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-baseline gap-1 text-xl leading-snug font-light underline decoration-ferrugem decoration-1 underline-offset-4 hover:decoration-2"
+                      className="inline-flex min-h-11 items-baseline gap-1 text-xl leading-snug font-light underline decoration-ferrugem decoration-1 underline-offset-4 hover:decoration-2"
                     >
                       {certification.title}
                       <ArrowUpRight
@@ -71,7 +71,10 @@ export function Education({
                     </p>
                   )}
                   <p className="mt-1 text-sm text-linho-gasto">
-                    {certification.institution} ·{" "}
+                    {/* "FrontPush · FrontPush": a escola que é o próprio título não se repete. */}
+                    {certification.institution.trim().toLowerCase() !==
+                      certification.title.trim().toLowerCase() &&
+                      `${certification.institution} · `}
                     <span className="tabular-nums">
                       {formatYearRange(
                         certification.startDate,

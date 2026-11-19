@@ -1,7 +1,7 @@
-import { ArrowRight, BookOpen, FileText } from "lucide-react";
+import { ArrowRight, FileText, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Experience } from "@/db/schema";
-import { BLOG_URL, CV_URL } from "@/lib/links";
+import { CV_URL, LINKEDIN_URL } from "@/lib/links";
 import { formatMonthYear } from "@/lib/utils";
 import type { Faixa } from "../projects";
 import { dominiosEmPalavras, stackDe } from "../projects/dominio";
@@ -26,7 +26,7 @@ export function Hero({
       {/* A marca não é link: na capa ele só levaria à própria capa. O nome já está no título. */}
       <p
         aria-hidden="true"
-        className="relative z-[1] self-start rounded-full bg-tabua px-3 pt-0.5 pb-1 text-[26px] leading-none font-semibold tracking-[-0.03em] text-ferrugem"
+        className="relative z-[1] self-start rounded-full bg-tabua px-3 pt-0.5 pb-1 text-marca text-ferrugem"
       >
         gm.
       </p>
@@ -58,7 +58,7 @@ export function Hero({
       {atual && (
         <p className="relative z-[1] mt-2 self-start text-lg leading-snug max-[900px]:text-base">
           <span className="tinta block w-fit lowercase">
-            hoje na {atual.company}, desde{" "}
+            hoje: {atual.company}, desde{" "}
             <time dateTime={atual.startDate.toISOString()}>
               {formatMonthYear(atual.startDate)}
             </time>
@@ -73,7 +73,7 @@ export function Hero({
             Entre em contato
           </a>
         </Button>
-        {/* A ação secundária: quieta, em tábua, para não disputar com o contato. */}
+        {/* As ações secundárias: quietas, em tábua, para não disputar com o contato. O blog fica no contato. */}
         <div className="flex flex-wrap gap-x-6 max-[900px]:basis-full">
           <a
             href={CV_URL}
@@ -84,13 +84,13 @@ export function Hero({
             <span className="tinta">Currículo (PDF)</span>
           </a>
           <a
-            href={BLOG_URL}
+            href={LINKEDIN_URL}
             target="_blank"
             rel="noopener"
             className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"
           >
-            <BookOpen className="size-4" aria-hidden="true" />
-            <span className="tinta">Blog</span>
+            <Linkedin className="size-4" aria-hidden="true" />
+            <span className="tinta">LinkedIn</span>
             <span className="sr-only"> (abre em nova aba)</span>
           </a>
         </div>
